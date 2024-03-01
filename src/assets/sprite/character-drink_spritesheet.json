@@ -1,0 +1,813 @@
+{
+	"frames": {
+		"character-drink-animation_01.png": {
+			"frame": {
+				"x": 0,
+				"y": 0,
+				"w": 511,
+				"h": 617
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 511,
+				"h": 617
+			},
+			"sourceSize": {
+				"w": 511,
+				"h": 617
+			}
+		},
+		"character-drink-animation_02.png": {
+			"frame": {
+				"x": 511,
+				"y": 0,
+				"w": 511,
+				"h": 617
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 511,
+				"h": 617
+			},
+			"sourceSize": {
+				"w": 511,
+				"h": 617
+			}
+		},
+		"character-drink-animation_03.png": {
+			"frame": {
+				"x": 1022,
+				"y": 0,
+				"w": 511,
+				"h": 617
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 511,
+				"h": 617
+			},
+			"sourceSize": {
+				"w": 511,
+				"h": 617
+			}
+		},
+		"character-drink-animation_04.png": {
+			"frame": {
+				"x": 1533,
+				"y": 0,
+				"w": 511,
+				"h": 617
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 511,
+				"h": 617
+			},
+			"sourceSize": {
+				"w": 511,
+				"h": 617
+			}
+		},
+		"character-drink-animation_05.png": {
+			"frame": {
+				"x": 2044,
+				"y": 0,
+				"w": 511,
+				"h": 617
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 511,
+				"h": 617
+			},
+			"sourceSize": {
+				"w": 511,
+				"h": 617
+			}
+		},
+		"character-drink-animation_06.png": {
+			"frame": {
+				"x": 2555,
+				"y": 0,
+				"w": 511,
+				"h": 617
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 511,
+				"h": 617
+			},
+			"sourceSize": {
+				"w": 511,
+				"h": 617
+			}
+		},
+		"character-drink-animation_07.png": {
+			"frame": {
+				"x": 0,
+				"y": 617,
+				"w": 511,
+				"h": 617
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 511,
+				"h": 617
+			},
+			"sourceSize": {
+				"w": 511,
+				"h": 617
+			}
+		},
+		"character-drink-animation_08.png": {
+			"frame": {
+				"x": 511,
+				"y": 617,
+				"w": 511,
+				"h": 617
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 511,
+				"h": 617
+			},
+			"sourceSize": {
+				"w": 511,
+				"h": 617
+			}
+		},
+		"character-drink-animation_09.png": {
+			"frame": {
+				"x": 1022,
+				"y": 617,
+				"w": 511,
+				"h": 617
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 511,
+				"h": 617
+			},
+			"sourceSize": {
+				"w": 511,
+				"h": 617
+			}
+		},
+		"character-drink-animation_10.png": {
+			"frame": {
+				"x": 1533,
+				"y": 617,
+				"w": 511,
+				"h": 617
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 511,
+				"h": 617
+			},
+			"sourceSize": {
+				"w": 511,
+				"h": 617
+			}
+		},
+		"character-drink-animation_11.png": {
+			"frame": {
+				"x": 2044,
+				"y": 617,
+				"w": 511,
+				"h": 617
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 511,
+				"h": 617
+			},
+			"sourceSize": {
+				"w": 511,
+				"h": 617
+			}
+		},
+		"character-drink-animation_12.png": {
+			"frame": {
+				"x": 2555,
+				"y": 617,
+				"w": 511,
+				"h": 617
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 511,
+				"h": 617
+			},
+			"sourceSize": {
+				"w": 511,
+				"h": 617
+			}
+		},
+		"character-drink-animation_13.png": {
+			"frame": {
+				"x": 0,
+				"y": 1234,
+				"w": 511,
+				"h": 617
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 511,
+				"h": 617
+			},
+			"sourceSize": {
+				"w": 511,
+				"h": 617
+			}
+		},
+		"character-drink-animation_14.png": {
+			"frame": {
+				"x": 511,
+				"y": 1234,
+				"w": 511,
+				"h": 617
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 511,
+				"h": 617
+			},
+			"sourceSize": {
+				"w": 511,
+				"h": 617
+			}
+		},
+		"character-drink-animation_15.png": {
+			"frame": {
+				"x": 1022,
+				"y": 1234,
+				"w": 511,
+				"h": 617
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 511,
+				"h": 617
+			},
+			"sourceSize": {
+				"w": 511,
+				"h": 617
+			}
+		},
+		"character-drink-animation_16.png": {
+			"frame": {
+				"x": 1533,
+				"y": 1234,
+				"w": 511,
+				"h": 617
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 511,
+				"h": 617
+			},
+			"sourceSize": {
+				"w": 511,
+				"h": 617
+			}
+		},
+		"character-drink-animation_17.png": {
+			"frame": {
+				"x": 2044,
+				"y": 1234,
+				"w": 511,
+				"h": 617
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 511,
+				"h": 617
+			},
+			"sourceSize": {
+				"w": 511,
+				"h": 617
+			}
+		},
+		"character-drink-animation_18.png": {
+			"frame": {
+				"x": 2555,
+				"y": 1234,
+				"w": 511,
+				"h": 617
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 511,
+				"h": 617
+			},
+			"sourceSize": {
+				"w": 511,
+				"h": 617
+			}
+		},
+		"character-drink-animation_19.png": {
+			"frame": {
+				"x": 0,
+				"y": 1851,
+				"w": 511,
+				"h": 617
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 511,
+				"h": 617
+			},
+			"sourceSize": {
+				"w": 511,
+				"h": 617
+			}
+		},
+		"character-drink-animation_20.png": {
+			"frame": {
+				"x": 511,
+				"y": 1851,
+				"w": 511,
+				"h": 617
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 511,
+				"h": 617
+			},
+			"sourceSize": {
+				"w": 511,
+				"h": 617
+			}
+		},
+		"character-drink-animation_21.png": {
+			"frame": {
+				"x": 1022,
+				"y": 1851,
+				"w": 511,
+				"h": 617
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 511,
+				"h": 617
+			},
+			"sourceSize": {
+				"w": 511,
+				"h": 617
+			}
+		},
+		"character-drink-animation_22.png": {
+			"frame": {
+				"x": 1533,
+				"y": 1851,
+				"w": 511,
+				"h": 617
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 511,
+				"h": 617
+			},
+			"sourceSize": {
+				"w": 511,
+				"h": 617
+			}
+		},
+		"character-drink-animation_23.png": {
+			"frame": {
+				"x": 2044,
+				"y": 1851,
+				"w": 511,
+				"h": 617
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 511,
+				"h": 617
+			},
+			"sourceSize": {
+				"w": 511,
+				"h": 617
+			}
+		},
+		"character-drink-animation_24.png": {
+			"frame": {
+				"x": 2555,
+				"y": 1851,
+				"w": 511,
+				"h": 617
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 511,
+				"h": 617
+			},
+			"sourceSize": {
+				"w": 511,
+				"h": 617
+			}
+		},
+		"character-drink-animation_25.png": {
+			"frame": {
+				"x": 0,
+				"y": 2468,
+				"w": 511,
+				"h": 617
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 511,
+				"h": 617
+			},
+			"sourceSize": {
+				"w": 511,
+				"h": 617
+			}
+		},
+		"character-drink-animation_26.png": {
+			"frame": {
+				"x": 511,
+				"y": 2468,
+				"w": 511,
+				"h": 617
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 511,
+				"h": 617
+			},
+			"sourceSize": {
+				"w": 511,
+				"h": 617
+			}
+		},
+		"character-drink-animation_27.png": {
+			"frame": {
+				"x": 1022,
+				"y": 2468,
+				"w": 511,
+				"h": 617
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 511,
+				"h": 617
+			},
+			"sourceSize": {
+				"w": 511,
+				"h": 617
+			}
+		},
+		"character-drink-animation_28.png": {
+			"frame": {
+				"x": 1533,
+				"y": 2468,
+				"w": 511,
+				"h": 617
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 511,
+				"h": 617
+			},
+			"sourceSize": {
+				"w": 511,
+				"h": 617
+			}
+		},
+		"character-drink-animation_29.png": {
+			"frame": {
+				"x": 2044,
+				"y": 2468,
+				"w": 511,
+				"h": 617
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 511,
+				"h": 617
+			},
+			"sourceSize": {
+				"w": 511,
+				"h": 617
+			}
+		},
+		"character-drink-animation_30.png": {
+			"frame": {
+				"x": 2555,
+				"y": 2468,
+				"w": 511,
+				"h": 617
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 511,
+				"h": 617
+			},
+			"sourceSize": {
+				"w": 511,
+				"h": 617
+			}
+		},
+		"character-drink-animation_31.png": {
+			"frame": {
+				"x": 3066,
+				"y": 0,
+				"w": 511,
+				"h": 617
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 511,
+				"h": 617
+			},
+			"sourceSize": {
+				"w": 511,
+				"h": 617
+			}
+		},
+		"character-drink-animation_32.png": {
+			"frame": {
+				"x": 3066,
+				"y": 617,
+				"w": 511,
+				"h": 617
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 511,
+				"h": 617
+			},
+			"sourceSize": {
+				"w": 511,
+				"h": 617
+			}
+		},
+		"character-drink-animation_33.png": {
+			"frame": {
+				"x": 3066,
+				"y": 1234,
+				"w": 511,
+				"h": 617
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 511,
+				"h": 617
+			},
+			"sourceSize": {
+				"w": 511,
+				"h": 617
+			}
+		},
+		"character-drink-animation_34.png": {
+			"frame": {
+				"x": 3066,
+				"y": 1851,
+				"w": 511,
+				"h": 617
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 511,
+				"h": 617
+			},
+			"sourceSize": {
+				"w": 511,
+				"h": 617
+			}
+		},
+		"character-drink-animation_35.png": {
+			"frame": {
+				"x": 3066,
+				"y": 2468,
+				"w": 511,
+				"h": 617
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 511,
+				"h": 617
+			},
+			"sourceSize": {
+				"w": 511,
+				"h": 617
+			}
+		},
+		"character-drink-animation_36.png": {
+			"frame": {
+				"x": 0,
+				"y": 3085,
+				"w": 511,
+				"h": 617
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 511,
+				"h": 617
+			},
+			"sourceSize": {
+				"w": 511,
+				"h": 617
+			}
+		},
+		"character-drink-animation_37.png": {
+			"frame": {
+				"x": 511,
+				"y": 3085,
+				"w": 511,
+				"h": 617
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 511,
+				"h": 617
+			},
+			"sourceSize": {
+				"w": 511,
+				"h": 617
+			}
+		},
+		"character-drink-animation_38.png": {
+			"frame": {
+				"x": 1022,
+				"y": 3085,
+				"w": 511,
+				"h": 617
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 511,
+				"h": 617
+			},
+			"sourceSize": {
+				"w": 511,
+				"h": 617
+			}
+		},
+		"character-drink-animation_39.png": {
+			"frame": {
+				"x": 1533,
+				"y": 3085,
+				"w": 511,
+				"h": 617
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 511,
+				"h": 617
+			},
+			"sourceSize": {
+				"w": 511,
+				"h": 617
+			}
+		},
+		"character-drink-animation_40.png": {
+			"frame": {
+				"x": 2044,
+				"y": 3085,
+				"w": 511,
+				"h": 617
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 511,
+				"h": 617
+			},
+			"sourceSize": {
+				"w": 511,
+				"h": 617
+			}
+		}
+	},
+	"meta": {
+		"image": "character-drink_spritesheet_COMPRESSED.png",
+		"format": "RGBA8888",
+		"size": {
+			"w": 3577,
+			"h": 3702
+		},
+		"scale": "1"
+	}
+}

@@ -1,0 +1,613 @@
+{
+	"frames": {
+		"coconut-animation_01.png": {
+			"frame": {
+				"x": 0,
+				"y": 0,
+				"w": 467,
+				"h": 467
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 467,
+				"h": 467
+			},
+			"sourceSize": {
+				"w": 467,
+				"h": 467
+			}
+		},
+		"coconut-animation_02.png": {
+			"frame": {
+				"x": 467,
+				"y": 0,
+				"w": 467,
+				"h": 467
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 467,
+				"h": 467
+			},
+			"sourceSize": {
+				"w": 467,
+				"h": 467
+			}
+		},
+		"coconut-animation_03.png": {
+			"frame": {
+				"x": 934,
+				"y": 0,
+				"w": 467,
+				"h": 467
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 467,
+				"h": 467
+			},
+			"sourceSize": {
+				"w": 467,
+				"h": 467
+			}
+		},
+		"coconut-animation_04.png": {
+			"frame": {
+				"x": 1401,
+				"y": 0,
+				"w": 467,
+				"h": 467
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 467,
+				"h": 467
+			},
+			"sourceSize": {
+				"w": 467,
+				"h": 467
+			}
+		},
+		"coconut-animation_05.png": {
+			"frame": {
+				"x": 1868,
+				"y": 0,
+				"w": 467,
+				"h": 467
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 467,
+				"h": 467
+			},
+			"sourceSize": {
+				"w": 467,
+				"h": 467
+			}
+		},
+		"coconut-animation_06.png": {
+			"frame": {
+				"x": 0,
+				"y": 467,
+				"w": 467,
+				"h": 467
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 467,
+				"h": 467
+			},
+			"sourceSize": {
+				"w": 467,
+				"h": 467
+			}
+		},
+		"coconut-animation_07.png": {
+			"frame": {
+				"x": 467,
+				"y": 467,
+				"w": 467,
+				"h": 467
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 467,
+				"h": 467
+			},
+			"sourceSize": {
+				"w": 467,
+				"h": 467
+			}
+		},
+		"coconut-animation_08.png": {
+			"frame": {
+				"x": 934,
+				"y": 467,
+				"w": 467,
+				"h": 467
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 467,
+				"h": 467
+			},
+			"sourceSize": {
+				"w": 467,
+				"h": 467
+			}
+		},
+		"coconut-animation_09.png": {
+			"frame": {
+				"x": 1401,
+				"y": 467,
+				"w": 467,
+				"h": 467
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 467,
+				"h": 467
+			},
+			"sourceSize": {
+				"w": 467,
+				"h": 467
+			}
+		},
+		"coconut-animation_10.png": {
+			"frame": {
+				"x": 1868,
+				"y": 467,
+				"w": 467,
+				"h": 467
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 467,
+				"h": 467
+			},
+			"sourceSize": {
+				"w": 467,
+				"h": 467
+			}
+		},
+		"coconut-animation_11.png": {
+			"frame": {
+				"x": 0,
+				"y": 934,
+				"w": 467,
+				"h": 467
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 467,
+				"h": 467
+			},
+			"sourceSize": {
+				"w": 467,
+				"h": 467
+			}
+		},
+		"coconut-animation_12.png": {
+			"frame": {
+				"x": 467,
+				"y": 934,
+				"w": 467,
+				"h": 467
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 467,
+				"h": 467
+			},
+			"sourceSize": {
+				"w": 467,
+				"h": 467
+			}
+		},
+		"coconut-animation_13.png": {
+			"frame": {
+				"x": 934,
+				"y": 934,
+				"w": 467,
+				"h": 467
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 467,
+				"h": 467
+			},
+			"sourceSize": {
+				"w": 467,
+				"h": 467
+			}
+		},
+		"coconut-animation_14.png": {
+			"frame": {
+				"x": 1401,
+				"y": 934,
+				"w": 467,
+				"h": 467
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 467,
+				"h": 467
+			},
+			"sourceSize": {
+				"w": 467,
+				"h": 467
+			}
+		},
+		"coconut-animation_15.png": {
+			"frame": {
+				"x": 1868,
+				"y": 934,
+				"w": 467,
+				"h": 467
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 467,
+				"h": 467
+			},
+			"sourceSize": {
+				"w": 467,
+				"h": 467
+			}
+		},
+		"coconut-animation_16.png": {
+			"frame": {
+				"x": 0,
+				"y": 1401,
+				"w": 467,
+				"h": 467
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 467,
+				"h": 467
+			},
+			"sourceSize": {
+				"w": 467,
+				"h": 467
+			}
+		},
+		"coconut-animation_17.png": {
+			"frame": {
+				"x": 467,
+				"y": 1401,
+				"w": 467,
+				"h": 467
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 467,
+				"h": 467
+			},
+			"sourceSize": {
+				"w": 467,
+				"h": 467
+			}
+		},
+		"coconut-animation_18.png": {
+			"frame": {
+				"x": 934,
+				"y": 1401,
+				"w": 467,
+				"h": 467
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 467,
+				"h": 467
+			},
+			"sourceSize": {
+				"w": 467,
+				"h": 467
+			}
+		},
+		"coconut-animation_19.png": {
+			"frame": {
+				"x": 1401,
+				"y": 1401,
+				"w": 467,
+				"h": 467
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 467,
+				"h": 467
+			},
+			"sourceSize": {
+				"w": 467,
+				"h": 467
+			}
+		},
+		"coconut-animation_20.png": {
+			"frame": {
+				"x": 1868,
+				"y": 1401,
+				"w": 467,
+				"h": 467
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 467,
+				"h": 467
+			},
+			"sourceSize": {
+				"w": 467,
+				"h": 467
+			}
+		},
+		"coconut-animation_21.png": {
+			"frame": {
+				"x": 0,
+				"y": 1868,
+				"w": 467,
+				"h": 467
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 467,
+				"h": 467
+			},
+			"sourceSize": {
+				"w": 467,
+				"h": 467
+			}
+		},
+		"coconut-animation_22.png": {
+			"frame": {
+				"x": 467,
+				"y": 1868,
+				"w": 467,
+				"h": 467
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 467,
+				"h": 467
+			},
+			"sourceSize": {
+				"w": 467,
+				"h": 467
+			}
+		},
+		"coconut-animation_23.png": {
+			"frame": {
+				"x": 934,
+				"y": 1868,
+				"w": 467,
+				"h": 467
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 467,
+				"h": 467
+			},
+			"sourceSize": {
+				"w": 467,
+				"h": 467
+			}
+		},
+		"coconut-animation_24.png": {
+			"frame": {
+				"x": 1401,
+				"y": 1868,
+				"w": 467,
+				"h": 467
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 467,
+				"h": 467
+			},
+			"sourceSize": {
+				"w": 467,
+				"h": 467
+			}
+		},
+		"coconut-animation_25.png": {
+			"frame": {
+				"x": 1868,
+				"y": 1868,
+				"w": 467,
+				"h": 467
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 467,
+				"h": 467
+			},
+			"sourceSize": {
+				"w": 467,
+				"h": 467
+			}
+		},
+		"coconut-animation_26.png": {
+			"frame": {
+				"x": 2335,
+				"y": 0,
+				"w": 467,
+				"h": 467
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 467,
+				"h": 467
+			},
+			"sourceSize": {
+				"w": 467,
+				"h": 467
+			}
+		},
+		"coconut-animation_27.png": {
+			"frame": {
+				"x": 2335,
+				"y": 467,
+				"w": 467,
+				"h": 467
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 467,
+				"h": 467
+			},
+			"sourceSize": {
+				"w": 467,
+				"h": 467
+			}
+		},
+		"coconut-animation_28.png": {
+			"frame": {
+				"x": 2335,
+				"y": 934,
+				"w": 467,
+				"h": 467
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 467,
+				"h": 467
+			},
+			"sourceSize": {
+				"w": 467,
+				"h": 467
+			}
+		},
+		"coconut-animation_29.png": {
+			"frame": {
+				"x": 2335,
+				"y": 1401,
+				"w": 467,
+				"h": 467
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 467,
+				"h": 467
+			},
+			"sourceSize": {
+				"w": 467,
+				"h": 467
+			}
+		},
+		"coconut-animation_30.png": {
+			"frame": {
+				"x": 2335,
+				"y": 1868,
+				"w": 467,
+				"h": 467
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 467,
+				"h": 467
+			},
+			"sourceSize": {
+				"w": 467,
+				"h": 467
+			}
+		}
+	},
+	"meta": {
+		"image": "coconut_spritesheet_COMPRESSED.png",
+		"format": "RGBA8888",
+		"size": {
+			"w": 2802,
+			"h": 2335
+		},
+		"scale": "1"
+	}
+}
