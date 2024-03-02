@@ -4,18 +4,19 @@ import { Slot } from "../game/Slot.js";
 
 export class MainScene {
     constructor() {
+        this.background = null;
         this.container = new PIXI.Container();
 
-        //this.createBackground();
+        this.createBackground();
         this.createSlot();
     }
 
     createBackground() {
-        const background = new Background();
-        this.container.addChild(background.container);
+        this.background = new Background();
+        this.container.addChild(this.background.container);
     }
     createSlot() {
-        const slot = new Slot();
+        const slot = new Slot(this.background.container);
         this.container.addChild(slot.container);
     }
 }

@@ -28,13 +28,13 @@ class Application {
 
         $globals.scene.start(new LoadingScene());
         this.resizeApp();
-        console.log('loading.....')
+        console.log('loading .............................')
         this.loader = new Loader(PIXI.Assets);
         this.loader.preload().then(() => this.start());
     }
 
     start() {
-        console.log('LOADED !!')
+        console.log('LOADED !!!!!!!!!!!!!!!!!!!!!!!!!!')
         $globals.scene.start(new MainScene());
         this.resizeApp();
     }

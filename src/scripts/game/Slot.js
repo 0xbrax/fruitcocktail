@@ -1,12 +1,19 @@
 import * as PIXI from "pixi.js";
-import { $globals } from "../system/utils.js";
 import { Body } from "./Body.js";
+import { Canopy } from "./Canopy.js";
 
 export class Slot {
-    constructor() {
+    constructor(backgroundContainer) {
+        this.backgroundContainer = backgroundContainer;
         this.container = new PIXI.Container();
 
-        const body = new Body(this.container);
+        const body = new Body();
         this.container.addChild(body.container);
+
+        const canopy = new Canopy(body.scaleFactor, body.container);
+        this.container.addChild(canopy.container);
+
+        this.container.x = (this.backgroundContainer.width / 2) - (this.container.width / 2) + canopy.xGap;
+        this.container.y = (this.backgroundContainer.height / 2) - (this.container.height / 2) + canopy.yGap;
     }
 }
