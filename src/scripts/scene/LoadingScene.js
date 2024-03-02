@@ -8,15 +8,15 @@ export class LoadingScene {
 
     createText() {
         const text = new PIXI.Text();
-        text.x = window.innerWidth / 2;
-        text.y = (window.innerHeight / 2);
-        text.anchor.set(0.5);
+        //text.x = window.innerWidth / 2;
+        //text.y = (window.innerHeight / 2);
+        //text.anchor.set(0.5);
         text.style = {
-            fontWeight: 'normal',
+            fontFamily: 'Rimbo-Regular',
             fontSize: 30,
             fill: ['#FFFFFF']
         };
-        text.text = 'Restart';
+        text.text = 'Loading...';
 
         this.container.addChild(text);
     }

@@ -12,6 +12,7 @@
     "vite": "^5.1.4"
   },
   "dependencies": {
-    "pixi.js": "^7.4.0"
+    "pixi.js": "^7.4.0",
+    "webfontloader": "^1.6.28"
   }
 }

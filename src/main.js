@@ -1,5 +1,13 @@
 import './style.css';
+import WebFont from 'webfontloader';
 
 import { App } from "./scripts/system/App.js";
 
-App.run();
+WebFont.load({
+    custom: {
+        families: ['Rimbo-Regular']
+    },
+    active: () => {
+        App.run();
+    }
+});
