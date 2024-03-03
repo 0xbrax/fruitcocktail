@@ -8,8 +8,8 @@ export class Reel {
         this.scaleFactor = scaleFactor;
         this.index = index;
         this.xPos = xPos;
-        this.xGap = 0;
-        this.yGap = 290;
+        this.xGap = -23;
+        this.yGap = 92;
 
         this.container = new PIXI.Container();
 
@@ -36,10 +36,10 @@ export class Reel {
             assetName = assetName[0].toUpperCase() + assetName.substring(1) + 'Sprite';
             const symbol = $globals.assets.symbols[assetName];
 
-            symbol.y = (i * this.SYMBOL_SIZE) - (i * this.yGap);
+            symbol.y = ((i * this.SYMBOL_SIZE) - (i * this.yGap)) * this.scaleFactor;
             symbol.width = this.SYMBOL_SIZE * this.scaleFactor;
             symbol.height = this.SYMBOL_SIZE * this.scaleFactor;
-            symbol.x = this.xGap;//this.xGap; //Math.round((this.SYMBOL_SIZE - symbol.width) / 2);
+            symbol.x = this.xGap * this.scaleFactor;//this.xGap; //Math.round((this.SYMBOL_SIZE - symbol.width) / 2);
             reel.symbols.push(symbol);
             this.container.addChild(symbol);
         }
@@ -53,7 +53,7 @@ export class Reel {
     setMask() {
         const mask = new PIXI.Graphics();
         mask.beginFill(0xffffff);
-        mask.drawRect(this.container.x, this.container.y, this.SYMBOL_SIZE, (this.SYMBOL_SIZE * 3) - ((this.yGap * 3) - this.container.y));
+        mask.drawRect(0, this.container.y, this.SYMBOL_SIZE * this.scaleFactor, ((this.SYMBOL_SIZE * 3 - this.yGap * 3) * this.scaleFactor) + this.container.y);
         mask.endFill();
         this.container.mask = mask; // TODO check
         this.container.addChild(mask);

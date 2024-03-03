@@ -7,16 +7,19 @@ export class Reels {
         //super(scaleFactor);
         this.scaleFactor = scaleFactor;
 
-        this.xGap = -10;
+        this.xPos = 0;
+        this.xPosIncrement = 150; // symbol width + gap
         this.container = new PIXI.Container();
 
         this.createReels();
     }
 
     createReels() {
-        for (let i = 1; i <= 1; i++) {
-            const reel = new Reel(this.scaleFactor, i, this.xGap * i);
+        for (let i = 1; i <= $configs.REELS; i++) {
+            const reel = new Reel(this.scaleFactor, i, this.xPos);
             this.container.addChild(reel.container);
+
+            this.xPos += this.xPosIncrement;
 
             console.log('LOG....', i, reel.container.x)
         }
