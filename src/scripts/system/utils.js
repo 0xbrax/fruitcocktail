@@ -7,7 +7,7 @@ export const isMobile = !window.matchMedia('screen and (min-width: 576px)').matc
 
 export const getPseudoRandomNumber = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
-}
+};
 
 export const getCryptoRandomNumber = (min, max) => {
     const range = max - min + 1;
@@ -24,4 +24,4 @@ export const getCryptoRandomNumber = (min, max) => {
     } while (randomNumber >= Math.floor(maxRange / range) * range);
 
     return min + (randomNumber % range);
-}
+};

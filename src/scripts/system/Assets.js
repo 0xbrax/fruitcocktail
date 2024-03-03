@@ -21,7 +21,7 @@ import SlotSplashRightImage from '../../assets/image/splash_right_COMPRESSED.png
 import AppleSprite from '../../assets/sprite/apple_spritesheet.json';
 import CherrySprite from '../../assets/sprite/cherry_spritesheet.json';
 import CoconutSprite from '../../assets/sprite/coconut_spritesheet.json';
-import FruitCocktailSprite from '../../assets/sprite/fruitcocktail_spritesheet.json';
+import FruitcocktailSprite from '../../assets/sprite/fruitcocktail_spritesheet.json';
 import GrapefruitSprite from '../../assets/sprite/grapefruit_spritesheet.json';
 import LemonSprite from '../../assets/sprite/lemon_spritesheet.json';
 import SplashSprite from '../../assets/sprite/splash_spritesheet.json';
@@ -70,7 +70,7 @@ export const assets = {
         AppleSprite,
         CherrySprite,
         CoconutSprite,
-        FruitCocktailSprite,
+        FruitcocktailSprite,
         GrapefruitSprite,
         LemonSprite,
         SplashSprite,

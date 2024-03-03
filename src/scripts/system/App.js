@@ -21,6 +21,7 @@ class Application {
             resolution: window.devicePixelRatio || 1,
             autoDensity: true,
         });
+        PIXI.BaseTexture.defaultOptions.scaleMode = PIXI.SCALE_MODES.NEAREST;
         document.body.appendChild(this.app.view);
 
         $globals.scene = new SceneManager();
@@ -29,7 +30,7 @@ class Application {
         $globals.scene.start(new LoadingScene());
         this.resizeApp();
         console.log('loading .............................')
-        this.loader = new Loader(PIXI.Assets);
+        this.loader = new Loader();
         this.loader.preload().then(() => this.start());
     }
 
