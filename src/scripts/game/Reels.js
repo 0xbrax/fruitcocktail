@@ -4,11 +4,10 @@ import { Reel } from "./Reel.js";
 
 export class Reels {
     constructor(scaleFactor) {
-        //super(scaleFactor);
         this.scaleFactor = scaleFactor;
 
         this.xPos = 0;
-        this.xPosIncrement = 150; // symbol width + gap
+        this.xPosIncrement = $configs.SYMBOL_SIZE - 99;
         this.container = new PIXI.Container();
 
         this.createReels();
@@ -20,8 +19,6 @@ export class Reels {
             this.container.addChild(reel.container);
 
             this.xPos += this.xPosIncrement;
-
-            console.log('LOG....', i, reel.container.x)
         }
     }
 }

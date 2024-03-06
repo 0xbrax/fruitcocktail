@@ -2,6 +2,7 @@ export const $configs = {
     REELS: 5,
     REEL_LENGTH: 8,
     REEL_SYMBOL_VIEWS: 3,
+    SYMBOL_SIZE: 440,
     SYMBOLS: ['apple', 'cherry', 'coconut', 'grapefruit', 'lemon', 'watermelon'],
     JOLLY: 'splash',
     MEGA_WIN: 'fruitcocktail',

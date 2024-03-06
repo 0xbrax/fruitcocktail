@@ -12,7 +12,7 @@ export class Loader {
             for (const key in this.assets) {
                 $globals.assets[key] = {};
 
-                if (key === 'audio') continue; // TODO howler js
+                if (key === 'audio') continue; // TODO Use --> howler js
 
                 if (key === 'symbols' || key === 'character') {
                     for (const subKey in this.assets[key]) {
@@ -20,22 +20,8 @@ export class Loader {
                             PIXI.BaseTexture.from('/src/assets/sprite/' + this.assets[key][subKey].meta.image),
                             this.assets[key][subKey]
                         );
-
                         await spritesheet.parse();
-
-                        const textures = Object.values(spritesheet.textures);
-                        /*textures.forEach(texture => {
-                            texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
-                            //texture.baseTexture.resolution = 2;
-                            //texture.baseTexture.anisotropicLevel = 32; //get max...
-
-                            console.log(texture)
-                        });*/
-
-                        $globals.assets[key][subKey] = new PIXI.AnimatedSprite(textures);
-                        $globals.assets[key][subKey].currentFrame = 29; // character has more frames
-
-                        //$globals.assets[key][subKey].
+                        $globals.assets[key][subKey] = spritesheet;
                     }
                     continue;
                 }

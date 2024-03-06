@@ -21,7 +21,7 @@ class Application {
             resolution: window.devicePixelRatio || 1,
             autoDensity: true,
         });
-        PIXI.BaseTexture.defaultOptions.scaleMode = PIXI.SCALE_MODES.NEAREST;
+        //PIXI.BaseTexture.defaultOptions.scaleMode = PIXI.SCALE_MODES.NEAREST;
         document.body.appendChild(this.app.view);
 
         $globals.scene = new SceneManager();
