@@ -1,4 +1,6 @@
 import * as PIXI from "pixi.js"
+import { gsap } from "gsap";
+import { PixiPlugin } from "gsap/PixiPlugin";
 import { $globals } from "./utils.js";
 import { Loader } from "./Loader.js";
 import { SceneManager } from "../scene/SceneManager.js";
@@ -14,6 +16,9 @@ class Application {
         window.addEventListener('resize', () => this.resizeApp());
     }
     run() {
+        gsap.registerPlugin(PixiPlugin);
+        PixiPlugin.registerPIXI(PIXI);
+
         this.app = new PIXI.Application({
             width: this.originalWidth,
             height: this.originalHeight,
@@ -21,11 +26,12 @@ class Application {
             resolution: window.devicePixelRatio || 1,
             autoDensity: true,
         });
-        //PIXI.BaseTexture.defaultOptions.scaleMode = PIXI.SCALE_MODES.NEAREST;
         document.body.appendChild(this.app.view);
 
         $globals.scene = new SceneManager();
         this.app.stage.addChild($globals.scene.container);
+        // delta time
+        this.app.ticker.add(dt => $globals.scene.update(dt));
 
         $globals.scene.start(new LoadingScene());
         this.resizeApp();

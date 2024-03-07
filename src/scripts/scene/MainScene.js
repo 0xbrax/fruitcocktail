@@ -6,6 +6,7 @@ export class MainScene {
     constructor() {
         this.background = null;
         this.container = new PIXI.Container();
+        this.slot = null;
 
         this.createBackground();
         this.createSlot();
@@ -16,7 +17,11 @@ export class MainScene {
         this.container.addChild(this.background.container);
     }
     createSlot() {
-        const slot = new Slot(this.background.container);
-        this.container.addChild(slot.container);
+        this.slot = new Slot(this.background.container);
+        this.container.addChild(this.slot.container);
+    }
+
+    update(dt) {
+        this.slot.update(dt);
     }
 }

@@ -1,6 +1,8 @@
 import * as PIXI from "pixi.js";
 import { $globals } from "../system/utils.js";
 import { $configs } from "../system/SETUP.js";
+import { verticalLoop } from "../system/math.js";
+import { getPseudoRandomNumber } from "../system/utils.js";
 
 export class Reel {
     constructor(scaleFactor, index, xPos) {
@@ -11,19 +13,41 @@ export class Reel {
         this.xGap = -23;
         this.yGap = 92;
 
+        this.self = null;
+
         this.container = new PIXI.Container()
 
         this.createReel();
         this.setPosition();
+        this.containerDimension = {
+            height: this.container.height,
+            width: this.container.width
+        }
         this.setMask();
+
+        this.wrapHeights = Array($configs.REEL_LENGTH).fill((this.SYMBOL_SIZE - this.yGap) * this.scaleFactor);
+        this.animation = this.verticalLoop();
+
+        console.log('WRAP H', this.wrapHeights, this.scaleFactor)
+
+
+        const animConfig = { duration: 6, revolutions: 4, ease: 'power2.inOut' };
+        animConfig.onComplete = () => {
+            //mixerAudio.slotTickFX.play();
+            //if (i === 5) this.onComplete();
+        }
+
+
+
+        window.addEventListener('click', () => {
+            this.animation.toIndex(getPseudoRandomNumber(0, $configs.REEL_LENGTH - 1), animConfig);
+        });
     }
 
     createReel() {
-        const reel = {
-            //container: this.container,
-            //symbols: [],
-            position: 0,
-            previousPosition: 0,
+        this.self = {
+            container: this.container,
+            symbols: [],
             //blur: new PIXI.BlurFilter(),
         };
 
@@ -44,8 +68,8 @@ export class Reel {
             symbol.y = ((i * this.SYMBOL_SIZE) - (i * this.yGap)) * this.scaleFactor;
             symbol.width = this.SYMBOL_SIZE * this.scaleFactor;
             symbol.height = this.SYMBOL_SIZE * this.scaleFactor;
-            symbol.x = this.xGap * this.scaleFactor;//this.xGap; //Math.round((this.SYMBOL_SIZE - symbol.width) / 2);
-            //reel.symbols.push(symbol);
+            symbol.x = this.xGap * this.scaleFactor;
+            this.self.symbols.push(symbol);
             this.container.addChild(symbol);
         }
     }
@@ -58,9 +82,18 @@ export class Reel {
     setMask() {
         const mask = new PIXI.Graphics();
         mask.beginFill(0xffffff);
-        mask.drawRect(0, this.container.y, this.SYMBOL_SIZE * this.scaleFactor, ((this.SYMBOL_SIZE * 3 - this.yGap * 3) * this.scaleFactor) + this.container.y);
+        mask.drawRect(34 * this.scaleFactor, 76 * this.scaleFactor, (this.SYMBOL_SIZE - 116) * this.scaleFactor, ((this.SYMBOL_SIZE * 3) - 304) * this.scaleFactor);
         mask.endFill();
         this.container.mask = mask; // TODO check
         this.container.addChild(mask);
+    }
+
+    verticalLoop() {
+        const gap = Math.abs(this.xGap * 2 * this.scaleFactor);
+        return verticalLoop(this.self.symbols, this.containerDimension, this.wrapHeights, gap, {
+            repeat: -1,
+            paused: true,
+            center: true,
+        });
     }
 }
