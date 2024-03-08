@@ -1,8 +1,7 @@
 import * as PIXI from "pixi.js";
 import { $globals } from "../system/utils.js";
 import { $configs } from "../system/SETUP.js";
-import { verticalLoop } from "../system/math.js";
-import { getPseudoRandomNumber } from "../system/utils.js";
+import { verticalLoop } from "../system/utils.js";
 
 export class Reel {
     constructor(scaleFactor, index, xPos) {
@@ -13,9 +12,10 @@ export class Reel {
         this.xGap = -23;
         this.yGap = 92;
 
-        this.self = null;
-
-        this.container = new PIXI.Container()
+        this.container = new PIXI.Container();
+        this.symbols = [];
+        //blur: new PIXI.BlurFilter(),
+        //this.container.filters = [reel.blur];
 
         this.createReel();
         this.setPosition();
@@ -27,34 +27,9 @@ export class Reel {
 
         this.wrapHeights = Array($configs.REEL_LENGTH).fill((this.SYMBOL_SIZE - this.yGap) * this.scaleFactor);
         this.animation = this.verticalLoop();
-
-        console.log('WRAP H', this.wrapHeights, this.scaleFactor)
-
-
-        const animConfig = { duration: 6, revolutions: 4, ease: 'power2.inOut' };
-        animConfig.onComplete = () => {
-            //mixerAudio.slotTickFX.play();
-            //if (i === 5) this.onComplete();
-        }
-
-
-
-        window.addEventListener('click', () => {
-            this.animation.toIndex(getPseudoRandomNumber(0, $configs.REEL_LENGTH - 1), animConfig);
-        });
     }
 
     createReel() {
-        this.self = {
-            container: this.container,
-            symbols: [],
-            //blur: new PIXI.BlurFilter(),
-        };
-
-        //reel.blur.blurX = 0;
-        //reel.blur.blurY = 0;
-        //this.container.filters = [reel.blur];
-
         for (let i = 0; i < $configs.REEL_LENGTH; i++) {
             let assetName = $configs.MAP[`REEL_${this.index}`][i];
             assetName = assetName[0].toUpperCase() + assetName.substring(1) + 'Sprite';
@@ -64,12 +39,11 @@ export class Reel {
             const symbol = new PIXI.AnimatedSprite(textures);
             symbol.currentFrame = 29; // character has more frames
 
-
             symbol.y = ((i * this.SYMBOL_SIZE) - (i * this.yGap)) * this.scaleFactor;
             symbol.width = this.SYMBOL_SIZE * this.scaleFactor;
             symbol.height = this.SYMBOL_SIZE * this.scaleFactor;
             symbol.x = this.xGap * this.scaleFactor;
-            this.self.symbols.push(symbol);
+            this.symbols.push(symbol);
             this.container.addChild(symbol);
         }
     }
@@ -90,7 +64,7 @@ export class Reel {
 
     verticalLoop() {
         const gap = Math.abs(this.xGap * 2 * this.scaleFactor);
-        return verticalLoop(this.self.symbols, this.containerDimension, this.wrapHeights, gap, {
+        return verticalLoop(this.symbols, this.containerDimension, this.wrapHeights, gap, {
             repeat: -1,
             paused: true,
             center: true,
