@@ -1,3 +1,5 @@
+import { gsap } from 'gsap';
+
 export const $globals = {
     assets: {},
     scene: null
@@ -25,8 +27,6 @@ export const getCryptoRandomNumber = (min, max) => {
 
     return min + (randomNumber % range);
 };
-
-import { gsap } from 'gsap';
 
 export const verticalLoop = (items, reelContainer, elementsHeightWrap, gap, config) => {
     items = gsap.utils.toArray(items);

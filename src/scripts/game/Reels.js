@@ -1,7 +1,7 @@
 import * as PIXI from "pixi.js";
 import { $configs } from "../system/SETUP.js";
 import { Reel } from "./Reel.js";
-import { getCryptoRandomNumber } from "../system/utils.js";
+import { getCryptoRandomNumber} from "../system/utils.js";
 import { getRandomLose, getRandomWinMap } from "../system/math.js";
 
 export class Reels {
@@ -19,6 +19,7 @@ export class Reels {
             REEL_4: null,
             REEL_5: null
         };
+        this.lastSymbol = null;
 
         this.playConfig = { duration: 6, revolutions: 4, ease: 'power2.inOut' };
         this.playConfig.onComplete = () => {
@@ -32,7 +33,6 @@ export class Reels {
 
         window.addEventListener('click', () => {
             this.getConditionAndSymbol();
-            this.conditionHandler();
             this.play();
 
             console.log('LOG...', $configs.SELECTED_CONDITION, $configs.SELECTED_SYMBOL)
@@ -50,37 +50,43 @@ export class Reels {
     }
 
     getConditionAndSymbol() {
-        $configs.SELECTED_CONDITION = $configs.CONDITIONS[getCryptoRandomNumber(0, $configs.CONDITIONS.length - 1)];
-        $configs.SELECTED_SYMBOL = $configs.SYMBOLS[getCryptoRandomNumber(0, $configs.REEL_LENGTH - 1)];
+        $configs.SELECTED_CONDITION = 'win'//$configs.CONDITIONS[getCryptoRandomNumber(0, $configs.CONDITIONS.length - 1)];
+
+        switch ($configs.SELECTED_CONDITION) {
+            case 'lose':
+                this.indexes = getRandomLose(this.indexes);
+
+                return;
+            case 'fake-win':
+            case 'win':
+                $configs.SELECTED_SYMBOL = $configs.SYMBOLS[getCryptoRandomNumber(0, $configs.SYMBOLS.length - 1)];
+                break;
+            case 'mega-win':
+                const symbolsWithNoJolly = [...$configs.SYMBOLS, $configs.MEGA_WIN];
+                $configs.SELECTED_SYMBOL = $configs.SYMBOLS[getCryptoRandomNumber(0, symbolsWithNoJolly.length - 1)];
+        }
+
+        console.log('SYMBOLS - - - - -', $configs.SELECTED_SYMBOL)
 
         for (let i = 0; i < $configs.REELS; i++) {
             const reelNumber = i + 1;
             this.indexes[`REEL_${reelNumber}`] = $configs.MAP[`REEL_${reelNumber}`].indexOf($configs.SELECTED_SYMBOL);
         }
-    }
 
-    conditionHandler() {
-        switch ($configs.SELECTED_CONDITION) {
-            case 'lose':
-                this.indexes = getRandomLose(this.indexes);
-                break;
-            case 'fake-win':
-            case 'win':
-            case 'mega-win':
-                this.indexes = getRandomWinMap(this.indexes);
-        }
+        this.indexes = getRandomWinMap(this.indexes);
     }
 
     play() {
         for (let i = 0; i < $configs.REELS; i++) {
             const reelNumber = i + 1;
 
-            //console.log(this.reels[i].symbols);
-            console.log('...', this.reels[i].symbols, this.indexes[`REEL_${reelNumber}`])
+            if (this.lastSymbol) {
+                const indexOfSelectedSymbol = $configs.MAP[`REEL_${reelNumber}`].indexOf(this.lastSymbol);
 
-            console.log('WEEEE', this.reels[i].symbols[this.indexes[`REEL_${reelNumber}`]])
-            // TODO a volte undefined...
-            //this.reels[i].symbols[this.indexes[`REEL_${reelNumber}`]].stop()
+                this.reels[i].symbols[indexOfSelectedSymbol].stop();
+                this.reels[i].symbols[indexOfSelectedSymbol].currentFrame = 29;
+            }
+
             this.reels[i].animation.toIndex(this.indexes[`REEL_${reelNumber}`], this.playConfig);
         }
     }
@@ -91,8 +97,10 @@ export class Reels {
         if ($configs.SELECTED_CONDITION === 'win') {
             for (let i = 0; i < $configs.REELS; i++) {
                 const reelNumber = i + 1;
+                const indexOfSelectedSymbol = $configs.MAP[`REEL_${reelNumber}`].indexOf($configs.SELECTED_SYMBOL);
 
-                //this.reels[i].symbols[this.indexes[`REEL_${reelNumber}`]].play();
+                this.reels[i].symbols[indexOfSelectedSymbol].play();
+                this.lastSymbol = $configs.SELECTED_SYMBOL;
             }
         }
     }

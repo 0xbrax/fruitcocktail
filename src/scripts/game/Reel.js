@@ -5,7 +5,6 @@ import { verticalLoop } from "../system/utils.js";
 
 export class Reel {
     constructor(scaleFactor, index, xPos) {
-        this.SYMBOL_SIZE = $configs.SYMBOL_SIZE;
         this.scaleFactor = scaleFactor;
         this.index = index;
         this.xPos = xPos;
@@ -25,7 +24,7 @@ export class Reel {
         }
         this.setMask();
 
-        this.wrapHeights = Array($configs.REEL_LENGTH).fill((this.SYMBOL_SIZE - this.yGap) * this.scaleFactor);
+        this.wrapHeights = Array($configs.REEL_LENGTH).fill(($configs.SYMBOL_SIZE - this.yGap) * this.scaleFactor);
         this.animation = this.verticalLoop();
     }
 
@@ -37,11 +36,12 @@ export class Reel {
             const textures = Object.values($globals.assets.symbols[assetName].textures);
 
             const symbol = new PIXI.AnimatedSprite(textures);
-            symbol.currentFrame = 29; // character has more frames
+            symbol.currentFrame = 29;
+            symbol.animationSpeed = 0.5;
 
-            symbol.y = ((i * this.SYMBOL_SIZE) - (i * this.yGap)) * this.scaleFactor;
-            symbol.width = this.SYMBOL_SIZE * this.scaleFactor;
-            symbol.height = this.SYMBOL_SIZE * this.scaleFactor;
+            symbol.y = ((i * $configs.SYMBOL_SIZE) - (i * this.yGap)) * this.scaleFactor;
+            symbol.width = $configs.SYMBOL_SIZE * this.scaleFactor;
+            symbol.height = $configs.SYMBOL_SIZE * this.scaleFactor;
             symbol.x = this.xGap * this.scaleFactor;
             this.symbols.push(symbol);
             this.container.addChild(symbol);
@@ -56,9 +56,9 @@ export class Reel {
     setMask() {
         const mask = new PIXI.Graphics();
         mask.beginFill(0xffffff);
-        mask.drawRect(34 * this.scaleFactor, 76 * this.scaleFactor, (this.SYMBOL_SIZE - 116) * this.scaleFactor, ((this.SYMBOL_SIZE * 3) - 304) * this.scaleFactor);
+        mask.drawRect(34 * this.scaleFactor, 76 * this.scaleFactor, ($configs.SYMBOL_SIZE - 116) * this.scaleFactor, (($configs.SYMBOL_SIZE * 3) - 304) * this.scaleFactor);
         mask.endFill();
-        this.container.mask = mask; // TODO check
+        this.container.mask = mask;
         this.container.addChild(mask);
     }
 
