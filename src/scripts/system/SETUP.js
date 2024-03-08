@@ -15,6 +15,7 @@ export const $configs = {
     },
     CONDITIONS: [...Array(4).fill('lose'), ...Array(6).fill('fake-win'), ...Array(10).fill('win'), ...Array(1).fill('mega-win')],
     SELECTED_CONDITION: null,
+    SELECTED_SYMBOL: null,
     JOLLY_RATIO: [1, ...Array(4).fill(0)], // 1 => true, 0 => false
-    JOLLY_REEL: null
+    JOLLY_REEL: null,
 };

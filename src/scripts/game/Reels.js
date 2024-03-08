@@ -2,6 +2,7 @@ import * as PIXI from "pixi.js";
 import { $configs } from "../system/SETUP.js";
 import { Reel } from "./Reel.js";
 import { getCryptoRandomNumber } from "../system/utils.js";
+import { getRandomLose, getRandomWinMap } from "../system/math.js";
 
 export class Reels {
     constructor(scaleFactor) {
@@ -11,34 +12,30 @@ export class Reels {
         this.xPosIncrement = $configs.SYMBOL_SIZE - 99;
         this.container = new PIXI.Container();
         this.reels = [];
+        this.indexes = {
+            REEL_1: null,
+            REEL_2: null,
+            REEL_3: null,
+            REEL_4: null,
+            REEL_5: null
+        };
+
+        this.playConfig = { duration: 6, revolutions: 4, ease: 'power2.inOut' };
+        this.playConfig.onComplete = () => {
+            //mixerAudio.slotTickFX.play();
+            this.onComplete();
+        }
 
         this.createReels();
 
 
 
-
-
-        const animConfig = { duration: 6, revolutions: 4, ease: 'power2.inOut' };
-        animConfig.onComplete = () => {
-            //mixerAudio.slotTickFX.play();
-            //if (i === 5) this.onComplete();
-        }
-
         window.addEventListener('click', () => {
-            const randomCondition = $configs.CONDITIONS[getCryptoRandomNumber(0, $configs.CONDITIONS.length - 1)];
-            const symbols = [...$configs.SYMBOLS, $configs.JOLLY, $configs.MEGA_WIN];
-            const randomSymbol = symbols[getCryptoRandomNumber(0, symbols.length - 1)];
+            this.getConditionAndSymbol();
+            this.conditionHandler();
+            this.play();
 
-            const indexes = {};
-
-            for (let i = 0; i < $configs.REELS; i++) {
-                const reelNumber = i + 1;
-                indexes[reelNumber] = $configs.MAP[`REEL_${reelNumber}`].indexOf(randomSymbol);
-
-                this.reels[i].animation.toIndex(indexes[i + 1], animConfig);
-            }
-
-            console.log('RESULT......', randomCondition, '- - - - -', randomSymbol);
+            console.log('LOG...', $configs.SELECTED_CONDITION, $configs.SELECTED_SYMBOL)
         });
     }
 
@@ -52,6 +49,53 @@ export class Reels {
         }
     }
 
+    getConditionAndSymbol() {
+        $configs.SELECTED_CONDITION = $configs.CONDITIONS[getCryptoRandomNumber(0, $configs.CONDITIONS.length - 1)];
+        $configs.SELECTED_SYMBOL = $configs.SYMBOLS[getCryptoRandomNumber(0, $configs.REEL_LENGTH - 1)];
+
+        for (let i = 0; i < $configs.REELS; i++) {
+            const reelNumber = i + 1;
+            this.indexes[`REEL_${reelNumber}`] = $configs.MAP[`REEL_${reelNumber}`].indexOf($configs.SELECTED_SYMBOL);
+        }
+    }
+
+    conditionHandler() {
+        switch ($configs.SELECTED_CONDITION) {
+            case 'lose':
+                this.indexes = getRandomLose(this.indexes);
+                break;
+            case 'fake-win':
+            case 'win':
+            case 'mega-win':
+                this.indexes = getRandomWinMap(this.indexes);
+        }
+    }
+
+    play() {
+        for (let i = 0; i < $configs.REELS; i++) {
+            const reelNumber = i + 1;
+
+            //console.log(this.reels[i].symbols);
+            console.log('...', this.reels[i].symbols, this.indexes[`REEL_${reelNumber}`])
+
+            console.log('WEEEE', this.reels[i].symbols[this.indexes[`REEL_${reelNumber}`]])
+            // TODO a volte undefined...
+            //this.reels[i].symbols[this.indexes[`REEL_${reelNumber}`]].stop()
+            this.reels[i].animation.toIndex(this.indexes[`REEL_${reelNumber}`], this.playConfig);
+        }
+    }
+
+    onComplete() {
+        // TODO animate on last reel complete
+
+        if ($configs.SELECTED_CONDITION === 'win') {
+            for (let i = 0; i < $configs.REELS; i++) {
+                const reelNumber = i + 1;
+
+                //this.reels[i].symbols[this.indexes[`REEL_${reelNumber}`]].play();
+            }
+        }
+    }
 
 
 
