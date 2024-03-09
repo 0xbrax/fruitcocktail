@@ -19,3 +19,8 @@ export const $configs = {
     JOLLY_RATIO: [1, ...Array(4).fill(0)], // 1 => true, 0 => false
     JOLLY_REEL: null,
 };
+
+export const $style = {
+    textColor: 'ffffff',
+    main: 'f36300'
+}

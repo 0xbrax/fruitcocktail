@@ -4,7 +4,7 @@ import { isMobile } from "../system/utils.js";
 
 export class Background {
     constructor() {
-        this.scaleFactor = null;
+        //this.scaleFactor = null;
         this.container = new PIXI.Container();
         this.createSprite();
     }

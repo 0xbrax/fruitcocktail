@@ -104,11 +104,5 @@ export class Reels {
             }
         }
     }
-
-
-
-    update(dt) {
-        //console.log(dt)
-    }
 }
 

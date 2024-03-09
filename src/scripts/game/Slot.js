@@ -12,11 +12,11 @@ export class Slot {
         const body = new Body();
         this.container.addChild(body.container);
 
-        const drink = new Drink(body.scaleFactor);
-        this.container.addChild(drink.container);
+        this.drink = new Drink(body.scaleFactor);
+        this.container.addChild(this.drink.container);
 
         this.reels = new Reels(body.scaleFactor);
-        //this.container.addChild(this.reels.container);
+        this.container.addChild(this.reels.container);
 
         const canopy = new Canopy(body.scaleFactor, body.container);
         //this.container.addChild(canopy.container);
@@ -27,6 +27,6 @@ export class Slot {
     }
 
     update(dt) {
-        this.reels.update(dt);
+        this.drink.update(dt);
     }
 }

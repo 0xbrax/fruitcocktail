@@ -68,7 +68,7 @@ export const verticalLoop = (items, reelContainer, elementsHeightWrap, gap, conf
         totalHeight = 0,
         populateHeights = () => {
             items.forEach((el, i) => {
-                heights[i] = /*el.height -*/ elementsHeightWrap[i];
+                heights[i] = elementsHeightWrap[i];
                 totalHeight += heights[i];
             });
         },

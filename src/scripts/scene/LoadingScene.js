@@ -1,4 +1,5 @@
 import * as PIXI from "pixi.js";
+import { $style } from "../system/SETUP.js";
 
 export class LoadingScene {
     constructor() {
@@ -14,7 +15,7 @@ export class LoadingScene {
         text.style = {
             fontFamily: 'Rimbo-Regular',
             fontSize: 30,
-            fill: ['#FFFFFF']
+            fill: [`#${$style.textColor}`]
         };
         text.text = 'Loading...';
 
