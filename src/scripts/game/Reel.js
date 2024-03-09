@@ -12,6 +12,7 @@ export class Reel {
         this.yGap = 92;
 
         this.container = new PIXI.Container();
+        this.maskContainer = new PIXI.Container();
         this.symbols = [];
         //blur: new PIXI.BlurFilter(),
         //this.container.filters = [reel.blur];
@@ -58,8 +59,9 @@ export class Reel {
         mask.beginFill(0xffffff);
         mask.drawRect(34 * this.scaleFactor, 76 * this.scaleFactor, ($configs.SYMBOL_SIZE - 116) * this.scaleFactor, (($configs.SYMBOL_SIZE * 3) - 304) * this.scaleFactor);
         mask.endFill();
-        this.container.mask = mask;
-        this.container.addChild(mask);
+        this.maskContainer.addChild(mask);
+        this.container.mask = this.maskContainer;
+        this.container.addChild(this.maskContainer);
     }
 
     verticalLoop() {
