@@ -13,28 +13,11 @@ export class Drink {
         this.drink = null;
         this.emitter = null;
         this.rectHeight = 1017 * this.scaleFactor;
+        this.bubbleSpeed = 0.004;
 
         this.createDrink();
         this.createMasks();
         this.createBubbleEmitter();
-
-
-
-        setTimeout(() => {
-            gsap.to(this.drink, {
-                pixi: { y: (97 * this.scaleFactor) + this.rectHeight + (this.rectHeight * 0.0) },
-                duration: 5,
-                repeat: 0,
-                ease: "none"
-            });
-
-            gsap.to(this.emitterContainer, {
-                pixi: { y: this.emitterContainer.y + (this.rectHeight * 0.0) },
-                duration: 5,
-                repeat: 0,
-                ease: "none"
-            });
-        }, 5000)
     }
 
     createDrink() {
@@ -81,7 +64,7 @@ export class Drink {
         this.drink.alpha = 0.33;
         this.drink.x = 34 * this.scaleFactor;
 
-        this.drink.y = (97 * this.scaleFactor) + this.rectHeight + (this.rectHeight * 0.0);
+        this.drink.y = (97 * this.scaleFactor) + this.rectHeight;
 
         this.container.addChild(this.drink);
     }
@@ -124,7 +107,7 @@ export class Drink {
         this.emitterContainer.mask = tempContainer;
         this.emitterContainer.addChild(tempContainer);
 
-        this.emitterContainer.y = this.emitterContainer.y + (this.rectHeight * 0.0);
+        this.emitterContainer.y = this.emitterContainer.y;
 
         this.container.addChild(this.emitterContainer);
     }
@@ -224,9 +207,36 @@ export class Drink {
         );
     }
 
+    setLevel(level) {
+        let lv;
+        if (level === 0) lv = 0;
+        if (level === 1) lv = 1;
+        lv = 1 - (1 / 10 * level);
+
+        const drinkContainerAnim = gsap.to(this.drink, {
+            pixi: { y: (97 * this.scaleFactor) + this.rectHeight + (this.rectHeight * lv) },
+            duration: 2.5,
+            repeat: 0,
+            ease: "none",
+            onComplete: () => {
+                drinkContainerAnim.kill();
+            }
+        });
+
+        const bubbleContainerAnim =  gsap.to(this.emitterContainer, {
+            pixi: { y: this.emitterContainer.y + (this.rectHeight * lv) },
+            duration: 2.5,
+            repeat: 0,
+            ease: "none",
+            onComplete: () => {
+                bubbleContainerAnim.kill();
+            }
+        });
+    }
+
     update(dt) {
         if (this.emitter) {
-            this.emitter.update(dt * 0.001);
+            this.emitter.update(dt * this.bubbleSpeed);
         }
     }
 }
