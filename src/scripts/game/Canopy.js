@@ -6,7 +6,7 @@ export class Canopy {
         this.scaleFactor = scaleFactor;
         this.bodyContainer = bodyContainer;
         this.xGap = null;
-        this.yGap = 40;
+        this.yGap = 148 * this.scaleFactor;
         this.container = new PIXI.Container();
         this.createSprite();
     }

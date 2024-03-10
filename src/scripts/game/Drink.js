@@ -10,42 +10,61 @@ export class Drink {
         this.container = new PIXI.Container();
         this.maskContainer = new PIXI.Container();
         this.emitterContainer = new PIXI.Container();
+        this.drink = null;
         this.emitter = null;
+        this.rectHeight = 1017 * this.scaleFactor;
 
         this.createDrink();
         this.createMasks();
         this.createBubbleEmitter();
+
+
+
+        setTimeout(() => {
+            gsap.to(this.drink, {
+                pixi: { y: (97 * this.scaleFactor) + this.rectHeight + (this.rectHeight * 0.0) },
+                duration: 5,
+                repeat: 0,
+                ease: "none"
+            });
+
+            gsap.to(this.emitterContainer, {
+                pixi: { y: this.emitterContainer.y + (this.rectHeight * 0.0) },
+                duration: 5,
+                repeat: 0,
+                ease: "none"
+            });
+        }, 5000)
     }
 
     createDrink() {
-        const drink = new PIXI.Graphics();
+        this.drink = new PIXI.Graphics();
 
         const waveAmplitudeBase = 40 * this.scaleFactor;
         const waveFrequencyBase = 0.002 / this.scaleFactor;
         const rectWidth = 1688 * this.scaleFactor;
-        const rectHeight = 1017 * this.scaleFactor;
 
         let waveAmplitude = waveAmplitudeBase;
         let waveFrequency = waveFrequencyBase;
         let waveOffset = 0;
 
         const drawWave = () => {
-            drink.clear();
-            drink.beginFill(`0x${$style.main}`);
+            this.drink.clear();
+            this.drink.beginFill(`0x${$style.main}`);
 
-            drink.moveTo(0, 0);
+            this.drink.moveTo(0, 0);
             for (let x = 0; x <= rectWidth; x++) {
-                let y = (-Math.sin((x * waveFrequency) + waveOffset) * waveAmplitude) - rectHeight + waveAmplitudeBase;
-                drink.lineTo(x, y);
+                let y = (-Math.sin((x * waveFrequency) + waveOffset) * waveAmplitude) - this.rectHeight + waveAmplitudeBase;
+                this.drink.lineTo(x, y);
             }
-            drink.lineTo(rectWidth, 0);
-            drink.lineTo(rectWidth, rectHeight);
-            drink.lineTo(0, rectHeight);
-            drink.closePath();
-            drink.endFill();
+            this.drink.lineTo(rectWidth, 0);
+            this.drink.lineTo(rectWidth, this.rectHeight);
+            this.drink.lineTo(0, this.rectHeight);
+            this.drink.closePath();
+            this.drink.endFill();
         };
         const updateWave = () => {
-            waveOffset += 0.02;
+            waveOffset += 0.03;
             waveAmplitude = waveAmplitudeBase + (Math.sin(waveOffset) * 5 * this.scaleFactor);
             waveFrequency = waveFrequencyBase + (Math.sin(waveOffset / 2) * 0.002 * this.scaleFactor);
             drawWave();
@@ -59,22 +78,12 @@ export class Drink {
             onUpdate: updateWave
         });
 
+        this.drink.alpha = 0.33;
+        this.drink.x = 34 * this.scaleFactor;
 
+        this.drink.y = (97 * this.scaleFactor) + this.rectHeight + (this.rectHeight * 0.0);
 
-        drink.alpha = 0.33;
-        drink.x = 34 * this.scaleFactor;
-        drink.y = (97 * this.scaleFactor) + rectHeight + (rectHeight * 0.0);
-
-        /*setTimeout(() => {
-            gsap.to(drink, {
-                pixi: { y: (97 * this.scaleFactor) + rectHeight + (+ rectHeight * 0.2) },
-                duration: 5,
-                repeat: 0,
-                ease: "none"
-            });
-        }, 5000)*/
-
-        this.container.addChild(drink);
+        this.container.addChild(this.drink);
     }
 
     createMasks() {
@@ -98,7 +107,7 @@ export class Drink {
         this.maskContainer.addChild(mask);
     }
 
-    createBubbleEmitter() {
+    createBubbleContainer() {
         const bubbleRect = new PIXI.Graphics();
         bubbleRect.beginFill(0xffffff);
         bubbleRect.drawRect(34 * this.scaleFactor, 97 * this.scaleFactor, this.maskContainer.width, this.maskContainer.height);
@@ -115,100 +124,104 @@ export class Drink {
         this.emitterContainer.mask = tempContainer;
         this.emitterContainer.addChild(tempContainer);
 
-        this.container.addChild(this.emitterContainer);
+        this.emitterContainer.y = this.emitterContainer.y + (this.rectHeight * 0.0);
 
-        // TODO emitter with * this.scaleFactor ?
+        this.container.addChild(this.emitterContainer);
+    }
+
+    createBubbleEmitter() {
+        this.createBubbleContainer();
 
         this.emitter = new Emitter(
             this.emitterContainer,
-            {
-                "lifetime": {
-                    "min": 0.2,
-                    "max": 0.3
+        {
+            "lifetime": {
+                "min": 0.33,
+                "max": 0.5
+            },
+            "frequency": 0.005,
+            "emitterLifetime": 0,
+            "maxParticles": 500,
+            "addAtBack": false,
+            "pos": {
+                "x": 0,
+                "y": 0
+            },
+            "behaviors": [
+                {
+                    "type": "textureRandom",
+                    "config": {
+                        "textures": [
+                            $globals.assets.ui['BubbleImage']
+                        ]
+                    }
                 },
-                "frequency": 0.005,
-                "emitterLifetime": 0,
-                "maxParticles": 500,
-                "addAtBack": false,
-                "pos": {
-                    "x": 0,
-                    "y": 0
-                },
-                "behaviors": [
-                    {
-                        "type": "textureRandom",
-                        "config": {
-                            "textures": [
-                                $globals.assets.ui['BubbleImage']
+                {
+                    "type": "alpha",
+                    "config": {
+                        "alpha": {
+                            "list": [
+                                {
+                                    "time": 0,
+                                    "value": 0.33
+                                },
+                                {
+                                    "time": 1,
+                                    "value": 0
+                                }
                             ]
                         }
-                    },
-                    {
-                        "type": "alpha",
-                        "config": {
-                            "alpha": {
-                                "list": [
-                                    {
-                                        "time": 0,
-                                        "value": 0.33
-                                    },
-                                    {
-                                        "time": 1,
-                                        "value": 0
-                                    }
-                                ]
-                            }
-                        }
-                    },
-                    {
-                        "type": "moveSpeedStatic",
-                        "config": {
-                            "min": 600,
-                            "max": 800
-                        }
-                    },
-                    {
-                        "type": "scale",
-                        "config": {
-                            "scale": {
-                                "list": [
-                                    {
-                                        "time": 0,
-                                        "value": 0.2
-                                    },
-                                    {
-                                        "time": 1,
-                                        "value": 0.3
-                                    }
-                                ]
-                            },
-                            "minMult": 0.5
-                        }
-                    },
-                    {
-                        "type": "rotation",
-                        "config": {
-                            "accel": 0,
-                            "minSpeed": 0,
-                            "maxSpeed": 50,
-                            "minStart": 260,
-                            "maxStart": 280
-                        }
-                    },
-                    {
-                        "type": "spawnShape",
-                        "config": {
-                            "type": "rect",
-                            "data": {
-                                "x": 0,
-                                "y": this.emitterContainer.height + (100 * this.scaleFactor),
-                                "w": this.emitterContainer.width,
-                                "h": 0
-                            }
+                    }
+                },
+                {
+                    "type": "moveSpeedStatic",
+                    "config": {
+                        "min": 1500 * this.scaleFactor,
+                        "max": 2000 * this.scaleFactor
+                    }
+                },
+                {
+                    "type": "scale",
+                    "config": {
+                        "scale": {
+                            "list": [
+                                {
+                                    "time": 0,
+                                    "value": 0.6 * this.scaleFactor
+                                },
+                                {
+                                    "time": 1,
+                                    "value": 0.8 * this.scaleFactor
+                                }
+                            ]
+                        },
+                        "minMult": 0.5
+                    }
+                },
+                {
+                    "type": "rotation",
+                    "config": {
+                        "accel": 0,
+                        "minSpeed": 0,
+                        "maxSpeed": 50,
+                        "minStart": 260,
+                        "maxStart": 280
+                    }
+                },
+                {
+                    "type": "spawnShape",
+                    "config": {
+                        "type": "rect",
+                        "data": {
+                            "x": 0,
+                            "y": this.emitterContainer.height + (40 * 3 * this.scaleFactor),
+                            "w": this.emitterContainer.width,
+                            "h": 0
                         }
                     }
-                ]
-            });
+                }
+            ]}
+        );
     }
 
     update(dt) {

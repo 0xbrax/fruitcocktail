@@ -20,7 +20,6 @@ console.log(
     'font-style: italic;'
 );
 
-// TODO check load with Pixi
 WebFont.load({
     custom: {
         families: ['Rimbo-Regular']
