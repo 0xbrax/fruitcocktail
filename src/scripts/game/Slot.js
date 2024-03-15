@@ -32,15 +32,16 @@ export class Slot {
             '2': null
         };
 
-        //const colorMatrix = new PIXI.filters.ColorMatrixFilter();
-        //colorMatrix.saturate(0);
+        const colorMatrix = new PIXI.ColorMatrixFilter();
+        colorMatrix.blackAndWhite(false);
+        colorMatrix.uniforms.uAlpha = 1;
 
         this.reels.reels.forEach((reel) => {
             for (let i = 0; i < $configs.REEL_SYMBOL_VIEWS; i++) {
                 yPosFinal[i] = reel.symbols[i].y;
                 reel.symbols[i].y = reel.symbols[i].y + (1010 * this.body.scaleFactor);
                 reel.symbols[i].alpha = 0;
-                //reel.symbols[i].filters = [colorMatrix];
+                reel.symbols[i].filters = [colorMatrix];
 
                 const fadeAnim = gsap.to(reel.symbols[i], {
                     pixi: {
@@ -59,13 +60,19 @@ export class Slot {
             }
         });
 
-        /*gsap.to(colorMatrix, {
-            //saturation: 1,
-            duration: 10,
+        const colorAnim = gsap.to(colorMatrix.uniforms, {
+            uAlpha: 0,
+            duration: 2.5,
+            delay: 5,
             onComplete: () => {
-                //reel.symbols[i].filters = [];
+                colorAnim.kill();
+                this.reels.reels.forEach((reel) => {
+                    for (let i = 0; i < $configs.REEL_SYMBOL_VIEWS; i++) {
+                        reel.symbols[i].filters = [];
+                    }
+                });
             }
-        });*/
+        });
     }
 
     update(dt) {
