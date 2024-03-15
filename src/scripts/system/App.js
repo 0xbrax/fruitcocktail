@@ -10,32 +10,35 @@ import { MainScene } from "../scene/MainScene.js";
 class Application {
     constructor() {
         this.app = null;
-        this.originalWidth = window.innerWidth;
-        this.originalHeight = window.innerHeight;
-
-        window.addEventListener('resize', () => this.resizeApp());
     }
     run() {
         gsap.registerPlugin(PixiPlugin);
         PixiPlugin.registerPIXI(PIXI);
 
+        this.originalRect = {
+            h: window.innerHeight,
+            w: window.innerWidth
+        }
+
         this.app = new PIXI.Application({
-            width: this.originalWidth,
-            height: this.originalHeight,
+            height: this.originalRect.h,
+            width: this.originalRect.w,
             resizeTo: window,
+            backgroundAlpha: 0,
             resolution: window.devicePixelRatio || 1,
             autoDensity: true,
         });
         document.body.appendChild(this.app.view);
+        window.addEventListener('resize', this.resize.bind(this, this.originalRect));
 
         $globals.scene = new SceneManager();
         this.app.stage.addChild($globals.scene.container);
         // delta time
         this.app.ticker.add(dt => $globals.scene.update(dt));
 
-        $globals.scene.start(new LoadingScene());
-        this.resizeApp();
         console.log('loading .............................')
+        $globals.scene.start(new LoadingScene());
+        this.resize(this.originalRect);
         this.loader = new Loader();
         this.loader.preload().then(() => this.start());
     }
@@ -43,20 +46,12 @@ class Application {
     start() {
         console.log('LOADED !!!!!!!!!!!!!!!!!!!!!!!!!!')
         $globals.scene.start(new MainScene());
-        this.resizeApp();
+        this.resize(this.originalRect);
     }
-    resizeApp() {
-        if (!$globals.scene) return;
 
-        this.app.renderer.resize(window.innerWidth, window.innerHeight);
-
-        const scaleFactorWidth = window.innerWidth / this.originalWidth;
-        const scaleFactorHeight = window.innerHeight / this.originalHeight;
-        const scaleFactor = Math.min(scaleFactorWidth, scaleFactorHeight);
-
-        $globals.scene.container.scale.set(scaleFactor);
-        $globals.scene.container.x = (window.innerWidth / 2) - ($globals.scene.container.width / 2);
-        $globals.scene.container.y = (window.innerHeight / 2) - ($globals.scene.container.height / 2);
+    resize(originalRect) {
+        $globals.scene.resize(originalRect);
+        this.app.resize(window.innerWidth, window.innerHeight);
     }
 }
 

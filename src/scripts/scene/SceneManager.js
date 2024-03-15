@@ -17,6 +17,12 @@ export class SceneManager {
         this.container.addChild(this.scene.container);
     }
 
+    resize(originalRect) {
+        if (this.scene && this.scene.container) {
+            this.scene.resize(originalRect);
+        }
+    }
+
     update(dt) {
         if (this.scene && this.scene.update) {
             this.scene.update(dt);

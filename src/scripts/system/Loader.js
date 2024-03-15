@@ -27,7 +27,7 @@ export class Loader {
                 }
 
                 for (const subKey in this.assets[key]) {
-                    PIXI.Assets.add({ alias: subKey, src: typeof this.assets[key][subKey] === 'string' ? this.assets[key][subKey] : '/src/assets/sprite/' + this.assets[key][subKey].meta.image });
+                    PIXI.Assets.add({ alias: subKey, src: this.assets[key][subKey] });
                     $globals.assets[key][subKey] = await PIXI.Assets.load(subKey);
                 }
             }

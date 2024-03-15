@@ -5,7 +5,8 @@ export const $globals = {
     scene: null
 };
 
-export const isMobile = !window.matchMedia('screen and (min-width: 576px)').matches;
+//export const isMobile = !window.matchMedia('screen and (min-width: 576px)').matches;
+export const isMobile = window.innerHeight >= window.innerWidth;
 
 export const getPseudoRandomNumber = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1)) + min;

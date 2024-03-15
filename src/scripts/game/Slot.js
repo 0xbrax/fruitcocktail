@@ -7,8 +7,7 @@ import { $configs } from "../system/SETUP.js";
 import { gsap } from 'gsap';
 
 export class Slot {
-    constructor(backgroundContainer) {
-        this.backgroundContainer = backgroundContainer;
+    constructor() {
         this.container = new PIXI.Container();
 
         this.body = new Body();
@@ -20,11 +19,8 @@ export class Slot {
         this.reels = new Reels(this.body.scaleFactor);
         this.container.addChild(this.reels.container);
 
-        const canopy = new Canopy(this.body.scaleFactor, this.body.container);
-        this.container.addChild(canopy.container);
-
-        this.container.x = (this.backgroundContainer.width / 2) - (this.container.width / 2) + canopy.xGap;
-        this.container.y = (this.backgroundContainer.height / 2) - (this.container.height / 2) + canopy.yGap;
+        this.canopy = new Canopy(this.body.scaleFactor, this.body.container);
+        this.container.addChild(this.canopy.container);
 
         this.reelsFadeStartAnim();
     }
@@ -36,11 +32,15 @@ export class Slot {
             '2': null
         };
 
+        //const colorMatrix = new PIXI.filters.ColorMatrixFilter();
+        //colorMatrix.saturate(0);
+
         this.reels.reels.forEach((reel) => {
             for (let i = 0; i < $configs.REEL_SYMBOL_VIEWS; i++) {
                 yPosFinal[i] = reel.symbols[i].y;
                 reel.symbols[i].y = reel.symbols[i].y + (1010 * this.body.scaleFactor);
-                reel.symbols[i].alpha = 0.5;
+                reel.symbols[i].alpha = 0;
+                //reel.symbols[i].filters = [colorMatrix];
 
                 const fadeAnim = gsap.to(reel.symbols[i], {
                     pixi: {
@@ -58,6 +58,14 @@ export class Slot {
                 });
             }
         });
+
+        /*gsap.to(colorMatrix, {
+            //saturation: 1,
+            duration: 10,
+            onComplete: () => {
+                //reel.symbols[i].filters = [];
+            }
+        });*/
     }
 
     update(dt) {

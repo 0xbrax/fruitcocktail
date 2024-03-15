@@ -32,8 +32,8 @@ export class Reels {
 
 
         window.addEventListener('click', () => {
-            this.getConditionAndSymbol();
-            this.play();
+            //this.getConditionAndSymbol();
+            //this.play();
 
             console.log('LOG...', $configs.SELECTED_CONDITION, $configs.SELECTED_SYMBOL)
         });

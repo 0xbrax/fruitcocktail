@@ -13,7 +13,7 @@ export class Body {
         const sprite = new PIXI.Sprite($globals.assets.body["SlotBodyImage"]);
 
         if (isMobile) {
-            this.scaleFactor = (window.innerWidth * 0.9) / sprite.width;
+            this.scaleFactor = (window.innerWidth * 0.95) / sprite.width;
 
             sprite.width *= this.scaleFactor;
             sprite.height *= this.scaleFactor;

@@ -15,10 +15,14 @@ export class LoadingScene {
         text.style = {
             fontFamily: 'Rimbo-Regular',
             fontSize: 30,
-            fill: [`#${$style.textColor}`]
+            fill: '#000000'//[`#${$style.textColor}`]
         };
         text.text = 'Loading...';
 
         this.container.addChild(text);
+    }
+
+    resize() {
+        //
     }
 }
