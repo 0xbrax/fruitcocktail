@@ -5,8 +5,9 @@ import { $globals } from "../system/utils.js";
 import { $style } from "../system/SETUP.js";
 
 export class Drink {
-    constructor(scaleFactor) {
+    constructor(scaleFactor, isLoading) {
         this.scaleFactor = scaleFactor;
+        this.isLoading = isLoading;
         this.container = new PIXI.Container();
         this.maskContainer = new PIXI.Container();
         this.emitterContainer = new PIXI.Container();
@@ -14,6 +15,15 @@ export class Drink {
         this.emitter = null;
         this.rectHeight = 1017 * this.scaleFactor;
         this.bubbleSpeed = 0.004;
+        
+        if (this.isLoading) {
+            this.yPos = 0;
+            this.xPos = 0;
+        }
+        if (!this.isLoading) {
+            this.yPos = 97;
+            this.xPos = 34;
+        }
 
         this.createDrink();
         this.createMasks();
@@ -62,30 +72,42 @@ export class Drink {
         });
 
         this.drink.alpha = 0.33;
-        this.drink.x = 34 * this.scaleFactor;
+        this.drink.x = this.xPos * this.scaleFactor;
 
-        this.drink.y = (97 * this.scaleFactor) + this.rectHeight;
+        this.drink.y = (this.yPos * this.scaleFactor) + this.rectHeight;
 
         this.container.addChild(this.drink);
     }
 
     createMasks() {
-        let xGap = 34;
+        if (this.isLoading) {
+            this.setLoadingMask();
+        }
+        if (!this.isLoading) {
+            let xGap = this.xPos;
 
-        this.setMask(xGap);
-        for (let i = 0; i < 5; i++) {
-            this.setMask(xGap);
-            xGap+= 320 + 22;
+            for (let i = 0; i < 5; i++) {
+                this.setMask(xGap);
+                xGap += 320 + 22;
+            }
         }
 
         this.container.mask = this.maskContainer;
         this.container.addChild(this.maskContainer);
     }
 
+    setLoadingMask() {
+        const mask = new PIXI.Graphics();
+        mask.beginFill(0xffffff);
+        mask.drawRect(0, 0, window.innerWidth, window.innerHeight);
+        mask.endFill();
+        this.maskContainer.addChild(mask);
+    }
+
     setMask(xGap) {
         const mask = new PIXI.Graphics();
         mask.beginFill(0xffffff);
-        mask.drawRect(xGap * this.scaleFactor, 97 * this.scaleFactor, 323 * this.scaleFactor, 1017 * this.scaleFactor);
+        mask.drawRect(xGap * this.scaleFactor, this.yPos * this.scaleFactor, 323 * this.scaleFactor, 1017 * this.scaleFactor);
         mask.endFill();
         this.maskContainer.addChild(mask);
     }
@@ -93,7 +115,7 @@ export class Drink {
     createBubbleContainer() {
         const bubbleRect = new PIXI.Graphics();
         bubbleRect.beginFill(0xffffff);
-        bubbleRect.drawRect(34 * this.scaleFactor, 97 * this.scaleFactor, this.maskContainer.width, this.maskContainer.height);
+        bubbleRect.drawRect(this.xPos * this.scaleFactor, this.yPos * this.scaleFactor, this.maskContainer.width, this.maskContainer.height);
         bubbleRect.endFill();
         bubbleRect.alpha = 0;
         this.emitterContainer.addChild(bubbleRect);
@@ -101,7 +123,7 @@ export class Drink {
         const tempContainer = new PIXI.Container();
         const mask = new PIXI.Graphics();
         mask.beginFill(0xffffff);
-        mask.drawRect(34 * this.scaleFactor, (97 * this.scaleFactor) + (40 * 2 * this.scaleFactor), this.maskContainer.width, this.maskContainer.height - (40 * 2 * this.scaleFactor));
+        mask.drawRect(this.xPos * this.scaleFactor, (this.yPos * this.scaleFactor) + (40 * 2 * this.scaleFactor), this.maskContainer.width, this.maskContainer.height - (40 * 2 * this.scaleFactor));
         mask.endFill();
         tempContainer.addChild(mask);
         this.emitterContainer.mask = tempContainer;
@@ -146,7 +168,7 @@ export class Drink {
                             "list": [
                                 {
                                     "time": 0,
-                                    "value": 0.33
+                                    "value": 0.5
                                 },
                                 {
                                     "time": 1,
@@ -207,6 +229,11 @@ export class Drink {
         );
     }
 
+    resetLevel() {
+        this.drink.y = (this.yPos * this.scaleFactor) + this.rectHeight + (this.rectHeight * 0.8);
+        this.emitterContainer.y = this.rectHeight * 0.8;
+    }
+
     setLevel(level) {
         let lv;
         if (level === 0) lv = 0;
@@ -214,7 +241,7 @@ export class Drink {
         lv = 1 - (1 / 10 * level);
 
         const drinkContainerAnim = gsap.to(this.drink, {
-            pixi: { y: (97 * this.scaleFactor) + this.rectHeight + (this.rectHeight * lv) },
+            pixi: { y: (this.yPos * this.scaleFactor) + this.rectHeight + (this.rectHeight * lv) },
             duration: 2.5,
             repeat: 0,
             ease: "none",
@@ -224,7 +251,7 @@ export class Drink {
         });
 
         const bubbleContainerAnim =  gsap.to(this.emitterContainer, {
-            pixi: { y: this.emitterContainer.y + (this.rectHeight * lv) },
+            pixi: { y: this.rectHeight * lv },
             duration: 2.5,
             repeat: 0,
             ease: "none",

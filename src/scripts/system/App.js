@@ -24,9 +24,10 @@ class Application {
             height: this.originalRect.h,
             width: this.originalRect.w,
             resizeTo: window,
-            backgroundAlpha: 0,
+            //backgroundAlpha: 0,
             resolution: window.devicePixelRatio || 1,
             autoDensity: true,
+            //antialias: true
         });
         document.body.appendChild(this.app.view);
         window.addEventListener('resize', this.resize.bind(this, this.originalRect));
@@ -40,7 +41,26 @@ class Application {
         $globals.scene.start(new LoadingScene());
         this.resize(this.originalRect);
         this.loader = new Loader();
-        this.loader.preload().then(() => this.start());
+
+
+
+
+        this.loader.preloadAssets().then(() => {
+            $globals.scene.createDrink();
+
+            let counter = 3;
+            setInterval(() => {
+                if (counter > 10) return;
+                $globals.scene.setLoadingProgress(counter);
+                counter++;
+            }, 2000);
+
+            this.loader.loadAssets().then(() => {
+                setTimeout(() => {
+                    //this.start();
+                }, 20000)
+            });
+        });
     }
 
     start() {

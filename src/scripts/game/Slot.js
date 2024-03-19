@@ -69,6 +69,8 @@ export class Slot {
                 this.reels.reels.forEach((reel) => {
                     for (let i = 0; i < $configs.REEL_SYMBOL_VIEWS; i++) {
                         reel.symbols[i].filters = [];
+
+                        // TODO check quando si leva il filtro fa uno scatto di qualità grafica
                     }
                 });
             }
