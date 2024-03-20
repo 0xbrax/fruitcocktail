@@ -32,49 +32,32 @@ export class Slot {
             '2': null
         };
 
-        const colorMatrix = new PIXI.ColorMatrixFilter();
-        colorMatrix.blackAndWhite(false);
-        colorMatrix.uniforms.uAlpha = 1;
-
         this.reels.reels.forEach((reel) => {
             for (let i = 0; i < $configs.REEL_SYMBOL_VIEWS; i++) {
                 yPosFinal[i] = reel.symbols[i].y;
                 reel.symbols[i].y = reel.symbols[i].y + (1010 * this.body.scaleFactor);
                 reel.symbols[i].alpha = 0;
-                reel.symbols[i].filters = [colorMatrix];
 
                 const fadeAnim = gsap.to(reel.symbols[i], {
                     pixi: {
                         y: yPosFinal[i],
                         alpha: 1
                     },
-                    duration: 5,
+                    duration: 2.5,
+                    delay: 5,
                     repeat: 0,
                     ease: "power1.inOut",
                     onComplete: () => {
                         fadeAnim.kill();
-                        this.drink.bubbleSpeed = 0.001;
-                        this.drink.setLevel(1);
                     }
                 });
             }
         });
 
-        const colorAnim = gsap.to(colorMatrix.uniforms, {
-            uAlpha: 0,
-            duration: 2.5,
-            delay: 5,
-            onComplete: () => {
-                colorAnim.kill();
-                this.reels.reels.forEach((reel) => {
-                    for (let i = 0; i < $configs.REEL_SYMBOL_VIEWS; i++) {
-                        reel.symbols[i].filters = [];
-
-                        // TODO check quando si leva il filtro fa uno scatto di qualità grafica
-                    }
-                });
-            }
-        });
+        setTimeout(() => {
+            this.drink.bubbleSpeed = 0.001;
+            this.drink.setLevel(1);
+        }, 5_000);
     }
 
     update(dt) {

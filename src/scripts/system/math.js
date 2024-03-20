@@ -1,7 +1,7 @@
 import { getCryptoRandomNumber, getPseudoRandomNumber } from "./utils.js";
 import { $configs } from "./SETUP.js";
 
-const ALL_SYMBOLS = [...$configs.SYMBOLS, $configs.JOLLY, $configs.MEGA_WIN];
+export const ALL_SYMBOLS = [...$configs.SYMBOLS, $configs.JOLLY, $configs.MEGA_WIN];
 
 
 // PAY TABLE => 9 Maps, index reel is always in the middle row before win map
