@@ -43,22 +43,28 @@ class Application {
         this.loader = new Loader();
 
 
-
-
         this.loader.preloadAssets().then(() => {
             $globals.scene.createDrink();
 
-            let counter = 3;
-            setInterval(() => {
-                if (counter > 10) return;
-                $globals.scene.setLoadingProgress(counter);
-                counter++;
-            }, 2000);
+            const convertedProgress = (value) => {
+                const a = 0;
+                const b = 100;
+                const c = 3; // min value
+                const d = 10; // max value
+
+                return ((value - a) / (b - a)) * (d - c) + c;
+            }
+
+            this.loader.on('progress', (progress) => {
+                console.log(`Progress: ${progress}%`);
+
+                $globals.scene.setLoadingProgress(convertedProgress(progress));
+            });
 
             this.loader.loadAssets().then(() => {
                 setTimeout(() => {
-                    //this.start();
-                }, 20000)
+                    this.start();
+                }, 5000)
             });
         });
     }

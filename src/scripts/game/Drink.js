@@ -71,7 +71,7 @@ export class Drink {
             onUpdate: updateWave
         });
 
-        this.drink.alpha = 0.33;
+        this.drink.alpha = this.isLoading ? 1 : 0.33;
         this.drink.x = this.xPos * this.scaleFactor;
 
         this.drink.y = (this.yPos * this.scaleFactor) + this.rectHeight;
@@ -157,7 +157,8 @@ export class Drink {
                     "type": "textureRandom",
                     "config": {
                         "textures": [
-                            $globals.assets.ui['BubbleImage']
+                            this.isLoading ? $globals.assets.ui['BubbleImage'] :
+                                $globals.assets.ui['BubbleImage']
                         ]
                     }
                 },
@@ -168,7 +169,7 @@ export class Drink {
                             "list": [
                                 {
                                     "time": 0,
-                                    "value": 0.5
+                                    "value": this.isLoading ? 1 : 0.5
                                 },
                                 {
                                     "time": 1,

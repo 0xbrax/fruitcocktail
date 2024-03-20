@@ -2,8 +2,10 @@ import * as PIXI from "pixi.js";
 import { $globals } from "./utils.js";
 import { assets } from "./Assets.js";
 
-export class Loader {
+export class Loader extends PIXI.utils.EventEmitter {
     constructor() {
+        super();
+
         this.assets = assets;
 
         for (const key in this.assets) {
@@ -57,12 +59,13 @@ export class Loader {
             }, 0);
 
             let loadedAssetsCount = 0;
-
             const updateProgress = () => {
-                const progress = (loadedAssetsCount / totalAssetsCount) * 100;
-                console.log(`Progresso Caricamento: ${progress}%`);
-                // Qui potresti invocare un callback o aggiornare una barra di progresso nella tua UI
+                const progress = parseInt((loadedAssetsCount / totalAssetsCount) * 100);
+                this.emit('progress', progress);
             };
+            updateProgress();
+
+
 
             for (const key in this.assets) {
                 if (key === 'audio') continue; // TODO: Usare howler.js
@@ -75,6 +78,7 @@ export class Loader {
                         );
                         await spritesheet.parse();
                         $globals.assets[key][subKey] = spritesheet;
+
                         loadedAssetsCount++;
                         updateProgress();
                     }
@@ -86,10 +90,14 @@ export class Loader {
 
                     PIXI.Assets.add({ alias: subKey, src: this.assets[key][subKey] });
                     $globals.assets[key][subKey] = await PIXI.Assets.load(subKey);
+
                     loadedAssetsCount++;
                     updateProgress();
                 }
             }
+
+            loadedAssetsCount = totalAssetsCount;
+            updateProgress();
 
             resolve();
         });
