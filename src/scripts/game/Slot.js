@@ -30,6 +30,8 @@ export class Slot {
         this.characterMain = new CharacterMain(this.body.scaleFactor);
         this.container.addChild(this.characterMain.container);
 
+        console.log('LOG.....', this.canopy.container.height, this.logo.container.height)
+
         this.reelsFadeStartAnim();
     }
 
