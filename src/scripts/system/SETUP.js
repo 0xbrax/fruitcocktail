@@ -6,6 +6,7 @@ export const $configs = {
     SYMBOLS: ['apple', 'cherry', 'coconut', 'grapefruit', 'lemon', 'watermelon'],
     JOLLY: 'splash',
     MEGA_WIN: 'fruitcocktail',
+    ALL_SYMBOLS: ['apple', 'cherry', 'coconut', 'grapefruit', 'lemon', 'watermelon', 'splash', 'fruitcocktail'],
     MAP: {
         REEL_1: ['lemon', 'coconut', 'watermelon', 'cherry', 'fruitcocktail', 'splash', 'grapefruit', 'apple'],
         REEL_2: ['apple', 'cherry', 'coconut', 'fruitcocktail', 'grapefruit', 'lemon', 'splash', 'watermelon'],
@@ -21,6 +22,7 @@ export const $configs = {
 };
 
 export const $style = {
-    textColor: 'ffffff',
+    black: '000000',
+    white: 'ffffff',
     main: 'f36300'
 }

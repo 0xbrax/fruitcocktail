@@ -1,9 +1,6 @@
 import { getCryptoRandomNumber, getPseudoRandomNumber } from "./utils.js";
 import { $configs } from "./SETUP.js";
 
-export const ALL_SYMBOLS = [...$configs.SYMBOLS, $configs.JOLLY, $configs.MEGA_WIN];
-
-
 // PAY TABLE => 9 Maps, index reel is always in the middle row before win map
 export const getRandomWinMap = ({ REEL_1, REEL_2, REEL_3, REEL_4, REEL_5 }) => {
     const maps = [
@@ -99,7 +96,7 @@ export const getRandomLose = (indexes) => {
     const getNewReelIndex = (id) => {
         const symbolReel1 = $configs.MAP.REEL_1[obj.REEL_1];
         let randomNumber = getPseudoRandomNumber(0, $configs.REEL_LENGTH - 1);
-        while (ALL_SYMBOLS[randomNumber] === 'splash') {
+        while ($configs.ALL_SYMBOLS[randomNumber] === 'splash') {
             randomNumber = getPseudoRandomNumber(0, $configs.REEL_LENGTH - 1);
         }
         const whatSymbolIndexInReel = $configs.MAP[`REEL_${id}`].indexOf(symbolReel1);

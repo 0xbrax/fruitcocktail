@@ -2,6 +2,7 @@ import * as PIXI from "pixi.js"
 import { gsap } from "gsap";
 import { PixiPlugin } from "gsap/PixiPlugin";
 import { $globals } from "./utils.js";
+import { $style } from "./SETUP.js";
 import { Loader } from "./Loader.js";
 import { SceneManager } from "../scene/SceneManager.js";
 import { LoadingScene } from "../scene/LoadingScene.js";
@@ -24,7 +25,7 @@ class Application {
             height: this.originalRect.h,
             width: this.originalRect.w,
             resizeTo: window,
-            //backgroundAlpha: 0,
+            backgroundColor: `#${$style.black}`,
             resolution: window.devicePixelRatio || 1,
             autoDensity: true,
             //antialias: true
@@ -45,6 +46,7 @@ class Application {
 
         this.loader.preloadAssets().then(() => {
             $globals.scene.createDrink();
+            $globals.scene.createText();
 
             const convertedProgress = (value) => {
                 const a = 0;
@@ -64,7 +66,7 @@ class Application {
             this.loader.loadAssets().then(() => {
                 setTimeout(() => {
                     this.start();
-                }, 5000)
+                }, 4_000)
             });
         });
     }

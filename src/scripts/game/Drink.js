@@ -3,7 +3,7 @@ import { gsap } from 'gsap';
 import { Emitter } from "@pixi/particle-emitter";
 import { $globals } from "../system/utils.js";
 import { $style } from "../system/SETUP.js";
-import { ALL_SYMBOLS } from "../system/math.js";
+import { $configs } from "../system/SETUP.js";
 
 export class Drink {
     constructor(scaleFactor, isLoading) {
@@ -146,7 +146,7 @@ export class Drink {
             let counter = 0;
             textures.push(...Array(7).fill($globals.assets.ui['BubbleImage']));
             for (const key in $globals.assets.symbols) {
-                textures.push($globals.assets.symbols[key].textures[`${ALL_SYMBOLS[counter]}-animation_30.png`]);
+                textures.push($globals.assets.symbols[key].textures[`${$configs.ALL_SYMBOLS[counter]}-animation_30.png`]);
                 counter++;
             }
         }

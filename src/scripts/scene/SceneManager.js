@@ -16,6 +16,11 @@ export class SceneManager {
             this.scene.setLevel(level);
         }
     }
+    createText() {
+        if (this.scene && this.scene.createText) {
+            this.scene.createText();
+        }
+    }
 
     start(scene) {
         if (this.scene) {

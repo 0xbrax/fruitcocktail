@@ -2,6 +2,9 @@ import './style.css';
 
 import WebFont from 'webfontloader';
 import { App } from "./scripts/system/App.js";
+import IHeroicons from "./scripts/system/IHeroicons.js";
+
+customElements.define('i-heroicons', IHeroicons);
 
 // DISCLAIMER
 const DISCLAIMER_TEXT = `

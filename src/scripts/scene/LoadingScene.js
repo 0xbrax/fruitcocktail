@@ -7,8 +7,6 @@ export class LoadingScene {
     constructor() {
         this.container = new PIXI.Container();
         this.scaleFactor = null;
-
-        this.createText();
     }
 
     createText() {
@@ -19,7 +17,7 @@ export class LoadingScene {
         text.style = {
             fontFamily: 'Rimbo-Regular',
             fontSize: 50,
-            fill: '#ffffff'//[`#${$style.textColor}`]
+            fill: [`#${$style.white}`]
         };
         text.text = 'Loading';
 

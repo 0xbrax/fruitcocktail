@@ -1,6 +1,7 @@
 import * as PIXI from "pixi.js";
 import { Background } from "../game/Background.js";
 import { Slot } from "../game/Slot.js";
+import { UI } from "../game/UI.js";
 import { isMobile } from "../system/utils.js";
 
 export class MainScene {
@@ -9,8 +10,9 @@ export class MainScene {
         this.background = null;
         this.slot = null;
 
-        this.createBackground();
+        //this.createBackground();
         this.createSlot();
+        this.createUI();
     }
 
     createBackground() {
@@ -19,6 +21,9 @@ export class MainScene {
     createSlot() {
         this.slot = new Slot();
         this.container.addChild(this.slot.container);
+    }
+    createUI() {
+        this.ui = new UI();
     }
 
     resize(originalRect) {
