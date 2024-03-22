@@ -66,7 +66,7 @@ class Application {
             this.loader.loadAssets().then(() => {
                 setTimeout(() => {
                     this.start();
-                }, 4_000)
+                }, 1_000)
             });
         });
     }

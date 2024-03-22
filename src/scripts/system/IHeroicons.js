@@ -1,3 +1,5 @@
+import { $style } from "./SETUP.js";
+
 export default class IHeroicons extends HTMLElement {
     constructor() {
         super();
@@ -5,10 +7,19 @@ export default class IHeroicons extends HTMLElement {
         this.render();
     }
 
+    static get observedAttributes() {
+        return ['icon-name', 'style-name'];
+    }
+    attributeChangedCallback(name, oldValue, newValue) {
+        if (name === 'icon-name' || name === 'style-name') {
+            this.render();
+        }
+    }
+
     render() {
-        const iconType = this.getAttribute('icon-name');
-        const style = this.getAttribute('style-name');
-        const iconContent = getIcon(iconType);
+        const name = this.getAttribute('icon-name');
+        const style = this.getAttribute('style-name') || '';
+        const iconContent = getIcon(name);
 
         this.shadowRoot.innerHTML = `
         <style>
@@ -16,18 +27,21 @@ export default class IHeroicons extends HTMLElement {
                 display: inline-block;
                 height: 50px;
                 aspect-ratio: 1;
-                text-align: center;
-                line-height: 50px;
                 
                 padding: 10px;
                 border-radius: 50%;
-                background-color: red;
-                color: green;
+                background-color: #${$style.main};
+                color: #${$style.black};
+                box-shadow: 0 0 5px 0 #${$style.white};
                 
                 ${style}
             }
             .icon:hover {
                 cursor: pointer;
+            }
+            .icon svg {
+                position: ${name === 'play' ? 'relative': 'unset'};
+                left: ${name === 'play' ? '9px' : 'unset'};
             }
         </style>
         <span class="icon">${iconContent}</span>
