@@ -3,6 +3,8 @@ import { Body } from "./Body.js";
 import { Drink } from "./Drink.js";
 import { Reels } from "./Reels.js";
 import { Canopy } from "./Canopy.js";
+import { Logo } from "./Logo.js";
+import { CharacterMain } from "./CharacterMain.js";
 import { $configs } from "../system/SETUP.js";
 import { gsap } from 'gsap';
 
@@ -21,6 +23,12 @@ export class Slot {
 
         this.canopy = new Canopy(this.body.scaleFactor, this.body.container);
         this.container.addChild(this.canopy.container);
+
+        this.logo = new Logo(this.body.scaleFactor, this.body.container);
+        this.container.addChild(this.logo.container);
+
+        this.characterMain = new CharacterMain(this.body.scaleFactor);
+        this.container.addChild(this.characterMain.container);
 
         this.reelsFadeStartAnim();
     }
