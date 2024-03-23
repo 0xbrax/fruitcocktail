@@ -67,12 +67,17 @@ class Application {
             });
 
             this.loader.loadAssets().then(() => {
-                $globals.scene.scene.text.text = 'enter';
-                $globals.scene.scene.createDisclaimer();
-
                 setTimeout(() => {
-                    //this.start();
-                }, 1_000)
+                    $globals.scene.scene.createDisclaimer();
+
+                    $globals.scene.scene.text.text = 'enter';
+                    $globals.scene.scene.text.eventMode = 'static';
+                    $globals.scene.scene.text.cursor = 'pointer';
+                    $globals.scene.scene.text.once('pointerdown', () => {
+                        console.log('- - - GAME ENTER !!!');
+                        this.start();
+                    });
+                }, 2_500) // animation end on progress 100%
             });
         });
     }
