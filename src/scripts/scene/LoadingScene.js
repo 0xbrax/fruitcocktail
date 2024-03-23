@@ -8,6 +8,7 @@ export class LoadingScene {
     constructor() {
         this.container = new PIXI.Container();
         this.subContainer =  new PIXI.Container();
+        this.subContainer.sortableChildren = true;
         this.scaleFactor = null;
     }
 
@@ -23,8 +24,18 @@ export class LoadingScene {
         this.text.anchor.set(0.5);
         this.text.x = window.innerWidth / 2;
         this.text.y = this.logo.height + this.text.height;
+        this.text.zIndex = 2;
 
         this.subContainer.addChild(this.text);
+    }
+    createTextBackground() {
+        this.textBakcground = new PIXI.Graphics();
+        this.textBakcground.beginFill(0xff0000);
+        this.textBakcground.drawRoundedRect((this.text.x - (this.text.width / 2)) - 30, (this.text.y - (this.text.height / 2)) - 15, this.text.width + 60, this.text.height + 30, 15);
+        this.textBakcground.endFill();
+        this.textBakcground.zIndex = 1;
+
+        this.subContainer.addChild(this.textBakcground);
     }
     createLogo() {
         this.logo = new PIXI.Sprite($globals.assets.other['LogoFullImage']);

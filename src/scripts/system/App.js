@@ -71,9 +71,10 @@ class Application {
                     $globals.scene.scene.createDisclaimer();
 
                     $globals.scene.scene.text.text = 'enter';
-                    $globals.scene.scene.text.eventMode = 'static';
-                    $globals.scene.scene.text.cursor = 'pointer';
-                    $globals.scene.scene.text.once('pointerdown', () => {
+                    $globals.scene.scene.createTextBackground();
+                    $globals.scene.scene.textBakcground.eventMode = 'static';
+                    $globals.scene.scene.textBakcground.cursor = 'pointer';
+                    $globals.scene.scene.textBakcground.once('pointerdown', () => {
                         console.log('- - - GAME ENTER !!!');
                         this.start();
                     });

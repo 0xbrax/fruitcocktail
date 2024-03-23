@@ -23,12 +23,6 @@ export class Reels extends PIXI.utils.EventEmitter {
         };
         this.lastSymbol = null;
 
-        this.playConfig = { duration: 6, revolutions: 4, ease: 'power2.inOut' };
-        this.playConfig.onComplete = () => {
-            //mixerAudio.slotTickFX.play();
-            this.onComplete();
-        }
-
         this.createReels();
     }
 
@@ -82,14 +76,26 @@ export class Reels extends PIXI.utils.EventEmitter {
                 this.reels[i].symbols[indexOfSelectedSymbol].currentFrame = 29;
             }
 
-            this.reels[i].animation.toIndex(this.indexes[`REEL_${reelNumber}`], this.playConfig);
+            this.reels[i].animation.toIndex(this.indexes[`REEL_${reelNumber}`], this.animConfig(reelNumber));
         }
     }
 
+    animConfig(reelNumber) {
+        return {
+            duration: 6,
+            revolutions: 4,
+            ease: 'power2.inOut',
+            onComplete: () => {
+                //mixerAudio.slotTickFX.play();
+
+                if (reelNumber === 5) this.onComplete();
+            }
+        };
+    }
+
     onComplete() {
-        // TODO animate on last reel complete
-        this.emit('animationComplete');
         this.isPlaying = false;
+        this.emit('animationComplete');
 
         if ($configs.SELECTED_CONDITION === 'win') {
             for (let i = 0; i < $configs.REELS; i++) {

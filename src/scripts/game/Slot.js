@@ -42,10 +42,11 @@ export class Slot extends PIXI.utils.EventEmitter {
         this.characterMain = new CharacterMain(this.body.scaleFactor);
         this.container.addChild(this.characterMain.container);
 
-        this.reelsFadeStartAnim();
+        this.reelsFadeIn();
 
         this.reels.on('animationComplete', () => {
-            this.bonusCounter++
+            this.bonusCounter++;
+            if (this.bonusCounter > 10) this.bonusCounter = 1;
             this.drink.setLevel(this.bonusCounter);
         });
 
@@ -58,7 +59,7 @@ export class Slot extends PIXI.utils.EventEmitter {
         });
     }
 
-    reelsFadeStartAnim() {
+    reelsFadeIn() {
         const yPosFinal = {
             '0': null,
             '1': null,
