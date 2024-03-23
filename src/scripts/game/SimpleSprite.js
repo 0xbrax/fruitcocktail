@@ -23,8 +23,6 @@ export class SimpleSprite {
         this.xGap = this.xGap || (this.bodyContainer.width / 2 - sprite.width / 2);
         sprite.x = this.xGap;
 
-        console.log('LOG', this.assetName, sprite.x)
-
         this.container.addChild(sprite);
     }
 }

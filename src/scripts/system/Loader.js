@@ -22,35 +22,6 @@ export class Loader extends PIXI.utils.EventEmitter {
         });
     }
 
-    loadAssetsOLD() {
-        return new Promise(async resolve => {
-            for (const key in this.assets) {
-                if (key === 'audio') continue; // TODO Use --> howler js
-
-                if (key === 'symbols' || key === 'character') {
-                    for (const subKey in this.assets[key]) {
-                        const spritesheet = new PIXI.Spritesheet(
-                            PIXI.BaseTexture.from('/src/assets/sprite/' + this.assets[key][subKey].meta.image),
-                            this.assets[key][subKey]
-                        );
-                        await spritesheet.parse();
-                        $globals.assets[key][subKey] = spritesheet;
-                    }
-                    continue;
-                }
-
-                for (const subKey in this.assets[key]) {
-                    if (subKey === 'BubbleImage') continue;
-
-                    PIXI.Assets.add({ alias: subKey, src: this.assets[key][subKey] });
-                    $globals.assets[key][subKey] = await PIXI.Assets.load(subKey);
-                }
-            }
-
-            resolve();
-        });
-    }
-
     loadAssets() {
         return new Promise(async resolve => {
             const totalAssetsCount = Object.keys(this.assets).reduce((acc, key) => {
@@ -64,8 +35,6 @@ export class Loader extends PIXI.utils.EventEmitter {
                 this.emit('progress', progress);
             };
             updateProgress();
-
-
 
             for (const key in this.assets) {
                 if (key === 'audio') continue; // TODO: Usare howler.js
