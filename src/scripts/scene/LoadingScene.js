@@ -2,11 +2,12 @@ import * as PIXI from "pixi.js";
 import { $style } from "../system/SETUP.js";
 import { Drink } from "../game/Drink.js";
 import { DISCLAIMER_TEXT } from "../system/SETUP.js";
-import { isMobile } from "../system/utils.js";
+import { $globals, isMobile } from "../system/utils.js";
 
 export class LoadingScene {
     constructor() {
         this.container = new PIXI.Container();
+        this.subContainer =  new PIXI.Container();
         this.scaleFactor = null;
     }
 
@@ -21,10 +22,37 @@ export class LoadingScene {
 
         this.text.anchor.set(0.5);
         this.text.x = window.innerWidth / 2;
-        this.text.y = window.innerHeight / 2;
+        this.text.y = this.logo.height + this.text.height;
 
-        this.container.addChild(this.text);
+        this.subContainer.addChild(this.text);
     }
+    createLogo() {
+        this.logo = new PIXI.Sprite($globals.assets.other['LogoFullImage']);
+
+        let scaleFactor;
+        if (isMobile) {
+            scaleFactor = (window.innerWidth * 0.8) / this.logo.width;
+
+            this.logo.height *= scaleFactor;
+            this.logo.width *= scaleFactor;
+        }
+        if (!isMobile) {
+            scaleFactor = (window.innerWidth * 0.3) / this.logo.width;
+
+            this.logo.height *= scaleFactor;
+            this.logo.width *= scaleFactor;
+        }
+
+        this.logo.x = (window.innerWidth / 2) - (this.logo.width / 2);
+        this.logo.y = 0;
+
+        this.subContainer.addChild(this.logo);
+    }
+    setSubContainerPosition() {
+        this.subContainer.y = (window.innerHeight / 2) - (this.subContainer.height / 2);
+        this.subContainer.x = 0;
+    }
+
     createDisclaimer() {
         this.disclaimer = document.createElement('div');
         this.disclaimer.id = 'disclaimer';
@@ -35,11 +63,6 @@ export class LoadingScene {
             zIndex: '99',
             top: '0',
             left: '0',
-            fontFamily: 'sans-serif',
-            fontSize: '20px',
-            lineHeight: '25px',
-            textAlign: 'justify',
-            textJustify: 'inter-word',
             padding: isMobile ? '25px' : '250px',
             display: 'flex',
             flexDirection: 'column',
@@ -47,14 +70,26 @@ export class LoadingScene {
             alignItems: 'center',
             overflow: 'auto',
             backgroundColor: 'rgba(0, 0, 0, 0.8)',
-            color: 'white'
         };
 
+        const textStyle = {
+            'font-family': 'sans-serif',
+            'font-size': '20px',
+            'line-height': '25px',
+            'text-align': 'justify',
+            'color': 'white',
+            'margin-top': '30px'
+        };
+        const textStyleString = Object.entries(textStyle)
+            .map(([key, value]) => `${key}: ${value};`)
+            .join(' ');
+        const newText = DISCLAIMER_TEXT.replaceAll(/\n/g, '<br>');
+
         this.disclaimer.innerHTML = `
-            <i-heroicons icon-name="x-mark"></i-heroicons>
+            <i-heroicons icon-name="check"></i-heroicons>
         
-            <div style="margin-top: 30px">
-                ${DISCLAIMER_TEXT}
+            <div style="${textStyleString}">
+                ${newText}
             </div>
         `;
 
@@ -78,13 +113,14 @@ export class LoadingScene {
         const scaleFactorWidth = window.innerWidth / originalRect.w;
         this.scaleFactor = Math.max(scaleFactorHeight, scaleFactorWidth);
 
-        if (this.text) {
-            this.text.x = window.innerWidth / 2;
-            this.text.y = window.innerHeight / 2;
-        }
         if (this.drink) {
             this.drink.container.scale.set(this.scaleFactor);
         }
+
+        this.scaleFactor = Math.min(scaleFactorHeight, scaleFactorWidth);
+
+        this.subContainer.scale.set(this.scaleFactor);
+        this.setSubContainerPosition();
     }
 
     update(dt) {

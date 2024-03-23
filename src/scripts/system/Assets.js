@@ -31,18 +31,12 @@ import CharacterMainSprite from '../../assets/sprite/character-main_spritesheet.
 import CharacterDrinkSprite from '../../assets/sprite/character-drink_spritesheet.json';
 
 // ui elements
-import SpinImage from '../../assets/image/ui_spin_COMPRESSED.png';
-import AutoImage from '../../assets/image/ui_auto_COMPRESSED.png';
-import BetImage from '../../assets/image/ui_bet_COMPRESSED.png';
-import MinusImage from '../../assets/image/ui_minus_COMPRESSED.png';
-import PlusImage from '../../assets/image/ui_plus_COMPRESSED.png';
-import WinImage from '../../assets/image/ui_win_COMPRESSED.png';
 import BalanceImage from '../../assets/image/ui_balance_COMPRESSED.png';
-import ForwardImage from '../../assets/image/FA-icon-forward_white_COMPRESSED.png';
 import CoinImage from '../../assets/image/coin_COMPRESSED.png';
 import BubbleImage from '../../assets/image/bubble_COMPRESSED.png';
 
 // other
+import LogoFullImage from '../../assets/image/logo-full_COMPRESSED.png';
 import MegaWinTextImage from '../../assets/image/megawin_text_COMPRESSED.png';
 import MegaWinCoinImage from '../../assets/image/megawin_coin_COMPRESSED.png';
 
@@ -81,18 +75,12 @@ export const assets = {
         CharacterDrinkSprite
     },
     ui: {
-        SpinImage,
-        AutoImage,
-        BetImage,
-        MinusImage,
-        PlusImage,
-        WinImage,
         BalanceImage,
-        ForwardImage,
         CoinImage,
         BubbleImage
     },
     other: {
+        LogoFullImage,
         MegaWinTextImage,
         MegaWinCoinImage
     }

@@ -8,7 +8,7 @@ import IHeroicons from "./scripts/system/IHeroicons.js";
 customElements.define('i-heroicons', IHeroicons);
 
 console.log(
-    `%c\u26A0 %cDISCLAIMER: %c${DISCLAIMER_TEXT}`,
+    `%c\u26A0 %cDISCLAIMER: %c${DISCLAIMER_TEXT + '\n'}`,
     'font-size: 25px;',
     'color: red; font-weight: bold;',
     'font-style: italic;'

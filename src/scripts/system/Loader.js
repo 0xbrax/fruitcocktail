@@ -1,6 +1,7 @@
 import * as PIXI from "pixi.js";
 import { $globals } from "./utils.js";
 import { assets } from "./Assets.js";
+import LogoFullImage from "../../assets/image/logo-full_COMPRESSED.png";
 
 export class Loader extends PIXI.utils.EventEmitter {
     constructor() {
@@ -17,6 +18,9 @@ export class Loader extends PIXI.utils.EventEmitter {
         return new Promise(async resolve => {
             PIXI.Assets.add({ alias: 'BubbleImage', src: this.assets['ui']['BubbleImage'] });
             $globals.assets.ui['BubbleImage'] = await PIXI.Assets.load('BubbleImage');
+
+            PIXI.Assets.add({ alias: 'LogoFullImage', src: this.assets['other']['LogoFullImage'] });
+            $globals.assets.other['LogoFullImage'] = await PIXI.Assets.load('LogoFullImage');
 
             resolve();
         });
@@ -56,6 +60,7 @@ export class Loader extends PIXI.utils.EventEmitter {
 
                 for (const subKey in this.assets[key]) {
                     if (subKey === 'BubbleImage') continue;
+                    if (subKey === 'LogoFullImage') continue;
 
                     PIXI.Assets.add({ alias: subKey, src: this.assets[key][subKey] });
                     $globals.assets[key][subKey] = await PIXI.Assets.load(subKey);

@@ -46,7 +46,10 @@ class Application {
 
         this.loader.preloadAssets().then(() => {
             $globals.scene.scene.createDrink();
-            $globals.scene.scene.setText('loading');
+            $globals.scene.scene.createLogo();
+            $globals.scene.scene.setText('loading')
+            $globals.scene.scene.setSubContainerPosition();
+            $globals.scene.scene.container.addChild($globals.scene.scene.subContainer);
 
             const convertedProgress = (value) => {
                 const a = 0;
