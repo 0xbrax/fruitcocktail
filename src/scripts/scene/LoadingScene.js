@@ -1,7 +1,6 @@
 import * as PIXI from "pixi.js";
 import { $style } from "../system/SETUP.js";
 import { Drink } from "../game/Drink.js";
-import { isMobile } from "../system/utils.js";
 
 export class LoadingScene {
     constructor() {
@@ -10,18 +9,19 @@ export class LoadingScene {
     }
 
     createText() {
-        const text = new PIXI.Text();
-        text.x = window.innerWidth / 2;
-        text.y = window.innerHeight / 2;
-        text.anchor.set(0.5);
-        text.style = {
+        this.text = new PIXI.Text();
+        this.text.style = {
             fontFamily: 'Rimbo-Regular',
             fontSize: 50,
             fill: [`#${$style.white}`]
         };
-        text.text = 'Loading';
+        this.text.text = 'Loading';
 
-        this.container.addChild(text);
+        this.text.anchor.set(0.5);
+        this.text.x = window.innerWidth / 2;
+        this.text.y = window.innerHeight / 2;
+
+        this.container.addChild(this.text);
     }
 
     createDrink() {
@@ -34,13 +34,16 @@ export class LoadingScene {
     }
 
     resize(originalRect) {
-        console.log('RESIZE !!! TODO ...')
+        const scaleFactorHeight = window.innerHeight / originalRect.h;
+        const scaleFactorWidth = window.innerWidth / originalRect.w;
+        this.scaleFactor = Math.max(scaleFactorHeight, scaleFactorWidth);
 
-        if (isMobile) {
-            this.scaleFactor = window.innerWidth / originalRect.w;
+        if (this.text) {
+            this.text.x = window.innerWidth / 2;
+            this.text.y = window.innerHeight / 2;
         }
-        if (!isMobile) {
-            this.scaleFactor = window.innerHeight / originalRect.h;
+        if (this.drink) {
+            this.drink.container.scale.set(this.scaleFactor);
         }
     }
 

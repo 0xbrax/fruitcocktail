@@ -1,6 +1,5 @@
 import { Button } from "./Button.js";
 import { isMobile } from "../system/utils.js";
-import { $style } from "../system/SETUP.js";
 
 export class PlayUI {
     constructor() {
@@ -34,7 +33,7 @@ export class PlayUI {
 
         this.fastForward = new Button ('fast-forward');
 
-        const playStyle = `height: ${isMobile ? 100 : 150}px;`;
+        const playStyle = `height: ${isMobile ? 75 : 150}px;`;
         this.play = new Button('play', playStyle);
         this.autoPlay = new Button('auto-play');
 

@@ -1,4 +1,5 @@
 import { $style } from "./SETUP.js";
+import { isMobile } from "./utils.js";
 
 export default class IHeroicons extends HTMLElement {
     constructor() {
@@ -41,7 +42,7 @@ export default class IHeroicons extends HTMLElement {
             }
             .icon svg {
                 position: ${name === 'play' ? 'relative': 'unset'};
-                left: ${name === 'play' ? '9px' : 'unset'};
+                left: ${name === 'play' ? isMobile? '4.5px' : '9px' : 'unset'};
             }
         </style>
         <span class="icon">${iconContent}</span>

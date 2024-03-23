@@ -4,11 +4,12 @@ import { Emitter } from "@pixi/particle-emitter";
 import { $globals } from "../system/utils.js";
 import { $style } from "../system/SETUP.js";
 import { $configs } from "../system/SETUP.js";
+import { isMobile } from "../system/utils.js";
 
 export class Drink {
-    constructor(scaleFactor, isLoading) {
+    constructor(scaleFactor, isFullScreen) {
         this.scaleFactor = scaleFactor;
-        this.isLoading = isLoading;
+        this.isFullScreen = isFullScreen;
         this.container = new PIXI.Container();
         this.maskContainer = new PIXI.Container();
         this.emitterContainer = new PIXI.Container();
@@ -17,11 +18,11 @@ export class Drink {
         this.rectHeight = 1017 * this.scaleFactor;
         this.bubbleSpeed = 0.004;
         
-        if (this.isLoading) {
+        if (this.isFullScreen) {
             this.yPos = 0;
             this.xPos = 0;
         }
-        if (!this.isLoading) {
+        if (!this.isFullScreen) {
             this.yPos = 97;
             this.xPos = 34;
         }
@@ -72,7 +73,7 @@ export class Drink {
             onUpdate: updateWave
         });
 
-        this.drink.alpha = this.isLoading ? 1 : 0.33;
+        this.drink.alpha = this.isFullScreen ? 1 : 0.33;
         this.drink.x = this.xPos * this.scaleFactor;
 
         this.drink.y = (this.yPos * this.scaleFactor) + this.rectHeight;
@@ -81,10 +82,10 @@ export class Drink {
     }
 
     createMasks() {
-        if (this.isLoading) {
+        if (this.isFullScreen) {
             this.setLoadingMask();
         }
-        if (!this.isLoading) {
+        if (!this.isFullScreen) {
             let xGap = this.xPos;
 
             for (let i = 0; i < 5; i++) {
@@ -139,10 +140,10 @@ export class Drink {
         this.createBubbleContainer();
 
         const textures = [];
-        if (this.isLoading) {
+        if (this.isFullScreen) {
             textures.push($globals.assets.ui['BubbleImage']);
         }
-        if (!this.isLoading) {
+        if (!this.isFullScreen) {
             let counter = 0;
             textures.push(...Array(7).fill($globals.assets.ui['BubbleImage']));
             for (const key in $globals.assets.symbols) {
@@ -155,8 +156,8 @@ export class Drink {
             this.emitterContainer,
         {
             "lifetime": {
-                "min": 0.33,
-                "max": 0.5
+                "min": this.isFullScreen && isMobile ? 0.2 : 0.3,
+                "max": this.isFullScreen && isMobile ? 0.33 : 0.5
             },
             "frequency": 0.005,
             "emitterLifetime": 0,
@@ -180,7 +181,7 @@ export class Drink {
                             "list": [
                                 {
                                     "time": 0,
-                                    "value": this.isLoading ? 1 : 0.5
+                                    "value": this.isFullScreen ? 1 : 0.5
                                 },
                                 {
                                     "time": 1,
@@ -204,11 +205,11 @@ export class Drink {
                             "list": [
                                 {
                                     "time": 0,
-                                    "value": 0.6 * this.scaleFactor
+                                    "value": this.isFullScreen && isMobile ? 0.4 * this.scaleFactor : 0.6 * this.scaleFactor
                                 },
                                 {
                                     "time": 1,
-                                    "value": 0.8 * this.scaleFactor
+                                    "value": this.isFullScreen && isMobile ? 0.6 * this.scaleFactor : 0.8 * this.scaleFactor
                                 }
                             ]
                         },
