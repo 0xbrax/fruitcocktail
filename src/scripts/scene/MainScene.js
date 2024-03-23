@@ -45,7 +45,7 @@ export class MainScene {
 
         this.container.scale.set(scaleFactor);
         this.container.y = (window.innerHeight / 2) - (this.container.height / 2) + this.slot.canopy.yGap + (this.slot.characterMain.yGap / 2);
-        this.container.x = (window.innerWidth / 2) - (this.container.width / 2) + this.slot.canopy.xGap;
+        this.container.x = (window.innerWidth / 2) - (this.container.width / 2) + this.slot.canopy.xGap + (this.slot.splashLeft.container.width + 8);
     }
 
     update(dt) {

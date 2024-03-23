@@ -28,15 +28,6 @@ export class Reels {
         }
 
         this.createReels();
-
-
-
-        window.addEventListener('click', () => {
-            //this.getConditionAndSymbol();
-            //this.play();
-
-            console.log('LOG...', $configs.SELECTED_CONDITION, $configs.SELECTED_SYMBOL)
-        });
     }
 
     createReels() {
