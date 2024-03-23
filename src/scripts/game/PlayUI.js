@@ -5,6 +5,7 @@ export class PlayUI {
     constructor() {
         this.container = document.createElement('div');
         this.container.id = 'play-ui';
+
         const style = {
             position: 'absolute',
             zIndex: '2',
@@ -28,11 +29,9 @@ export class PlayUI {
 
             style.flexDirection = 'column';
         }
-
         Object.assign(this.container.style, style);
 
         this.fastForward = new Button ('fast-forward');
-
         const playStyle = `height: ${isMobile ? 75 : 150}px;`;
         this.play = new Button('play', playStyle);
         this.autoPlay = new Button('auto-play');

@@ -45,8 +45,8 @@ class Application {
 
 
         this.loader.preloadAssets().then(() => {
-            $globals.scene.createDrink();
-            $globals.scene.createText();
+            $globals.scene.scene.createDrink();
+            $globals.scene.scene.setText('loading');
 
             const convertedProgress = (value) => {
                 const a = 0;
@@ -60,12 +60,15 @@ class Application {
             this.loader.on('progress', (progress) => {
                 console.log(`Progress: ${progress}%`);
 
-                $globals.scene.setLoadingProgress(convertedProgress(progress));
+                $globals.scene.scene.updateProgress(convertedProgress(progress));
             });
 
             this.loader.loadAssets().then(() => {
+                $globals.scene.scene.text.text = 'enter';
+                $globals.scene.scene.createDisclaimer();
+
                 setTimeout(() => {
-                    this.start();
+                    //this.start();
                 }, 1_000)
             });
         });

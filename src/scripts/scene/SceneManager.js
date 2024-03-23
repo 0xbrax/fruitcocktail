@@ -6,22 +6,6 @@ export class SceneManager {
         this.scene = null;
     }
 
-    createDrink() {
-        if (this.scene && this.scene.createDrink) {
-            this.scene.createDrink();
-        }
-    }
-    setLoadingProgress(level) {
-        if (this.scene && this.scene.setLevel) {
-            this.scene.setLevel(level);
-        }
-    }
-    createText() {
-        if (this.scene && this.scene.createText) {
-            this.scene.createText();
-        }
-    }
-
     start(scene) {
         if (this.scene) {
             this.scene.container.destroy();
