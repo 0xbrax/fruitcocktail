@@ -6,8 +6,9 @@ import { $style } from "../system/SETUP.js";
 import { $configs } from "../system/SETUP.js";
 import { isMobile } from "../system/utils.js";
 
-export class Drink {
+export class Drink extends PIXI.utils.EventEmitter {
     constructor(scaleFactor, isFullScreen) {
+        super();
         this.scaleFactor = scaleFactor;
         this.isFullScreen = isFullScreen;
         this.container = new PIXI.Container();
@@ -253,6 +254,16 @@ export class Drink {
         if (level === 1) lv = 1;
         lv = 1 - (1 / 10 * level);
 
+        const drinkAnimations = gsap.getTweensOf(this.drink);
+        const bubbleAnimations = gsap.getTweensOf(this.emitterContainer);
+
+        drinkAnimations.forEach(anim => {
+            anim.kill();
+        });
+        bubbleAnimations.forEach(anim => {
+            anim.kill();
+        });
+
         const drinkContainerAnim = gsap.to(this.drink, {
             pixi: { y: (this.yPos * this.scaleFactor) + this.rectHeight + (this.rectHeight * lv) },
             duration: 2.5,
@@ -270,6 +281,8 @@ export class Drink {
             ease: "none",
             onComplete: () => {
                 bubbleContainerAnim.kill();
+
+                this.emit('animationComplete');
             }
         });
     }

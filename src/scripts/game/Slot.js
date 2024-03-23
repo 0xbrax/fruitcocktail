@@ -8,11 +8,15 @@ import { SplashLeft } from "./SplashLeft.js";
 import { SplashRight } from "./SplashRight.js";
 import { CharacterMain } from "./CharacterMain.js";
 import { $configs } from "../system/SETUP.js";
+import { $globals } from "../system/utils.js";
 import { gsap } from 'gsap';
 
-export class Slot {
+export class Slot extends PIXI.utils.EventEmitter {
     constructor() {
+        super();
         this.container = new PIXI.Container();
+        this.isReady = false;
+        this.bonusCounter = 1;
 
         this.body = new Body();
         this.container.addChild(this.body.container);
@@ -22,17 +26,6 @@ export class Slot {
 
         this.reels = new Reels(this.body.scaleFactor);
         this.container.addChild(this.reels.container);
-
-
-
-        window.addEventListener('click', () => {
-            //this.reels.getConditionAndSymbol();
-            //this.reels.play();
-
-            console.log('LOG...', $configs.SELECTED_CONDITION, $configs.SELECTED_SYMBOL)
-        });
-
-
 
         this.canopy = new Canopy(this.body.scaleFactor, this.body.container);
         this.container.addChild(this.canopy.container);
@@ -50,6 +43,19 @@ export class Slot {
         this.container.addChild(this.characterMain.container);
 
         this.reelsFadeStartAnim();
+
+        this.reels.on('animationComplete', () => {
+            this.bonusCounter++
+            this.drink.setLevel(this.bonusCounter);
+        });
+
+        this.drink.once('animationComplete', () => {
+            const [, , RandomTextureBehavior] = this.drink.emitter.initBehaviors
+
+            this.drink.emitter.emit = false;
+            RandomTextureBehavior.textures = [$globals.assets.ui['BubbleImage']];
+            this.drink.emitter.emit = true;
+        });
     }
 
     reelsFadeStartAnim() {
@@ -76,6 +82,7 @@ export class Slot {
                     ease: "power1.inOut",
                     onComplete: () => {
                         fadeAnim.kill();
+                        this.isReady = true;
                     }
                 });
             }
@@ -83,7 +90,8 @@ export class Slot {
 
         setTimeout(() => {
             this.drink.bubbleSpeed = 0.001;
-            this.drink.setLevel(1);
+            this.drink.setLevel(this.bonusCounter);
+            this.emit('preReady');
         }, 5_000);
     }
 

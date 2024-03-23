@@ -4,9 +4,11 @@ import { Reel } from "./Reel.js";
 import { getCryptoRandomNumber} from "../system/utils.js";
 import { getRandomLose, getRandomWinMap } from "../system/math.js";
 
-export class Reels {
+export class Reels extends PIXI.utils.EventEmitter {
     constructor(scaleFactor) {
+        super();
         this.scaleFactor = scaleFactor;
+        this.isPlaying = false;
 
         this.xPos = 0;
         this.xPosIncrement = $configs.SYMBOL_SIZE - 99;
@@ -68,6 +70,8 @@ export class Reels {
     }
 
     play() {
+        this.isPlaying = true;
+
         for (let i = 0; i < $configs.REELS; i++) {
             const reelNumber = i + 1;
 
@@ -84,6 +88,8 @@ export class Reels {
 
     onComplete() {
         // TODO animate on last reel complete
+        this.emit('animationComplete');
+        this.isPlaying = false;
 
         if ($configs.SELECTED_CONDITION === 'win') {
             for (let i = 0; i < $configs.REELS; i++) {

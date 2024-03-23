@@ -1,7 +1,6 @@
 import * as PIXI from "pixi.js";
 import { $globals } from "./utils.js";
 import { assets } from "./Assets.js";
-import LogoFullImage from "../../assets/image/logo-full_COMPRESSED.png";
 
 export class Loader extends PIXI.utils.EventEmitter {
     constructor() {

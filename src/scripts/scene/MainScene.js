@@ -4,17 +4,33 @@ import { Slot } from "../game/Slot.js";
 import { PlayUI } from "../game/PlayUI.js";
 import { SettingUI } from "../game/SettingUI.js";
 import { isMobile } from "../system/utils.js";
+import {$configs} from "../system/SETUP.js";
 
 export class MainScene {
     constructor() {
         this.container = new PIXI.Container();
         this.background = null;
         this.slot = null;
+        this.playUI = null;
+        this.settingUI = null;
 
         //this.createBackground();
         this.createSlot();
         this.createPlayUI();
         this.createSettingUI();
+
+        this.slot.on('preReady', () => {
+            this.playUI.play.element.style.filter = 'grayscale(0)';
+        });
+
+        this.playUI.play.element.addEventListener('click', () => {
+            if (!this.slot.isReady || this.slot.reels.isPlaying) return;
+
+            this.slot.reels.getConditionAndSymbol();
+            this.slot.reels.play();
+
+            console.log('LOG...', $configs.SELECTED_CONDITION, $configs.SELECTED_SYMBOL)
+        });
     }
 
     createBackground() {
