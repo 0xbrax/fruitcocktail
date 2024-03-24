@@ -80,62 +80,61 @@ export const getRandomWinMap = ({ REEL_1, REEL_2, REEL_3, REEL_4, REEL_5 }) => {
     return map;
 }
 
-// 2 symbols are different from win symbol. Need to verify at least 2 random reels, starting from reel number 2
-export const getRandomLose = (indexes) => {
-    const obj = Object.assign(indexes);
+// Need to verify at least 2 random reels, starting from reel number 2
+export const getLose = (indexes) => {
+    const IDXs = Object.assign(indexes);
 
     for (let i = 1; i <= $configs.REELS; i++) {
-        obj[`indexReel${i}`] = getPseudoRandomNumber(0, $configs.REEL_LENGTH - 1);
+        IDXs[`REEL_${i}`] = getPseudoRandomNumber(0, $configs.REEL_LENGTH - 1);
     }
 
-    const checkReelIndex1 = getPseudoRandomNumber(2, $configs.REELS);
-    let checkReelIndex2;
-    do checkReelIndex2 = getPseudoRandomNumber(2, $configs.REELS);
-    while (checkReelIndex1 === checkReelIndex2);
+    const firstReelToCheck = getPseudoRandomNumber(2, $configs.REELS);
+    let secondReelToCheck;
+    do secondReelToCheck = getPseudoRandomNumber(2, $configs.REELS);
+    while (firstReelToCheck === secondReelToCheck);
 
-    const getNewReelIndex = (id) => {
-        const symbolReel1 = $configs.MAP.REEL_1[obj.REEL_1];
-        let randomNumber = getPseudoRandomNumber(0, $configs.REEL_LENGTH - 1);
-        while ($configs.ALL_SYMBOLS[randomNumber] === 'splash') {
-            randomNumber = getPseudoRandomNumber(0, $configs.REEL_LENGTH - 1);
-        }
-        const whatSymbolIndexInReel = $configs.MAP[`REEL_${id}`].indexOf(symbolReel1);
-        let diffIndex = Math.abs(randomNumber - whatSymbolIndexInReel);
+    const getNewReelIndex = (reelNumber) => {
+        const symbolReel1 = $configs.MAP.REEL_1[IDXs.REEL_1];
 
-        // Get out of win map
-        while (diffIndex <= 1) {
-            randomNumber = getPseudoRandomNumber(0, $configs.REEL_LENGTH - 1);
-            diffIndex = Math.abs(randomNumber - whatSymbolIndexInReel);
+        let newIndex = IDXs[`REEL_${reelNumber}`];
+        while ($configs.MAP[`REEL_${reelNumber}`][newIndex] === symbolReel1 || $configs.MAP[`REEL_${reelNumber}`][newIndex] === $configs.JOLLY) {
+            newIndex = getCryptoRandomNumber(0, $configs.REEL_LENGTH - 1);
         }
 
-        return randomNumber;
+        return newIndex;
     }
 
-    obj[`indexReel${checkReelIndex1}`] = getNewReelIndex(checkReelIndex1);
-    obj[`indexReel${checkReelIndex2}`] = getNewReelIndex(checkReelIndex2);
+    IDXs[`REEL_${firstReelToCheck}`] = getNewReelIndex(firstReelToCheck);
+    IDXs[`REEL_${secondReelToCheck}`] = getNewReelIndex(secondReelToCheck);
 
-    return obj;
+    console.log('LOG.....', IDXs[`REEL_${firstReelToCheck}`])
+
+    return IDXs;
 }
 
-// 1 symbol only is different from win symbol
-/*export const getRandomFakeWin = (indexReels, $configs.REELS, symbolsWithoutJolly, slotMap, randomWinSymbol) => {
-    const obj = Object.assign(indexReels);
+// 1 symbol only is different from pay table
+export const getFakeWin = (indexes) => {
+    let IDXs = Object.assign(indexes);
 
-    const randomReel = getPseudoRandomNumber(1, $configs.REELS);
-    const filteredSymbols = symbolsWithoutJolly.filter(el => el !== randomWinSymbol);
+    const symbolsWithoutJolly = [...$configs.SYMBOLS, $configs.MEGA_WIN];
+    const randomSymbol = symbolsWithoutJolly[getCryptoRandomNumber(0, symbolsWithoutJolly.length - 1)];
 
-    let loseSymbol = filteredSymbols[getPseudoRandomNumber(0, filteredSymbols.length - 1)];
-    let randomLoseIndex = slotMap[`REEL_${randomReel}_MAP`].indexOf(loseSymbol);
-    let diffIndexSymbol = Math.abs(randomLoseIndex - obj[`indexReel${randomReel}`]);
-
-    // Get out of win map
-    while (diffIndexSymbol <= 1) {
-        loseSymbol = filteredSymbols[getPseudoRandomNumber(0, filteredSymbols.length - 1)];
-        randomLoseIndex = slotMap[`REEL_${randomReel}_MAP`].indexOf(loseSymbol);
-        diffIndexSymbol = Math.abs(randomLoseIndex - obj[`indexReel${randomReel}`]);
+    for (let i = 0; i < $configs.REELS; i++) {
+        const reelNumber = i + 1;
+        IDXs[`REEL_${reelNumber}`] = $configs.MAP[`REEL_${reelNumber}`].indexOf(randomSymbol);
     }
 
-    obj[`indexReel${randomReel}`] = slotMap[`REEL_${randomReel}_MAP`].indexOf(loseSymbol);
+    const randomReel = getPseudoRandomNumber(1, $configs.REELS);
+    let randomLoseIndex = $configs.MAP[`REEL_${randomReel}`].indexOf(randomSymbol);
 
-    return obj;
-}*/
+    while ($configs.MAP[`REEL_${randomReel}`][randomLoseIndex] === randomSymbol || $configs.MAP[`REEL_${randomReel}`][randomLoseIndex] === $configs.JOLLY) {
+        const newIndex = getPseudoRandomNumber(0, $configs.REEL_LENGTH - 1);
+        const newSymbol = $configs.MAP[`REEL_${randomReel}`][newIndex];
+        randomLoseIndex = $configs.MAP[`REEL_${randomReel}`].indexOf(newSymbol);
+    }
+
+    IDXs[`REEL_${randomReel}`] = randomLoseIndex;
+    IDXs = getRandomWinMap(IDXs);
+
+    return IDXs;
+}

@@ -2,7 +2,7 @@ import * as PIXI from "pixi.js";
 import { $configs } from "../system/SETUP.js";
 import { Reel } from "./Reel.js";
 import { getCryptoRandomNumber} from "../system/utils.js";
-import { getRandomLose, getRandomWinMap } from "../system/math.js";
+import { getFakeWin, getLose, getRandomWinMap} from "../system/math.js";
 import { $globals } from "../system/utils.js";
 import SlotClickSfx from "../../assets/audio/slot_click_COMPRESSED.mp3";
 
@@ -39,30 +39,42 @@ export class Reels extends PIXI.utils.EventEmitter {
     }
 
     getConditionAndSymbol() {
-        $configs.SELECTED_CONDITION = 'win'//$configs.CONDITIONS[getCryptoRandomNumber(0, $configs.CONDITIONS.length - 1)];
+        $configs.SELECTED_CONDITION = $configs.CONDITIONS[getCryptoRandomNumber(0, $configs.CONDITIONS.length - 1)];
 
         switch ($configs.SELECTED_CONDITION) {
             case 'lose':
-                this.indexes = getRandomLose(this.indexes);
-
-                return;
+                this.indexes = getLose(this.indexes);
+                break;
             case 'fake-win':
+                this.indexes = getFakeWin(this.indexes);
+                break;
             case 'win':
+                // TODO JOLLY
+
                 $configs.SELECTED_SYMBOL = $configs.SYMBOLS[getCryptoRandomNumber(0, $configs.SYMBOLS.length - 1)];
+
+                for (let i = 0; i < $configs.REELS; i++) {
+                    const reelNumber = i + 1;
+                    this.indexes[`REEL_${reelNumber}`] = $configs.MAP[`REEL_${reelNumber}`].indexOf($configs.SELECTED_SYMBOL);
+                }
+
+                this.indexes = getRandomWinMap(this.indexes);
                 break;
             case 'mega-win':
-                const symbolsWithNoJolly = [...$configs.SYMBOLS, $configs.MEGA_WIN];
-                $configs.SELECTED_SYMBOL = $configs.SYMBOLS[getCryptoRandomNumber(0, symbolsWithNoJolly.length - 1)];
+                // TODO JOLLY
+
+                $configs.SELECTED_SYMBOL = $configs.MEGA_WIN;
+
+                for (let i = 0; i < $configs.REELS; i++) {
+                    const reelNumber = i + 1;
+                    this.indexes[`REEL_${reelNumber}`] = $configs.MAP[`REEL_${reelNumber}`].indexOf($configs.SELECTED_SYMBOL);
+                }
+
+                this.indexes = getRandomWinMap(this.indexes);
         }
-
-        console.log('SYMBOLS - - - - -', $configs.SELECTED_SYMBOL)
-
-        for (let i = 0; i < $configs.REELS; i++) {
-            const reelNumber = i + 1;
-            this.indexes[`REEL_${reelNumber}`] = $configs.MAP[`REEL_${reelNumber}`].indexOf($configs.SELECTED_SYMBOL);
-        }
-
-        this.indexes = getRandomWinMap(this.indexes);
+    }
+    jollyHandler() {
+        //JOLLY_RATIO
     }
 
     play() {
@@ -100,7 +112,7 @@ export class Reels extends PIXI.utils.EventEmitter {
         this.isPlaying = false;
         this.emit('animationComplete');
 
-        if ($configs.SELECTED_CONDITION === 'win') {
+        if ($configs.SELECTED_CONDITION === 'win' || $configs.SELECTED_CONDITION === 'mega-win') {
             for (let i = 0; i < $configs.REELS; i++) {
                 const reelNumber = i + 1;
                 const indexOfSelectedSymbol = $configs.MAP[`REEL_${reelNumber}`].indexOf($configs.SELECTED_SYMBOL);

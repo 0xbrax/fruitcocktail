@@ -35,10 +35,8 @@ class Application {
 
         $globals.scene = new SceneManager();
         this.app.stage.addChild($globals.scene.container);
-        // delta time
-        this.app.ticker.add(dt => $globals.scene.update(dt));
+        this.app.ticker.add(dt => $globals.scene.update(dt)); // delta time
 
-        console.log('loading .............................')
         $globals.scene.start(new LoadingScene());
         this.resize(this.originalRect);
         this.loader = new Loader();
@@ -75,7 +73,6 @@ class Application {
                     $globals.scene.scene.textBakcground.eventMode = 'static';
                     $globals.scene.scene.textBakcground.cursor = 'pointer';
                     $globals.scene.scene.textBakcground.once('pointerdown', () => {
-                        console.log('- - - GAME ENTER !!!');
                         this.start();
                     });
                 }, 2_500) // animation end on progress 100%
@@ -84,7 +81,6 @@ class Application {
     }
 
     start() {
-        console.log('LOADED !!!!!!!!!!!!!!!!!!!!!!!!!!')
         $globals.scene.start(new MainScene());
         this.resize(this.originalRect);
     }

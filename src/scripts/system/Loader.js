@@ -29,7 +29,6 @@ export class Loader extends PIXI.utils.EventEmitter {
     loadAssets() {
         return new Promise(async resolve => {
             const totalAssetsCount = Object.keys(this.assets).reduce((acc, key) => {
-                if (key === 'audio') return acc; // esclude 'audio' dal conteggio totale per ora
                 return acc + Object.keys(this.assets[key]).length;
             }, 0);
 
