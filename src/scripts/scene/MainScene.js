@@ -42,10 +42,11 @@ export class MainScene {
             $configs.USER.BALANCE -= this.userBet;
 
             this.slot.balance.text.text = $configs.USER.BALANCE;
+            this.slot.reels.reset();
             this.slot.reels.getConditionAndSymbol();
             this.slot.reels.play();
 
-            console.log('LOG...', $configs.SELECTED_CONDITION, $configs.SELECTED_SYMBOL)
+            console.log('- - - - - LOG ......', $configs.SELECTED_CONDITION, $configs.SELECTED_SYMBOL)
         });
 
         this.slot.reels.on('animationComplete', () => {
@@ -54,7 +55,8 @@ export class MainScene {
                 case 'fake-win':
                     break;
                 case 'win':
-                    $configs.USER.BALANCE += this.userBet * 2;
+                    if ($configs.JOLLY_REEL) $configs.USER.BALANCE += this.userBet * 3;
+                    else $configs.USER.BALANCE += this.userBet * 2;
 
                     $globals.assets.audio['SlotWinSfx'].play();
                     break;

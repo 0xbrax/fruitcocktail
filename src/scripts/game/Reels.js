@@ -1,7 +1,7 @@
 import * as PIXI from "pixi.js";
 import { $configs } from "../system/SETUP.js";
 import { Reel } from "./Reel.js";
-import { getCryptoRandomNumber} from "../system/utils.js";
+import {getCryptoRandomNumber, getPseudoRandomNumber} from "../system/utils.js";
 import { getFakeWin, getLose, getRandomWinMap} from "../system/math.js";
 import { $globals } from "../system/utils.js";
 import SlotClickSfx from "../../assets/audio/slot_click_COMPRESSED.mp3";
@@ -49,8 +49,6 @@ export class Reels extends PIXI.utils.EventEmitter {
                 this.indexes = getFakeWin(this.indexes);
                 break;
             case 'win':
-                // TODO JOLLY
-
                 $configs.SELECTED_SYMBOL = $configs.SYMBOLS[getCryptoRandomNumber(0, $configs.SYMBOLS.length - 1)];
 
                 for (let i = 0; i < $configs.REELS; i++) {
@@ -58,11 +56,14 @@ export class Reels extends PIXI.utils.EventEmitter {
                     this.indexes[`REEL_${reelNumber}`] = $configs.MAP[`REEL_${reelNumber}`].indexOf($configs.SELECTED_SYMBOL);
                 }
 
+                if (this.isJollyTime()) {
+                    $configs.JOLLY_REEL = getPseudoRandomNumber(1, $configs.REELS);
+                    this.indexes[`REEL_${$configs.JOLLY_REEL}`] = $configs.MAP[`REEL_${$configs.JOLLY_REEL}`].indexOf($configs.JOLLY);
+                }
+
                 this.indexes = getRandomWinMap(this.indexes);
                 break;
             case 'mega-win':
-                // TODO JOLLY
-
                 $configs.SELECTED_SYMBOL = $configs.MEGA_WIN;
 
                 for (let i = 0; i < $configs.REELS; i++) {
@@ -73,8 +74,31 @@ export class Reels extends PIXI.utils.EventEmitter {
                 this.indexes = getRandomWinMap(this.indexes);
         }
     }
-    jollyHandler() {
-        //JOLLY_RATIO
+    isJollyTime() {
+        const temp = $configs.JOLLY_RATIO[getCryptoRandomNumber(0, $configs.JOLLY_RATIO.length - 1)];
+
+        if (temp === 0) return false;
+        if (temp === 1) return true;
+    }
+
+    reset() {
+        for (let i = 0; i < $configs.REELS; i++) {
+            const reelNumber = i + 1;
+
+            if (this.lastSymbol) {
+                if ($configs.JOLLY_REEL && $configs.JOLLY_REEL === reelNumber) {
+                    const jollyIndex = $configs.MAP[`REEL_${$configs.JOLLY_REEL}`].indexOf($configs.JOLLY);
+                    this.reels[$configs.JOLLY_REEL - 1].symbols[jollyIndex].stop();
+                    this.reels[$configs.JOLLY_REEL - 1].symbols[jollyIndex].currentFrame = 29;
+                } else {
+                    const indexOfSelectedSymbol = $configs.MAP[`REEL_${reelNumber}`].indexOf(this.lastSymbol);
+                    this.reels[i].symbols[indexOfSelectedSymbol].stop();
+                    this.reels[i].symbols[indexOfSelectedSymbol].currentFrame = 29;
+                }
+            }
+        }
+
+        $configs.JOLLY_REEL = null;
     }
 
     play() {
@@ -83,13 +107,6 @@ export class Reels extends PIXI.utils.EventEmitter {
 
         for (let i = 0; i < $configs.REELS; i++) {
             const reelNumber = i + 1;
-
-            if (this.lastSymbol) {
-                const indexOfSelectedSymbol = $configs.MAP[`REEL_${reelNumber}`].indexOf(this.lastSymbol);
-
-                this.reels[i].symbols[indexOfSelectedSymbol].stop();
-                this.reels[i].symbols[indexOfSelectedSymbol].currentFrame = 29;
-            }
 
             this.reels[i].animation.toIndex(this.indexes[`REEL_${reelNumber}`], this.animConfig(reelNumber));
         }
@@ -115,11 +132,17 @@ export class Reels extends PIXI.utils.EventEmitter {
         if ($configs.SELECTED_CONDITION === 'win' || $configs.SELECTED_CONDITION === 'mega-win') {
             for (let i = 0; i < $configs.REELS; i++) {
                 const reelNumber = i + 1;
-                const indexOfSelectedSymbol = $configs.MAP[`REEL_${reelNumber}`].indexOf($configs.SELECTED_SYMBOL);
 
-                this.reels[i].symbols[indexOfSelectedSymbol].play();
-                this.lastSymbol = $configs.SELECTED_SYMBOL;
+                if ($configs.JOLLY_REEL && $configs.JOLLY_REEL === reelNumber) {
+                    const jollyIndex = $configs.MAP[`REEL_${$configs.JOLLY_REEL}`].indexOf($configs.JOLLY);
+                    this.reels[$configs.JOLLY_REEL - 1].symbols[jollyIndex].play();
+                } else {
+                    const indexOfSelectedSymbol = $configs.MAP[`REEL_${reelNumber}`].indexOf($configs.SELECTED_SYMBOL);
+                    this.reels[i].symbols[indexOfSelectedSymbol].play();
+                }
             }
+
+            this.lastSymbol = $configs.SELECTED_SYMBOL;
         }
     }
 }
