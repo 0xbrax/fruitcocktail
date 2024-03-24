@@ -39,7 +39,7 @@ export class Reels extends PIXI.utils.EventEmitter {
     }
 
     getConditionAndSymbol() {
-        $configs.SELECTED_CONDITION = 'win'//$configs.CONDITIONS[getCryptoRandomNumber(0, $configs.CONDITIONS.length - 1)];
+        $configs.SELECTED_CONDITION = $configs.CONDITIONS[getCryptoRandomNumber(0, $configs.CONDITIONS.length - 1)];
 
         switch ($configs.SELECTED_CONDITION) {
             case 'lose':
