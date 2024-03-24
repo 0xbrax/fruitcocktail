@@ -4,13 +4,15 @@ import { Slot } from "../game/Slot.js";
 import { PlayUI } from "../game/PlayUI.js";
 import { SettingUI } from "../game/SettingUI.js";
 import { isMobile} from "../system/utils.js";
-import { $configs } from "../system/SETUP.js";
+import { $configs, $style } from "../system/SETUP.js";
 import { $globals } from "../system/utils.js";
 import { Howler } from 'howler';
+import { gsap } from 'gsap';
 
 export class MainScene {
     constructor() {
         this.container = new PIXI.Container();
+        this.scaleFactor = null;
         this.background = null;
         this.slot = null;
         this.playUI = null;
@@ -50,22 +52,32 @@ export class MainScene {
         });
 
         this.slot.reels.on('animationComplete', () => {
+            let winAmount = 0;
             switch ($configs.SELECTED_CONDITION) {
                 case 'lose':
                 case 'fake-win':
                     break;
                 case 'win':
-                    if ($configs.JOLLY_REEL) $configs.USER.BALANCE += this.userBet * 3;
-                    else $configs.USER.BALANCE += this.userBet * 2;
+                    if ($configs.JOLLY_REEL) {
+                        winAmount = this.userBet * 3;
+                        $configs.USER.BALANCE += winAmount;
 
-                    $globals.assets.audio['SlotWinSfx'].play();
+                        $globals.assets.audio['SlotWinJollySfx'].play();
+                    } else {
+                        winAmount = this.userBet * 2;
+                        $configs.USER.BALANCE += winAmount;
+
+                        $globals.assets.audio['SlotWinSfx'].play();
+                    }
+
+                    this.createWinScreen(winAmount);
                     break;
                 case 'mega-win':
-                    $configs.USER.BALANCE += this.userBet * 5;
+                    winAmount = this.userBet * 5;
+                    $configs.USER.BALANCE += winAmount;
 
                     $globals.assets.audio['SlotMegaWinSfx'].play();
-                    //    SlotWinJollySfx,
-                    //    SlotFreeSpinSfx
+                    this.createWinScreen(winAmount);
             }
 
             this.slot.balance.text.text = $configs.USER.BALANCE;
@@ -95,20 +107,56 @@ export class MainScene {
     createSettingUI() {
         this.settingUI = new SettingUI();
     }
+    createWinScreen(winAmount) {
+        const amount = { val: 0 };
+        const container = document.createElement('div');
+
+        const style = {
+            height: '100%',
+            width: '100%',
+            position: 'absolute',
+            zIndex: '2',
+            top: '0',
+            left: '0',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+
+            fontSize: `${100 * this.scaleFactor}px`,
+            backgroundColor: 'rgba(0, 0, 0, 0.2)',
+            color: `#${$style.white}`,
+            fontFamily: 'Rimbo-Regular'
+        };
+        Object.assign(container.style, style);
+
+        container.innerHTML = `${amount.val}`;
+        const amountAnim = gsap.to(amount, {
+            duration: 1.0,
+            val: winAmount,
+            ease: "power1.inOut",
+            onUpdate: () => {
+                container.innerHTML = `${amount.val.toFixed(0)}`;
+            },
+            onComplete: () => {
+                amountAnim.kill();
+            }
+        });
+
+        document.body.appendChild(container);
+    }
 
     resize(originalRect) {
         const scaleFactorHeight = window.innerHeight / originalRect.h;
         const scaleFactorWidth = window.innerWidth / originalRect.w;
-        let scaleFactor;
 
         if (isMobile) {
-            scaleFactor = Math.min(scaleFactorHeight, scaleFactorWidth);
+            this.scaleFactor = Math.min(scaleFactorHeight, scaleFactorWidth);
         }
         if (!isMobile) {
-            scaleFactor = Math.max(scaleFactorHeight, scaleFactorWidth);
+            this.scaleFactor = Math.max(scaleFactorHeight, scaleFactorWidth);
         }
 
-        this.container.scale.set(scaleFactor);
+        this.container.scale.set(this.scaleFactor);
         this.container.y = (window.innerHeight / 2) - (this.container.height / 2) + this.slot.canopy.yGap + (this.slot.characterMain.yGap / 2);
         this.container.x = (window.innerWidth / 2) - (this.container.width / 2) + this.slot.canopy.xGap + (this.slot.splashLeft.container.width - ((176 - 8) * this.slot.splashLeft.scaleFactor)) + (this.slot.splashRight.container.width + ((8 + 8) * this.slot.splashRight.scaleFactor));
     }

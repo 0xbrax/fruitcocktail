@@ -50,6 +50,12 @@ export class Slot extends PIXI.utils.EventEmitter {
 
         this.reels.on('animationComplete', () => {
             this.bonusCounter++;
+
+            if (this.bonusCounter === 10) {
+                // TODO
+                // SlotFreeSpinSfx
+            }
+
             if (this.bonusCounter > 10) this.bonusCounter = 1;
             this.drink.setLevel(this.bonusCounter);
         });
