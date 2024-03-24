@@ -7,6 +7,7 @@ import { Logo } from "./Logo.js";
 import { SplashLeft } from "./SplashLeft.js";
 import { SplashRight } from "./SplashRight.js";
 import { CharacterMain } from "./CharacterMain.js";
+import { Balance } from "./Balance.js";
 import { $configs } from "../system/SETUP.js";
 import { $globals } from "../system/utils.js";
 import { gsap } from 'gsap';
@@ -33,14 +34,17 @@ export class Slot extends PIXI.utils.EventEmitter {
         this.logo = new Logo(this.body.scaleFactor, this.body.container);
         this.container.addChild(this.logo.container);
 
-        this.splashLeft = new SplashLeft(this.body.scaleFactor, this.body.container)
+        this.splashLeft = new SplashLeft(this.body.scaleFactor, this.body.container);
         this.container.addChild(this.splashLeft.container);
 
-        this.splashRight = new SplashRight(this.body.scaleFactor, this.body.container)
+        this.splashRight = new SplashRight(this.body.scaleFactor, this.body.container);
         this.container.addChild(this.splashRight.container);
 
         this.characterMain = new CharacterMain(this.body.scaleFactor);
         this.container.addChild(this.characterMain.container);
+
+        this.balance = new Balance(this.body.scaleFactor, this.body.container);
+        this.container.addChild(this.balance.container);
 
         this.reelsFadeIn();
 

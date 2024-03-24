@@ -75,12 +75,11 @@ export class LoadingScene {
             top: '0',
             left: '0',
             padding: isMobile ? '25px' : '250px',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
             overflow: 'auto',
+            scrollBehavior: 'smooth',
+            textAlign: 'center',
             backgroundColor: 'rgba(0, 0, 0, 0.8)',
+            color: `#${$style.white}`,
         };
 
         const textStyle = {
@@ -88,8 +87,7 @@ export class LoadingScene {
             'font-size': '20px',
             'line-height': '25px',
             'text-align': 'justify',
-            'color': 'white',
-            'margin-top': '30px'
+            'margin-top': '30px',
         };
         const textStyleString = Object.entries(textStyle)
             .map(([key, value]) => `${key}: ${value};`)

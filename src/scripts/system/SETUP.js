@@ -27,6 +27,13 @@ export const $configs = {
     SELECTED_SYMBOL: null,
     JOLLY_RATIO: [1, ...Array(4).fill(0)], // 1 => true, 0 => false
     JOLLY_REEL: null,
+    USER: {
+        BALANCE: 1_000_000,
+        BET: 200,
+        MIN_BET: 100,
+        MAX_BET: 1_000,
+        BET_INCREMENT: 100
+    }
 };
 
 export const $style = {

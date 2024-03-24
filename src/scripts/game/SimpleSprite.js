@@ -15,14 +15,14 @@ export class SimpleSprite {
     }
 
     createSprite() {
-        const sprite = new PIXI.Sprite($globals.assets.body[this.assetName]);
+        this.sprite = new PIXI.Sprite($globals.assets.body[this.assetName]);
 
-        sprite.height *= this.scaleFactor;
-        sprite.width *= this.scaleFactor;
-        sprite.y = -this.yGap;
-        this.xGap = this.xGap || (this.bodyContainer.width / 2 - sprite.width / 2);
-        sprite.x = this.xGap;
+        this.sprite.height *= this.scaleFactor;
+        this.sprite.width *= this.scaleFactor;
+        this.sprite.y = -this.yGap;
+        this.xGap = this.xGap || (this.bodyContainer.width / 2 - this.sprite.width / 2);
+        this.sprite.x = this.xGap;
 
-        this.container.addChild(sprite);
+        this.container.addChild(this.sprite);
     }
 }

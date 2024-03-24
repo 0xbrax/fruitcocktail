@@ -5,7 +5,7 @@ export class CharacterMain {
     constructor(scaleFactor) {
         this.scaleFactor = scaleFactor;
         this.container = new PIXI.Container();
-        this.xGap = 1150 * this.scaleFactor;
+        this.xGap = 1175 * this.scaleFactor;
         this.yGap = 550 * this.scaleFactor;
 
         this.createSprite();

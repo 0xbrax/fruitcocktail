@@ -4,7 +4,7 @@ import { Slot } from "../game/Slot.js";
 import { PlayUI } from "../game/PlayUI.js";
 import { SettingUI } from "../game/SettingUI.js";
 import { isMobile } from "../system/utils.js";
-import {$configs} from "../system/SETUP.js";
+import { $configs } from "../system/SETUP.js";
 
 export class MainScene {
     constructor() {

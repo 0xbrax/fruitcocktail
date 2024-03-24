@@ -35,6 +35,18 @@ import BalanceImage from '../../assets/image/ui_balance_COMPRESSED.png';
 import CoinImage from '../../assets/image/coin_COMPRESSED.png';
 import BubbleImage from '../../assets/image/bubble_COMPRESSED.png';
 
+// menu
+import AppleIcon from '../../assets/icon/apple_COMPRESSED.png';
+import CherryIcon from '../../assets/icon/cherry_COMPRESSED.png';
+import CoconutIcon from '../../assets/icon/coconut_COMPRESSED.png';
+import FruitcocktailIcon from '../../assets/icon/fruitcocktail_COMPRESSED.png';
+import GrapefruitIcon from '../../assets/icon/grapefruit_COMPRESSED.png';
+import LemonIcon from '../../assets/icon/lemon_COMPRESSED.png';
+import SplashIcon from '../../assets/icon/splash_COMPRESSED.png';
+import WatermelonIcon from '../../assets/icon/watermelon_COMPRESSED.png';
+
+import PaytableImage from '../../assets/image/paytable_COMPRESSED.png';
+
 // other
 import LogoFullImage from '../../assets/image/logo-full_COMPRESSED.png';
 import MegaWinTextImage from '../../assets/image/megawin_text_COMPRESSED.png';
@@ -58,7 +70,8 @@ export const assets = {
         SlotCanopyImage,
         SlotLogoImage,
         SlotSplashLeftImage,
-        SlotSplashRightImage
+        SlotSplashRightImage,
+        BalanceImage,
     },
     symbols: {
         AppleSprite,
@@ -75,9 +88,19 @@ export const assets = {
         CharacterDrinkSprite
     },
     ui: {
-        BalanceImage,
         CoinImage,
         BubbleImage
+    },
+    menu: {
+        PaytableImage,
+        AppleIcon,
+        CherryIcon,
+        CoconutIcon,
+        FruitcocktailIcon,
+        GrapefruitIcon,
+        LemonIcon,
+        SplashIcon,
+        WatermelonIcon
     },
     other: {
         LogoFullImage,
