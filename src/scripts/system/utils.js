@@ -2,7 +2,8 @@ import { gsap } from 'gsap';
 
 export const $globals = {
     assets: {},
-    scene: null
+    scene: null,
+    isAudioActive: true,
 };
 
 export const isMobile = !window.matchMedia('screen and (min-width: 576px)').matches;

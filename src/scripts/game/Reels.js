@@ -3,6 +3,8 @@ import { $configs } from "../system/SETUP.js";
 import { Reel } from "./Reel.js";
 import { getCryptoRandomNumber} from "../system/utils.js";
 import { getRandomLose, getRandomWinMap } from "../system/math.js";
+import { $globals } from "../system/utils.js";
+import SlotClickSfx from "../../assets/audio/slot_click_COMPRESSED.mp3";
 
 export class Reels extends PIXI.utils.EventEmitter {
     constructor(scaleFactor) {
@@ -65,6 +67,7 @@ export class Reels extends PIXI.utils.EventEmitter {
 
     play() {
         this.isPlaying = true;
+        $globals.assets.audio['SlotClickSfx'].play();
 
         for (let i = 0; i < $configs.REELS; i++) {
             const reelNumber = i + 1;
@@ -86,7 +89,7 @@ export class Reels extends PIXI.utils.EventEmitter {
             revolutions: 4,
             ease: 'power2.inOut',
             onComplete: () => {
-                //mixerAudio.slotTickFX.play();
+                $globals.assets.audio['SlotTickSfx'].play();
 
                 if (reelNumber === 5) this.onComplete();
             }

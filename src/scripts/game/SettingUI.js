@@ -2,6 +2,7 @@ import { Button } from "./Button.js";
 import { isMobile, $globals } from "../system/utils.js";
 import { $style } from "../system/SETUP.js";
 import { $configs } from "../system/SETUP.js";
+import { Howler } from 'howler';
 
 export class SettingUI {
     constructor() {
@@ -53,9 +54,6 @@ export class SettingUI {
         };
 
         this.menu.innerHTML = `
-            TODO BALANCE
-            
-            
             <i-heroicons id="close-btn" icon-name="x-mark" style-name="position: fixed; ${isMobile ? 'top: 25px; right: 25px' : 'bottom: 50px; left: 50px'};"></i-heroicons>
         
             <div style="font-size: 50px; margin-bottom: 50px;">settings</div>
@@ -76,8 +74,8 @@ export class SettingUI {
             <div style="margin-bottom: 50px;">
                 <i-heroicons icon-name="home"></i-heroicons>
                 
-                <i-heroicons icon-name="sound-on"></i-heroicons>
-                <i-heroicons icon-name="sound-off"></i-heroicons>
+                <i-heroicons id="sound-on-btn" icon-name="sound-on"></i-heroicons>
+                <i-heroicons id="sound-off-btn" icon-name="sound-off"></i-heroicons>
                 
                 <i-heroicons icon-name="maximize"></i-heroicons>
                 <i-heroicons icon-name="minimize"></i-heroicons>
@@ -114,6 +112,7 @@ export class SettingUI {
         document.getElementById('close-btn').addEventListener('click', this.menuHandler.bind(this));
 
         this.betHandler();
+        this.audioHandler();
     }
 
     menuHandler() {
@@ -140,6 +139,29 @@ export class SettingUI {
 
             $configs.USER.BET += $configs.USER.BET_INCREMENT;
             betValue.innerText = $configs.USER.BET.toString();
+        })
+    }
+
+    audioHandler() {
+        const soundOnBtn = document.getElementById('sound-on-btn');
+        const soundOffBtn = document.getElementById('sound-off-btn');
+
+        soundOnBtn.style.display = 'none';
+
+        soundOnBtn.addEventListener('click', () => {
+            Howler.mute(false);
+            $globals.isAudioActive = true;
+
+            soundOnBtn.style.display = 'none';
+            soundOffBtn.style.display = 'inline-block';
+        })
+
+        soundOffBtn.addEventListener('click', () => {
+            Howler.mute(true);
+            $globals.isAudioActive = false;
+
+            soundOffBtn.style.display = 'none';
+            soundOnBtn.style.display = 'inline-block';
         })
     }
 }

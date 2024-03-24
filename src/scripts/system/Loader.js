@@ -1,4 +1,5 @@
 import * as PIXI from "pixi.js";
+import { Howl } from 'howler';
 import { $globals } from "./utils.js";
 import { assets } from "./Assets.js";
 
@@ -40,7 +41,15 @@ export class Loader extends PIXI.utils.EventEmitter {
             updateProgress();
 
             for (const key in this.assets) {
-                if (key === 'audio') continue; // TODO: Usare howler.js
+                if (key === 'audio') {
+                    for (const subKey in this.assets[key]) {
+                        $globals.assets[key][subKey] = await this.loadSound(this.assets[key][subKey]);
+
+                        loadedAssetsCount++;
+                        updateProgress();
+                    }
+                    continue;
+                }
 
                 if (key === 'symbols' || key === 'character') {
                     for (const subKey in this.assets[key]) {
@@ -83,6 +92,17 @@ export class Loader extends PIXI.utils.EventEmitter {
             updateProgress();
 
             resolve();
+        });
+    }
+
+    loadSound(src) {
+        return new Promise((resolve) => {
+            const sound = new Howl({
+                src: [src],
+                onload: () => {
+                    resolve(sound);
+                },
+            });
         });
     }
 }
