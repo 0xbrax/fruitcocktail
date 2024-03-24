@@ -30,7 +30,7 @@ export class LoadingScene {
     }
     createTextBackground() {
         this.textBakcground = new PIXI.Graphics();
-        this.textBakcground.beginFill(0xff0000);
+        this.textBakcground.beginFill(`0x${$style.secondary}`);
         this.textBakcground.drawRoundedRect((this.text.x - (this.text.width / 2)) - 30, (this.text.y - (this.text.height / 2)) - 15, this.text.width + 60, this.text.height + 30, 15);
         this.textBakcground.endFill();
         this.textBakcground.zIndex = 1;

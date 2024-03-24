@@ -32,5 +32,7 @@ export const $configs = {
 export const $style = {
     black: '000000',
     white: 'ffffff',
-    main: 'f36300'
+    main: 'f36300',
+    secondary: 'be0100',
+    special: 'fecd00'
 }
