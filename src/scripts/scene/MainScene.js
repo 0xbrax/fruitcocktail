@@ -8,10 +8,17 @@ import { $configs, $style } from "../system/SETUP.js";
 import { $globals } from "../system/utils.js";
 import { Howler } from 'howler';
 import { gsap } from 'gsap';
+import { Drink } from "../game/Drink.js";
 
 export class MainScene {
     constructor() {
         this.container = new PIXI.Container();
+        this.subContainer = new PIXI.Container();
+
+        this.container.addChild(this.subContainer);
+
+
+
         this.scaleFactor = null;
         this.background = null;
         this.slot = null;
@@ -99,7 +106,7 @@ export class MainScene {
     }
     createSlot() {
         this.slot = new Slot();
-        this.container.addChild(this.slot.container);
+        this.subContainer.addChild(this.slot.container);
     }
     createPlayUI() {
         this.playUI = new PlayUI();
@@ -109,7 +116,7 @@ export class MainScene {
     }
     createWinScreen(winAmount) {
         const amount = { val: 0 };
-        const container = document.createElement('div');
+        const winScreen = document.createElement('div');
 
         const style = {
             height: '100%',
@@ -127,22 +134,31 @@ export class MainScene {
             color: `#${$style.white}`,
             fontFamily: 'Rimbo-Regular'
         };
-        Object.assign(container.style, style);
+        Object.assign(winScreen.style, style);
 
-        container.innerHTML = `${amount.val}`;
+        winScreen.innerHTML = `${amount.val}`;
         const amountAnim = gsap.to(amount, {
             duration: 1.0,
             val: winAmount,
             ease: "power1.inOut",
             onUpdate: () => {
-                container.innerHTML = `${amount.val.toFixed(0)}`;
+                winScreen.innerHTML = `${amount.val.toFixed(0)}`;
             },
             onComplete: () => {
                 amountAnim.kill();
+
+                winScreen.addEventListener('click', winScreen.remove);
+                const winClear = setTimeout(() => {
+                    if (winClear) {
+                        winScreen.removeEventListener('click', winScreen.remove);
+                        winScreen.remove();
+                    }
+                    clearTimeout(winClear);
+                }, 1_000)
             }
         });
 
-        document.body.appendChild(container);
+        document.body.appendChild(winScreen);
     }
 
     resize(originalRect) {
@@ -157,11 +173,33 @@ export class MainScene {
         }
 
         this.container.scale.set(this.scaleFactor);
-        this.container.y = (window.innerHeight / 2) - (this.container.height / 2) + this.slot.canopy.yGap + (this.slot.characterMain.yGap / 2);
-        this.container.x = (window.innerWidth / 2) - (this.container.width / 2) + this.slot.canopy.xGap + (this.slot.splashLeft.container.width - ((176 - 8) * this.slot.splashLeft.scaleFactor)) + (this.slot.splashRight.container.width + ((8 + 8) * this.slot.splashRight.scaleFactor));
+        this.subContainer.scale.set(this.scaleFactor);
+
+        this.subContainer.y = (window.innerHeight / 2) - (this.subContainer.height / 2) + this.slot.canopy.yGap + (this.slot.characterMain.yGap / 2);
+        this.subContainer.x = (window.innerWidth / 2) - (this.subContainer.width / 2) + this.slot.canopy.xGap + (this.slot.splashLeft.container.width - ((176 - 8) * this.slot.splashLeft.scaleFactor)) + (this.slot.splashRight.container.width + ((8 + 8) * this.slot.splashRight.scaleFactor));
+
+
+
+        //this.subContainer.y = (window.innerHeight / 2) - (this.subContainer.height / 2);
+        //this.subContainer.x = 0;
+    }
+
+    createDrink() {
+        this.drink = new Drink(this.scaleFactor, true);
+        this.drink.bubbleSpeed = 0.001;
+        this.drink.resetLevel();
+        setTimeout(() => {
+            this.drink.setLevel(10);
+        }, 2_500);
+
+        this.container.addChild(this.drink.container);
     }
 
     update(dt) {
         this.slot.update(dt);
+
+        if (this.drink) {
+            this.drink.update(dt);
+        }
     }
 }

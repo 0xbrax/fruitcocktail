@@ -83,6 +83,8 @@ class Application {
     start() {
         $globals.scene.start(new MainScene());
         this.resize(this.originalRect);
+
+        $globals.scene.scene.createDrink();
     }
 
     resize(originalRect) {
