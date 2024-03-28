@@ -186,9 +186,9 @@ export class MainScene {
 
     createDrink() {
         this.drink = new Drink(this.scaleFactor, true);
-        this.drink.bubbleSpeed = 0.001;
         this.drink.resetLevel();
         setTimeout(() => {
+            this.drink.bubbleSpeed = 0.001;
             this.drink.setLevel(10);
         }, 2_500);
 
