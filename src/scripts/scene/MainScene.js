@@ -28,7 +28,7 @@ export class MainScene {
 
         document.addEventListener('visibilitychange', this.handleVisibilityChange);
 
-        //this.createBackground();
+        this.createBackground();
         this.createSlot();
         this.createPlayUI();
         this.createSettingUI();

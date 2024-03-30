@@ -25,7 +25,8 @@ class Application {
             height: this.originalRect.h,
             width: this.originalRect.w,
             resizeTo: window,
-            backgroundColor: `#${$style.black}`,
+            //backgroundColor: `#${$style.black}`,
+            backgroundAlpha: 0,
             resolution: window.devicePixelRatio || 1,
             autoDensity: true,
             //antialias: true
@@ -84,7 +85,7 @@ class Application {
         $globals.scene.start(new MainScene());
         this.resize(this.originalRect);
 
-        $globals.scene.scene.createDrink();
+        //$globals.scene.scene.createDrink();
     }
 
     resize(originalRect) {

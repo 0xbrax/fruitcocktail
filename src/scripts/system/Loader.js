@@ -50,6 +50,13 @@ export class Loader extends PIXI.utils.EventEmitter {
                     continue;
                 }
 
+                if (key === 'main') {
+                    $globals.assets[key]['BackgroundImage'] = this.assets[key]['BackgroundImage'];
+                    loadedAssetsCount++;
+                    updateProgress();
+                    continue;
+                }
+
                 if (key === 'symbols' || key === 'character') {
                     for (const subKey in this.assets[key]) {
                         const spritesheet = new PIXI.Spritesheet(

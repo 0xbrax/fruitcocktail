@@ -17,6 +17,7 @@ body {
   height: 100svh; /* override when available */
   overflow: hidden;
   position: relative;
+  background-color: #000000;
 }
 
 canvas {

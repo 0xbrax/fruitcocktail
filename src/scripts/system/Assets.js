@@ -8,7 +8,7 @@ import SlotWinJollySfx from '../../assets/audio/slot_win-jolly_COMPRESSED.mp3';
 import SlotFreeSpinSfx from '../../assets/audio/slot_free-spin_COMPRESSED.mp3';
 
 // main
-import BackgroundImage from "../../assets/image/back_COMPRESSED.jpg";
+import BackgroundImage from "../../assets/image/back_COMPRESSED.gif";
 
 // body
 import SlotBodyImage from '../../assets/image/reel_COMPRESSED.png';
