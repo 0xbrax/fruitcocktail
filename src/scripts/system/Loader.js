@@ -16,10 +16,10 @@ export class Loader extends PIXI.utils.EventEmitter {
 
     preloadAssets() {
         return new Promise(async resolve => {
-            PIXI.Assets.add({ alias: 'BubbleImage', src: this.assets['ui']['BubbleImage'] });
-            $globals.assets.ui['BubbleImage'] = await PIXI.Assets.load('BubbleImage');
+            PIXI.Assets.add({ alias: 'BubbleImage', src: this.assets.main['BubbleImage'] });
+            $globals.assets.main['BubbleImage'] = await PIXI.Assets.load('BubbleImage');
 
-            PIXI.Assets.add({ alias: 'LogoFullImage', src: this.assets['other']['LogoFullImage'] });
+            PIXI.Assets.add({ alias: 'LogoFullImage', src: this.assets.other['LogoFullImage'] });
             $globals.assets.other['LogoFullImage'] = await PIXI.Assets.load('LogoFullImage');
 
             resolve();

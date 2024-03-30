@@ -142,10 +142,10 @@ export class Drink extends PIXI.utils.EventEmitter {
 
         const textures = [];
         if (this.isFullScreen) {
-            textures.push($globals.assets.ui['BubbleImage']);
+            textures.push($globals.assets.main['BubbleImage']);
         }
         if (!this.isFullScreen) {
-            textures.push(...Array($configs.REEL_LENGTH).fill($globals.assets.ui['BubbleImage']));
+            textures.push(...Array($configs.REEL_LENGTH).fill($globals.assets.main['BubbleImage']));
             for (const key in $globals.assets.symbols) {
                 const symbolKey = key.split('Sprite')[0].toLowerCase();
                 textures.push($globals.assets.symbols[key].textures[`${symbolKey}-animation_30.png`]);
