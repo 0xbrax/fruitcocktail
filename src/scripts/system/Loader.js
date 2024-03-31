@@ -72,19 +72,15 @@ export class Loader extends PIXI.utils.EventEmitter {
                     continue;
                 }
 
-                if (key === 'menu') {
-                    for (const subKey in this.assets[key]) {
-                        $globals.assets[key][subKey] = this.assets[key][subKey];
-
-                        loadedAssetsCount++;
-                        updateProgress();
-                    }
-                    continue;
-                }
-
                 for (const subKey in this.assets[key]) {
                     if (subKey === 'BubbleImage') continue;
                     if (subKey === 'LogoFullImage') continue;
+                    if (subKey === 'PaytableImage') {
+                        $globals.assets[key][subKey] = this.assets[key][subKey];
+                        loadedAssetsCount++;
+                        updateProgress();
+                        continue;
+                    }
 
                     PIXI.Assets.add({ alias: subKey, src: this.assets[key][subKey] });
                     $globals.assets[key][subKey] = await PIXI.Assets.load(subKey);

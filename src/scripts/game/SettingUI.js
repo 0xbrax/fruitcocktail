@@ -82,25 +82,25 @@ export class SettingUI {
             </div>
 
             <div style="font-size: 40px; margin-bottom: 25px;">pay table</div>
-            <img style="width: 50%; margin-bottom: 50px;" src="${$globals.assets.menu['PaytableImage']}" />
+            <img style="width: 50%; margin-bottom: 50px;" src="${$globals.assets.other['PaytableImage']}" />
             
             <div style="font-size: 40px; margin-bottom: 25px;">symbols = bet x 2</div>
             <div style="width: 100%; display: flex; flex-wrap: wrap; justify-content: space-between; margin-bottom: 50px;">
                 ${$configs.SYMBOLS.map(symbol => {
                     const symbolName = symbol.replace(/\b\w/g, l => l.toUpperCase());
-                    const imageUrl = $globals.assets.menu[`${symbolName}Icon`];
+                    const imageUrl = $globals.assets.menu[`${symbolName}Icon`].textureCacheIds[0];
                     return `<img style="width: calc((100% / 6))" src="${imageUrl}" alt="" />`;
                 }).join('')}
             </div>
             
             <div style="font-size: 40px; margin-bottom: 25px;">jolly = bet x 3</div>
             <div style="margin-bottom: 50px;">
-                <img style="width: calc((100% / 6))" src="${$globals.assets.menu['SplashIcon']}" alt="" />
+                <img style="width: calc((100% / 6))" src="${$globals.assets.menu['SplashIcon'].textureCacheIds[0]}" alt="" />
             </div>
 
             <div style="font-size: 40px; margin-bottom: 25px;">mega win = bet x 5</div>
             <div>
-                <img style="width: calc((100% / 6))" src="${$globals.assets.menu['FruitcocktailIcon']}" alt="" />
+                <img style="width: calc((100% / 6))" src="${$globals.assets.menu['FruitcocktailIcon'].textureCacheIds[0]}" alt="" />
             </div>
         `;
 

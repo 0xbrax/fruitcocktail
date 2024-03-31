@@ -9,6 +9,7 @@ import { $globals } from "../system/utils.js";
 import { Howler } from 'howler';
 import { gsap } from 'gsap';
 import { Drink } from "../game/Drink.js";
+import { Bonus } from "../game/Bonus.js";
 
 export class MainScene {
     constructor() {
@@ -190,6 +191,9 @@ export class MainScene {
         setTimeout(() => {
             this.drink.bubbleSpeed = 0.001;
             this.drink.setLevel(10);
+
+            this.bonus = new Bonus(this.scaleFactor);
+            this.container.addChild(this.bonus.container);
         }, 2_500);
 
         this.container.addChild(this.drink.container);

@@ -84,7 +84,6 @@ export const assets = {
         CharacterDrinkSprite
     },
     menu: {
-        PaytableImage,
         AppleIcon,
         CherryIcon,
         CoconutIcon,
@@ -95,6 +94,7 @@ export const assets = {
         WatermelonIcon
     },
     other: {
-        LogoFullImage
+        LogoFullImage,
+        PaytableImage
     }
 };
