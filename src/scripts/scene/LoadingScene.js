@@ -132,6 +132,10 @@ export class LoadingScene {
         this.setSubContainerPosition();
     }
 
+    remove() {
+        this.container.destroy();
+    }
+
     update(dt) {
         if (this.drink) {
             this.drink.update(dt);

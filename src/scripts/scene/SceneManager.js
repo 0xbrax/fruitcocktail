@@ -8,8 +8,7 @@ export class SceneManager {
 
     start(scene) {
         if (this.scene) {
-            this.scene.container.destroy();
-            //this.scene.remove();
+            this.scene.remove();
             this.scene = null;
         }
 

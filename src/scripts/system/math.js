@@ -107,8 +107,6 @@ export const getLose = (indexes) => {
     IDXs[`REEL_${firstReelToCheck}`] = getNewReelIndex(firstReelToCheck);
     IDXs[`REEL_${secondReelToCheck}`] = getNewReelIndex(secondReelToCheck);
 
-    console.log('LOG.....', IDXs[`REEL_${firstReelToCheck}`])
-
     return IDXs;
 }
 

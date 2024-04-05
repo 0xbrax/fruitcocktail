@@ -15,10 +15,7 @@ export class MainScene {
     constructor() {
         this.container = new PIXI.Container();
         this.subContainer = new PIXI.Container();
-
         this.container.addChild(this.subContainer);
-
-
 
         this.scaleFactor = null;
         this.background = null;
@@ -26,6 +23,7 @@ export class MainScene {
         this.playUI = null;
         this.settingUI = null;
         this.userBet = null;
+        this.bonus = null;
 
         document.addEventListener('visibilitychange', this.handleVisibilityChange);
 
@@ -43,6 +41,12 @@ export class MainScene {
         });
 
         this.playUI.play.element.addEventListener('click', () => {
+            if (this.slot.bonusCounter === 2 && this.bonus) {
+                this.bonus.play();
+
+                return;
+            }
+
             if (!this.slot.isReady || this.slot.reels.isPlaying) return;
 
             if ($configs.USER.BALANCE - $configs.USER.BET < 0) return;
@@ -89,6 +93,10 @@ export class MainScene {
             }
 
             this.slot.balance.text.text = $configs.USER.BALANCE;
+
+            if (this.slot.bonusCounter === 2) {
+                this.createDrinkAndBonus();
+            }
         });
     }
 
@@ -185,18 +193,25 @@ export class MainScene {
         //this.subContainer.x = 0;
     }
 
-    createDrink() {
+    createDrinkAndBonus() {
         this.drink = new Drink(this.scaleFactor, true);
         this.drink.resetLevel();
         setTimeout(() => {
             this.drink.bubbleSpeed = 0.001;
             this.drink.setLevel(10);
 
-            this.bonus = new Bonus(this.scaleFactor);
-            this.container.addChild(this.bonus.container);
+            this.drink.on('animationComplete', () => {
+                this.bonus = new Bonus(this.scaleFactor);
+                this.container.addChild(this.bonus.container);
+            });
         }, 2_500);
 
         this.container.addChild(this.drink.container);
+    }
+
+    remove() {
+        this.container.destroy();
+        this.background.remove();
     }
 
     update(dt) {

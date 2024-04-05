@@ -1,8 +1,9 @@
+// TODO Upgrade --> spritesheet to spine
+
 import * as PIXI from "pixi.js"
 import { gsap } from "gsap";
 import { PixiPlugin } from "gsap/PixiPlugin";
 import { $globals } from "./utils.js";
-import { $style } from "./SETUP.js";
 import { Loader } from "./Loader.js";
 import { SceneManager } from "../scene/SceneManager.js";
 import { LoadingScene } from "../scene/LoadingScene.js";
@@ -25,7 +26,6 @@ class Application {
             height: this.originalRect.h,
             width: this.originalRect.w,
             resizeTo: window,
-            //backgroundColor: `#${$style.black}`,
             backgroundAlpha: 0,
             resolution: window.devicePixelRatio || 1,
             autoDensity: true,
@@ -84,8 +84,6 @@ class Application {
     start() {
         $globals.scene.start(new MainScene());
         this.resize(this.originalRect);
-
-        $globals.scene.scene.createDrink();
     }
 
     resize(originalRect) {
