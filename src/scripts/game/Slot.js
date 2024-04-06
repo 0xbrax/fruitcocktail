@@ -61,7 +61,7 @@ export class Slot extends PIXI.utils.EventEmitter {
         });
 
         this.drink.once('animationComplete', () => {
-            const [, , RandomTextureBehavior] = this.drink.emitter.initBehaviors
+            const [, , RandomTextureBehavior] = this.drink.emitter.initBehaviors;
 
             this.drink.emitter.emit = false;
             RandomTextureBehavior.textures = [$globals.assets.main['BubbleImage']];

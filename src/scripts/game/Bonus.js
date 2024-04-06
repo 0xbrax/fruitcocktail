@@ -3,20 +3,32 @@ import { $globals, getCryptoRandomNumber } from "../system/utils.js";
 import { $configs } from "../system/SETUP.js";
 import { gsap } from "gsap";
 
-export class Bonus {
+export class Bonus extends PIXI.utils.EventEmitter {
     constructor(scaleFactor) {
+        super();
         this.container = new PIXI.Container();
+        this.container.sortableChildren = true;
         this.scaleFactor = scaleFactor;
 
         this.degIncrease = 45;
         this.degMap = {}
         this.sprites = [];
         this.createSprites();
+
+        this.bonusTracker = {
+            counter: 0,
+            condition: null,
+            winSymbol: null,
+            lastSymbol: null,
+        }
     }
 
     createSprite(symbol, deg) {
         const symbolName = symbol.replace(/\b\w/g, l => l.toUpperCase());
         const sprite = new PIXI.Sprite($globals.assets.menu[`${symbolName}Icon`]);
+
+        sprite.symbolName = symbol;
+
         sprite.height = ($configs.SYMBOL_SIZE / 3) * this.scaleFactor;
         sprite.width = ($configs.SYMBOL_SIZE / 3) * this.scaleFactor;
 
@@ -61,8 +73,24 @@ export class Bonus {
         this.container.y = window.innerHeight / 2;
     }
 
-    play() {
-        // TODO sortable children x zindex
+    play(config) {
+        const { condition, symbol } = config;
+
+        let selectedSymbolIndex;
+
+        if (this.bonusTracker.counter === 0) {
+            this.bonusTracker.condition = condition;
+            this.bonusTracker.winSymbol = symbol;
+        }
+        if (this.bonusTracker.condition === 'win' || this.bonusTracker.condition === 'mega-win') {
+            this.bonusTracker.lastSymbol = symbol;
+            selectedSymbolIndex = this.sprites.map(el => el.symbolName).indexOf(symbol);
+        } else {
+            selectedSymbolIndex = getCryptoRandomNumber(0, $configs.REEL_LENGTH - 1);
+            this.bonusTracker.lastSymbol = this.sprites[selectedSymbolIndex].symbolName;
+        }
+
+        console.log('LOG BONUS', condition, symbol, this.bonusTracker)
 
         const minRotation = 16;
         const maxRotation = 24;
@@ -72,7 +100,7 @@ export class Bonus {
 
         const containerDeg = (this.container.rotation * 180) / Math.PI;
 
-        const anim1 = gsap.to(this.container, {
+        const anim0 = gsap.to(this.container, {
             pixi: {
                 rotation: containerDeg + degToGo
             },
@@ -80,10 +108,23 @@ export class Bonus {
             repeat: 0,
             ease: "power1.inOut",
             onComplete: () => {
-                anim1.kill();
+                anim0.kill();
             }
         });
+
         this.sprites.forEach((sprite, index) => {
+            const anim1 = gsap.to(sprite.parent, {
+                pixi: {
+                    zIndex: selectedSymbolIndex === index ? 2 : 1
+                },
+                duration: 2.5,
+                repeat: 0,
+                ease: "power1.inOut",
+                onComplete: () => {
+                    anim1.kill();
+                }
+            });
+
             const anim2 = gsap.to(sprite, {
                 pixi: {
                     rotation: -this.degMap[index] - degToGo,
@@ -102,6 +143,11 @@ export class Bonus {
                         const deg = (sprite.rotation * 180) / Math.PI;
                         this.degMap[index] = -deg;
                     });
+
+                    if (index === $configs.REEL_LENGTH - 1) {
+                        this.bonusTracker.counter++;
+                        this.emit('animationComplete');
+                    }
                 }
             });
         })

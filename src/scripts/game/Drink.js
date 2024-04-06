@@ -74,7 +74,7 @@ export class Drink extends PIXI.utils.EventEmitter {
             onUpdate: updateWave
         });
 
-        this.drink.alpha = this.isFullScreen ? 1 : 0.33;
+        this.drink.alpha = this.isFullScreen ? 0.8 : 0.5;
         this.drink.x = this.xPos * this.scaleFactor;
 
         this.drink.y = (this.yPos * this.scaleFactor) + this.rectHeight;
@@ -146,9 +146,8 @@ export class Drink extends PIXI.utils.EventEmitter {
         }
         if (!this.isFullScreen) {
             textures.push(...Array($configs.REEL_LENGTH).fill($globals.assets.main['BubbleImage']));
-            for (const key in $globals.assets.symbols) {
-                const symbolKey = key.split('Sprite')[0].toLowerCase();
-                textures.push($globals.assets.symbols[key].textures[`${symbolKey}-animation_30.png`]);
+            for (const key in $globals.assets.menu) {
+                textures.push($globals.assets.menu[key]);
             }
         }
 

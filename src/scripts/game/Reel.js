@@ -32,7 +32,7 @@ export class Reel {
     createReel() {
         for (let i = 0; i < $configs.REEL_LENGTH; i++) {
             let assetName = $configs.MAP[`REEL_${this.index}`][i];
-            assetName = assetName[0].toUpperCase() + assetName.substring(1) + 'Sprite';
+            assetName = assetName.replace(/\b\w/g, l => l.toUpperCase()) + 'Sprite';
 
             const textures = Object.values($globals.assets.symbols[assetName].textures);
 

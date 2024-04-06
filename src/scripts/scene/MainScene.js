@@ -24,6 +24,7 @@ export class MainScene {
         this.settingUI = null;
         this.userBet = null;
         this.bonus = null;
+        this.drink = null;
 
         document.addEventListener('visibilitychange', this.handleVisibilityChange);
 
@@ -41,8 +42,17 @@ export class MainScene {
         });
 
         this.playUI.play.element.addEventListener('click', () => {
+            console.log('LOG', this.slot.bonusCounter)
+            // TODO destroy bonus andr drink after bonus game...
+
             if (this.slot.bonusCounter === 2 && this.bonus) {
-                this.bonus.play();
+                if (this.bonus.bonusTracker.counter === 0) this.slot.reels.getConditionAndSymbol();
+
+                const config = {
+                    condition: 'win',//$configs.SELECTED_CONDITION,
+                    symbol: 'coconut'//$configs.SELECTED_SYMBOL
+                };
+                this.bonus.play(config);
 
                 return;
             }
@@ -203,6 +213,18 @@ export class MainScene {
             this.drink.on('animationComplete', () => {
                 this.bonus = new Bonus(this.scaleFactor);
                 this.container.addChild(this.bonus.container);
+
+                this.bonus.on('animationComplete', () => {
+                    if (this.bonus.bonusTracker.counter === 1 && (this.bonus.bonusTracker.condition === 'win' || this.bonus.bonusTracker.condition === 'mega-win')) {
+                        const [, , RandomTextureBehavior] = this.drink.emitter.initBehaviors;
+
+                        this.drink.emitter.emit = false;
+                        const assetName = this.bonus.bonusTracker.lastSymbol.replace(/\b\w/g, l => l.toUpperCase()) + 'Icon';
+                        RandomTextureBehavior.textures = [$globals.assets.main['BubbleImage'], $globals.assets.menu[assetName]];
+                        this.drink.emitter.emit = true;
+                        this.drink.bubbleSpeed = 0.004;
+                    }
+                });
             });
         }, 2_500);
 
@@ -212,6 +234,7 @@ export class MainScene {
     remove() {
         this.container.destroy();
         this.background.remove();
+        // TODO remove all html
     }
 
     update(dt) {
