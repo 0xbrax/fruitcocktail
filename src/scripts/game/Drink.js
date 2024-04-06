@@ -145,7 +145,7 @@ export class Drink extends PIXI.utils.EventEmitter {
             textures.push($globals.assets.main['BubbleImage']);
         }
         if (!this.isFullScreen) {
-            textures.push(...Array($configs.REEL_LENGTH).fill($globals.assets.main['BubbleImage']));
+            textures.push(...Array(10).fill($globals.assets.main['BubbleImage']));
             for (const key in $globals.assets.menu) {
                 textures.push($globals.assets.menu[key]);
             }

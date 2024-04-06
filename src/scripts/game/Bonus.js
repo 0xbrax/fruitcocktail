@@ -21,6 +21,8 @@ export class Bonus extends PIXI.utils.EventEmitter {
             winSymbol: null,
             lastSymbol: null,
         }
+
+        this.isPlaying = false;
     }
 
     createSprite(symbol, deg) {
@@ -74,6 +76,7 @@ export class Bonus extends PIXI.utils.EventEmitter {
     }
 
     play(config) {
+        this.isPlaying = true;
         const { condition, symbol } = config;
 
         let selectedSymbolIndex;
@@ -146,6 +149,7 @@ export class Bonus extends PIXI.utils.EventEmitter {
 
                     if (index === $configs.REEL_LENGTH - 1) {
                         this.bonusTracker.counter++;
+                        this.isPlaying = false;
                         this.emit('animationComplete');
                     }
                 }

@@ -42,22 +42,32 @@ export class MainScene {
         });
 
         this.playUI.play.element.addEventListener('click', () => {
-            console.log('LOG', this.slot.bonusCounter)
-            // TODO destroy bonus andr drink after bonus game...
+            console.log('LOG Bonus counter', this.slot.bonusCounter)
+            if (!this.slot.isReady || this.slot.reels.isPlaying) return;
 
-            if (this.slot.bonusCounter === 2 && this.bonus) {
-                if (this.bonus.bonusTracker.counter === 0) this.slot.reels.getConditionAndSymbol();
+            if (this.slot.bonusCounter === 10) {
+                if (this.bonus && !this.bonus.isPlaying) {
+                    if (this.bonus.bonusTracker.counter === 2) {
+                        this.slot.bonusCounter = 1;
+                        this.slot.drink.setLevel(this.slot.bonusCounter);
 
-                const config = {
-                    condition: 'win',//$configs.SELECTED_CONDITION,
-                    symbol: 'coconut'//$configs.SELECTED_SYMBOL
-                };
-                this.bonus.play(config);
+                        this.drink.container.destroy();
+                        this.bonus.container.destroy();
+
+                        return;
+                    }
+
+                    if (this.bonus.bonusTracker.counter === 0) this.slot.reels.getConditionAndSymbol();
+
+                    const config = {
+                        condition: $configs.SELECTED_CONDITION,
+                        symbol: $configs.SELECTED_SYMBOL
+                    };
+                    this.bonus.play(config);
+                }
 
                 return;
             }
-
-            if (!this.slot.isReady || this.slot.reels.isPlaying) return;
 
             if ($configs.USER.BALANCE - $configs.USER.BET < 0) return;
             if ($configs.USER.BALANCE >= 10_000_000) return;
@@ -104,7 +114,7 @@ export class MainScene {
 
             this.slot.balance.text.text = $configs.USER.BALANCE;
 
-            if (this.slot.bonusCounter === 2) {
+            if (this.slot.bonusCounter === 10) {
                 this.createDrinkAndBonus();
             }
         });
@@ -173,7 +183,7 @@ export class MainScene {
                         winScreen.remove();
                     }
                     clearTimeout(winClear);
-                }, 1_000)
+                }, 2_500);
             }
         });
 
@@ -215,12 +225,41 @@ export class MainScene {
                 this.container.addChild(this.bonus.container);
 
                 this.bonus.on('animationComplete', () => {
+                    if (this.bonus.bonusTracker.counter === 2) {
+                        let winAmount = 0;
+                        switch (this.bonus.bonusTracker.condition) {
+                            case 'win':
+                                winAmount = $configs.USER.MIN_BET * 2;
+                                this.createWinScreen(winAmount);
+                                break;
+                            case 'mega-win':
+                                winAmount = $configs.USER.MIN_BET * 5;
+                                this.createWinScreen(winAmount);
+                        }
+
+                        const timeout = setTimeout(() => {
+                            if (!this.bonus) {
+                                clearTimeout(timeout);
+                                return;
+                            }
+
+                            this.slot.bonusCounter = 1;
+                            this.slot.drink.setLevel(this.slot.bonusCounter);
+
+                            this.drink.container.destroy();
+                            this.bonus.container.destroy();
+
+                            clearTimeout(timeout);
+                        }, 1_000);
+
+                        return;
+                    }
                     if (this.bonus.bonusTracker.counter === 1 && (this.bonus.bonusTracker.condition === 'win' || this.bonus.bonusTracker.condition === 'mega-win')) {
                         const [, , RandomTextureBehavior] = this.drink.emitter.initBehaviors;
 
                         this.drink.emitter.emit = false;
                         const assetName = this.bonus.bonusTracker.lastSymbol.replace(/\b\w/g, l => l.toUpperCase()) + 'Icon';
-                        RandomTextureBehavior.textures = [$globals.assets.main['BubbleImage'], $globals.assets.menu[assetName]];
+                        RandomTextureBehavior.textures = [...Array(5).fill($globals.assets.main['BubbleImage']), $globals.assets.menu[assetName]];
                         this.drink.emitter.emit = true;
                         this.drink.bubbleSpeed = 0.004;
                     }
@@ -233,8 +272,9 @@ export class MainScene {
 
     remove() {
         this.container.destroy();
-        this.background.remove();
-        // TODO remove all html
+        this.background.container.remove();
+        this.playUI.container.remove();
+        this.settingUI.container.remove();
     }
 
     update(dt) {
