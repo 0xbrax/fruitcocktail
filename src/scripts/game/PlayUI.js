@@ -39,6 +39,7 @@ export class PlayUI {
         this.play.element.style.transition = 'filter 2.5s ease-in-out';
 
         this.autoPlay = new Button('auto-play');
+        this.autoPlay.element.style.filter = 'grayscale(100%)';
 
         this.container.appendChild(this.autoPlay.element);
         this.container.appendChild(this.play.element);

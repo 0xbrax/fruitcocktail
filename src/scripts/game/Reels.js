@@ -42,9 +42,11 @@ export class Reels {
 
         switch ($configs.SELECTED_CONDITION) {
             case 'lose':
+                $configs.SELECTED_SYMBOL = null;
                 this.indexes = getLose(this.indexes);
                 break;
             case 'fake-win':
+                $configs.SELECTED_SYMBOL = null;
                 this.indexes = getFakeWin(this.indexes);
                 break;
             case 'win':

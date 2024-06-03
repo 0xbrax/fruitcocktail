@@ -5,7 +5,6 @@ import { PlayUI } from "../game/PlayUI.js";
 import { SettingUI } from "../game/SettingUI.js";
 import { $configs, $style } from "../system/SETUP.js";
 import { $globals } from "../system/utils.js";
-import { Howler } from 'howler';
 import { gsap } from 'gsap';
 import { Drink } from "../game/Drink.js";
 import { Bonus } from "../game/Bonus.js";
@@ -22,8 +21,7 @@ export class MainScene {
         this.userBet = null;
         this.bonus = null;
         this.drink = null;
-
-        document.addEventListener('visibilitychange', this.handleVisibilityChange);
+        this.isAutoPlayActive = false;
 
         this.createBackground();
         this.createSlot();
@@ -39,92 +37,22 @@ export class MainScene {
         });
 
         this.playUI.play.element.addEventListener('click', () => {
-            console.log('LOG Bonus counter', this.slot.bonusCounter)
-            if (!this.slot.isReady || this.slot.reels.isPlaying) return;
+            if (this.isAutoPlayActive) return;
 
-            if (this.slot.bonusCounter === 10) {
-                if (this.bonus && !this.bonus.isPlaying) {
-                    if (this.bonus.bonusTracker.counter === 2) {
-                        this.slot.bonusCounter = 1;
-                        this.slot.drink.setLevel(this.slot.bonusCounter);
+            this.play();
+        });
 
-                        this.drink.container.destroy();
-                        this.bonus.container.destroy();
+        this.playUI.autoPlay.element.addEventListener('click', () => {
+            this.autoPlayHandler();
 
-                        return;
-                    }
+            if (!this.isAutoPlayActive) return;
 
-                    if (this.bonus.bonusTracker.counter === 0) this.slot.reels.getConditionAndSymbol();
-
-                    const config = {
-                        condition: $configs.SELECTED_CONDITION,
-                        symbol: $configs.SELECTED_SYMBOL
-                    };
-                    this.bonus.play(config);
-                }
-
-                return;
-            }
-
-            if ($configs.USER.BALANCE - $configs.USER.BET < 0) return;
-            if ($configs.USER.BALANCE >= 10_000_000) return;
-
-            this.userBet = $configs.USER.BET;
-            $configs.USER.BALANCE -= this.userBet;
-
-            this.slot.balance.text.text = $configs.USER.BALANCE;
-            this.slot.reels.reset();
-            this.slot.reels.getConditionAndSymbol();
-            this.slot.reels.play();
-
-            console.log('- - - - - LOG ......', $configs.SELECTED_CONDITION, $configs.SELECTED_SYMBOL)
+            this.play();
         });
 
         this.slot.reels.EE.on('animationComplete', () => {
-            let winAmount = 0;
-            switch ($configs.SELECTED_CONDITION) {
-                case 'lose':
-                case 'fake-win':
-                    break;
-                case 'win':
-                    if ($configs.JOLLY_REEL) {
-                        winAmount = this.userBet * 3;
-                        $configs.USER.BALANCE += winAmount;
-
-                        $globals.assets.audio['SlotWinJollySfx'].play();
-                    } else {
-                        winAmount = this.userBet * 2;
-                        $configs.USER.BALANCE += winAmount;
-
-                        $globals.assets.audio['SlotWinSfx'].play();
-                    }
-
-                    this.createWinScreen(winAmount);
-                    break;
-                case 'mega-win':
-                    winAmount = this.userBet * 5;
-                    $configs.USER.BALANCE += winAmount;
-
-                    $globals.assets.audio['SlotMegaWinSfx'].play();
-                    this.createWinScreen(winAmount);
-            }
-
-            this.slot.balance.text.text = $configs.USER.BALANCE;
-
-            if (this.slot.bonusCounter === 10) {
-                this.createDrinkAndBonus();
-            }
+            this.checkCondition();
         });
-    }
-
-    handleVisibilityChange() {
-        if (document.visibilityState === 'hidden') {
-            Howler.mute(true);
-        } else {
-            if ($globals.isAudioActive) {
-                Howler.mute(false);
-            }
-        }
     }
 
     createBackground() {
@@ -140,6 +68,96 @@ export class MainScene {
     createSettingUI() {
         this.settingUI = new SettingUI();
     }
+
+    play() {
+        console.log('LOG Bonus counter', this.slot.bonusCounter)
+        if (!this.slot.isReady || this.slot.reels.isPlaying) return;
+
+        this.slot.reels.reset();
+
+        if (this.slot.bonusCounter === 10) {
+            if (this.bonus && !this.bonus.isPlaying) {
+                if (this.bonus.bonusTracker.counter === 0) this.slot.reels.getConditionAndSymbol();
+
+                const config = {
+                    condition: $configs.SELECTED_CONDITION,
+                    symbol: $configs.SELECTED_SYMBOL
+                };
+
+                this.bonus.play(config);
+            }
+
+            return;
+        }
+
+        if ($configs.USER.BALANCE - $configs.USER.BET < 0) return;
+        if ($configs.USER.BALANCE >= 10_000_000) return;
+
+        this.userBet = $configs.USER.BET;
+        $configs.USER.BALANCE -= this.userBet;
+
+        this.slot.balance.text.text = $configs.USER.BALANCE;
+        this.slot.reels.getConditionAndSymbol();
+        this.slot.reels.play();
+
+        console.log('- - - - - LOG ......', $configs.SELECTED_CONDITION, $configs.SELECTED_SYMBOL)
+    }
+
+    autoPlayHandler() {
+        if (!this.slot.isReady) return;
+
+        if (!this.isAutoPlayActive) {
+            this.isAutoPlayActive = true;
+            this.playUI.autoPlay.element.style.filter = 'grayscale(0)';
+        } else {
+            this.isAutoPlayActive = false;
+            this.playUI.autoPlay.element.style.filter = 'grayscale(100%)';
+        }
+    }
+
+    checkCondition() {
+        let winAmount = 0;
+        switch ($configs.SELECTED_CONDITION) {
+            case 'lose':
+            case 'fake-win':
+                break;
+            case 'win':
+                if ($configs.JOLLY_REEL) {
+                    winAmount = this.userBet * 3;
+                    $configs.USER.BALANCE += winAmount;
+
+                    $globals.assets.audio['SlotWinJollySfx'].play();
+                } else {
+                    winAmount = this.userBet * 2;
+                    $configs.USER.BALANCE += winAmount;
+
+                    $globals.assets.audio['SlotWinSfx'].play();
+                }
+
+                this.createWinScreen(winAmount);
+                break;
+            case 'mega-win':
+                winAmount = this.userBet * 5;
+                $configs.USER.BALANCE += winAmount;
+
+                $globals.assets.audio['SlotMegaWinSfx'].play();
+                this.createWinScreen(winAmount);
+        }
+
+        this.slot.balance.text.text = $configs.USER.BALANCE;
+
+        if (this.slot.bonusCounter === 10) {
+            this.createDrinkAndBonus();
+        }
+
+        const timeout = setTimeout(() => {
+            if (this.isAutoPlayActive) {
+                this.play();
+            }
+            clearTimeout(timeout);
+        }, 1_000);
+    }
+
     createWinScreen(winAmount) {
         const amount = { val: 0 };
         const winScreen = document.createElement('div');
@@ -173,14 +191,19 @@ export class MainScene {
             onComplete: () => {
                 amountAnim.kill();
 
-                winScreen.addEventListener('click', winScreen.remove);
+                const winScreenRemove = () => {
+                    winScreen.remove()
+                };
+
+                winScreen.addEventListener('click', winScreenRemove);
+
                 const winClear = setTimeout(() => {
                     if (winClear) {
-                        winScreen.removeEventListener('click', winScreen.remove);
+                        winScreen.removeEventListener('click', winScreenRemove);
                         winScreen.remove();
                     }
                     clearTimeout(winClear);
-                }, 2_500);
+                }, 1_000);
             }
         });
 
@@ -221,10 +244,20 @@ export class MainScene {
                 this.bonus = new Bonus(this.slot.body.scaleFactor);
                 this.container.addChild(this.bonus.container);
 
+                const timeout = setTimeout(() => {
+                    if (this.isAutoPlayActive) {
+                        this.play();
+                    }
+                    clearTimeout(timeout);
+                }, 1_000);
+
                 this.bonus.EE.on('animationComplete', () => {
                     if (this.bonus.bonusTracker.counter === 2) {
                         let winAmount = 0;
                         switch (this.bonus.bonusTracker.condition) {
+                            case 'lose':
+                            case 'fake-win':
+                                break;
                             case 'win':
                                 winAmount = $configs.USER.MIN_BET * 2;
                                 $configs.USER.BALANCE += winAmount;
@@ -240,19 +273,23 @@ export class MainScene {
                                 this.createWinScreen(winAmount);
                         }
 
-                        const timeout = setTimeout(() => {
-                            if (!this.bonus) {
-                                clearTimeout(timeout);
-                                return;
-                            }
-
+                        const bonusTimeout = setTimeout(() => {
                             this.slot.bonusCounter = 1;
                             this.slot.drink.setLevel(this.slot.bonusCounter);
 
                             this.drink.container.destroy();
+                            this.drink = null;
                             this.bonus.container.destroy();
+                            this.bonus = null;
 
-                            clearTimeout(timeout);
+                            const timeout = setTimeout(() => {
+                                if (this.isAutoPlayActive) {
+                                    this.play();
+                                }
+                                clearTimeout(timeout);
+                            }, 1_000);
+
+                            clearTimeout(bonusTimeout);
                         }, 1_000);
 
                         return;
@@ -265,6 +302,13 @@ export class MainScene {
                         RandomTextureBehavior.textures = [...Array(5).fill($globals.assets.main['BubbleImage']), $globals.assets.menu[assetName]];
                         this.drink.emitter.emit = true;
                         this.drink.bubbleSpeed = 0.004;
+
+                        const timeout = setTimeout(() => {
+                            if (this.isAutoPlayActive) {
+                                this.play();
+                            }
+                            clearTimeout(timeout);
+                        }, 1_000);
                     }
                 });
             });

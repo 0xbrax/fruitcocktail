@@ -86,11 +86,15 @@ export class Bonus {
             this.bonusTracker.condition = condition;
             this.bonusTracker.winSymbol = symbol;
         }
+
         if (this.bonusTracker.condition === 'win' || this.bonusTracker.condition === 'mega-win') {
             this.bonusTracker.lastSymbol = symbol;
             selectedSymbolIndex = this.sprites.map(el => el.symbolName).indexOf(symbol);
         } else {
             selectedSymbolIndex = getCryptoRandomNumber(0, $configs.REEL_LENGTH - 1);
+            while (selectedSymbolIndex === this.bonusTracker.lastSymbol) {
+                selectedSymbolIndex = getCryptoRandomNumber(0, $configs.REEL_LENGTH - 1);
+            }
             this.bonusTracker.lastSymbol = this.sprites[selectedSymbolIndex].symbolName;
         }
 
