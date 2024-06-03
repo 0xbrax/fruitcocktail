@@ -32,7 +32,7 @@ export class MainScene {
         $globals.assets.audio['BackgroundMusicTrack'].loop = true;
         $globals.assets.audio['BackgroundMusicTrack'].play();
 
-        this.slot.EE.on('preReady', () => {
+        this.slot.EE.on('ready', () => {
             this.playUI.play.element.style.filter = 'grayscale(0)';
         });
 
@@ -48,6 +48,10 @@ export class MainScene {
             if (!this.isAutoPlayActive) return;
 
             this.play();
+        });
+
+        this.playUI.fastForward.element.addEventListener('click', () => {
+            this.fastForwardHandler();
         });
 
         this.slot.reels.EE.on('animationComplete', () => {
@@ -73,6 +77,7 @@ export class MainScene {
         console.log('LOG Bonus counter', this.slot.bonusCounter)
         if (!this.slot.isReady || this.slot.reels.isPlaying) return;
 
+        this.playUI.play.element.style.filter = 'grayscale(100%)';
         this.slot.reels.reset();
 
         if (this.slot.bonusCounter === 10) {
@@ -84,7 +89,7 @@ export class MainScene {
                     symbol: $configs.SELECTED_SYMBOL
                 };
 
-                this.bonus.play(config);
+                this.bonus.play(config, this.slot.reels.isFastForwardActive);
             }
 
             return;
@@ -112,6 +117,18 @@ export class MainScene {
         } else {
             this.isAutoPlayActive = false;
             this.playUI.autoPlay.element.style.filter = 'grayscale(100%)';
+        }
+    }
+
+    fastForwardHandler() {
+        if (!this.slot.isReady) return;
+
+        if (!this.slot.reels.isFastForwardActive) {
+            this.slot.reels.isFastForwardActive = true;
+            this.playUI.fastForward.element.style.filter = 'grayscale(0)';
+        } else {
+            this.slot.reels.isFastForwardActive = false;
+            this.playUI.fastForward.element.style.filter = 'grayscale(100%)';
         }
     }
 
@@ -145,6 +162,7 @@ export class MainScene {
         }
 
         this.slot.balance.text.text = $configs.USER.BALANCE;
+        this.playUI.play.element.style.filter = 'grayscale(0)';
 
         if (this.slot.bonusCounter === 10) {
             this.createDrinkAndBonus();

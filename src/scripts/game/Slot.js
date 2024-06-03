@@ -87,6 +87,7 @@ export class Slot {
                     onComplete: () => {
                         fadeAnim.kill();
                         this.isReady = true;
+                        this.EE.emit('ready');
                     }
                 });
             }
@@ -95,7 +96,6 @@ export class Slot {
         setTimeout(() => {
             this.drink.bubbleSpeed = 0.001;
             this.drink.setLevel(this.bonusCounter);
-            this.EE.emit('preReady');
         }, 5_000);
     }
 

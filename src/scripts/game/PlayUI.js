@@ -32,11 +32,11 @@ export class PlayUI {
         Object.assign(this.container.style, style);
 
         this.fastForward = new Button ('fast-forward');
+        this.fastForward.element.style.filter = 'grayscale(100%)';
 
         const playStyle = `height: ${isMobile ? 75 : 150}px;`;
         this.play = new Button('play', playStyle);
         this.play.element.style.filter = 'grayscale(100%)';
-        this.play.element.style.transition = 'filter 2.5s ease-in-out';
 
         this.autoPlay = new Button('auto-play');
         this.autoPlay.element.style.filter = 'grayscale(100%)';

@@ -1,5 +1,5 @@
 import * as PIXI from "pixi.js";
-import { $globals, getCryptoRandomNumber, isMobile } from "../system/utils.js";
+import {$globals, getCryptoRandomNumber, getPseudoRandomNumber, isMobile} from "../system/utils.js";
 import { $configs } from "../system/SETUP.js";
 import { gsap } from "gsap";
 
@@ -76,11 +76,12 @@ export class Bonus {
         this.container.y = window.innerHeight / 2;
     }
 
-    play(config) {
+    play(config, isFastForwardActive) {
         this.isPlaying = true;
         const { condition, symbol } = config;
 
         let selectedSymbolIndex;
+        let selectedSymbol;
 
         if (this.bonusTracker.counter === 0) {
             this.bonusTracker.condition = condition;
@@ -92,27 +93,33 @@ export class Bonus {
             selectedSymbolIndex = this.sprites.map(el => el.symbolName).indexOf(symbol);
         } else {
             selectedSymbolIndex = getCryptoRandomNumber(0, $configs.REEL_LENGTH - 1);
-            while (selectedSymbolIndex === this.bonusTracker.lastSymbol) {
+            selectedSymbol = this.sprites[selectedSymbolIndex].symbolName;
+
+            while (selectedSymbol === this.bonusTracker.lastSymbol || selectedSymbol === $configs.JOLLY) {
                 selectedSymbolIndex = getCryptoRandomNumber(0, $configs.REEL_LENGTH - 1);
+                selectedSymbol = this.sprites[selectedSymbolIndex].symbolName;
             }
-            this.bonusTracker.lastSymbol = this.sprites[selectedSymbolIndex].symbolName;
+
+            this.bonusTracker.lastSymbol = selectedSymbol;
         }
 
         console.log('LOG BONUS', condition, symbol, this.bonusTracker)
 
-        const minRotation = 16;
-        const maxRotation = 24;
-
-        const rotation = getCryptoRandomNumber(minRotation, maxRotation);
-        const degToGo = this.degIncrease * rotation;
-
         const containerDeg = (this.container.rotation * 180) / Math.PI;
+
+        const animDuration = getPseudoRandomNumber(32, 48) / 10;
+        const newAnimDuration = !isFastForwardActive ? animDuration : (animDuration / 2); // play speed x2
+
+        let animRevolution = getPseudoRandomNumber(57, 63);
+        animRevolution = Math.floor((animRevolution / animDuration) * newAnimDuration); // revolutions sync with animation duration
+
+        const degToGo = this.degIncrease * animRevolution;
 
         const anim0 = gsap.to(this.container, {
             pixi: {
                 rotation: containerDeg + degToGo
             },
-            duration: 2.5,
+            duration: newAnimDuration,
             repeat: 0,
             ease: "power1.inOut",
             onComplete: () => {
@@ -125,7 +132,7 @@ export class Bonus {
                 pixi: {
                     zIndex: selectedSymbolIndex === index ? 2 : 1
                 },
-                duration: 2.5,
+                duration: newAnimDuration,
                 repeat: 0,
                 ease: "power1.inOut",
                 onComplete: () => {
@@ -141,7 +148,7 @@ export class Bonus {
                     { y: 0 },
                     { y: (this.skeletonHeight / 2) },
                 ],
-                duration: 2.5,
+                duration: newAnimDuration,
                 repeat: 0,
                 ease: "power1.inOut",
                 onComplete: () => {

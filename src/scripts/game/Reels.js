@@ -1,7 +1,7 @@
 import * as PIXI from "pixi.js";
 import { $configs } from "../system/SETUP.js";
 import { Reel } from "./Reel.js";
-import {getCryptoRandomNumber, getPseudoRandomNumber} from "../system/utils.js";
+import { getCryptoRandomNumber, getPseudoRandomNumber } from "../system/utils.js";
 import { getFakeWin, getLose, getRandomWinMap} from "../system/math.js";
 import { $globals } from "../system/utils.js";
 
@@ -10,6 +10,7 @@ export class Reels {
         this.EE = new PIXI.utils.EventEmitter();
         this.scaleFactor = scaleFactor;
         this.isPlaying = false;
+        this.isFastForwardActive = false;
 
         this.xPos = 0;
         this.xPosIncrement = $configs.SYMBOL_SIZE - 99;
@@ -106,17 +107,41 @@ export class Reels {
         this.isPlaying = true;
         $globals.assets.audio['SlotClickSfx'].play();
 
+        const animDuration = getPseudoRandomNumber(30, 50) / 10;
+        const newAnimDuration = !this.isFastForwardActive ? animDuration : (animDuration / 2); // play speed x2
+
+        let animRevolution = getPseudoRandomNumber(19, 21);
+        animRevolution = Math.floor((animRevolution / animDuration) * newAnimDuration); // revolutions sync with animation duration
+
         for (let i = 0; i < $configs.REELS; i++) {
             const reelNumber = i + 1;
 
-            this.reels[i].animation.toIndex(this.indexes[`REEL_${reelNumber}`], this.animConfig(reelNumber));
+            this.reels[i].animation.toIndex(this.indexes[`REEL_${reelNumber}`], this.animConfig(reelNumber, newAnimDuration, animRevolution));
         }
     }
 
-    animConfig(reelNumber) {
+    animConfig(reelNumber, duration, revolution) {
+        let animDelay;
+        switch (reelNumber) {
+            case 1:
+                animDelay = 0;
+                break;
+            case 2:
+                animDelay = !this.isFastForwardActive ? 0.10 : 0.05;
+                break;
+            case 3:
+                animDelay = !this.isFastForwardActive ? 0.20 : 0.10;
+                break;
+            case 4:
+                animDelay = !this.isFastForwardActive ? 0.40 : 0.20;
+                break;
+            case 5:
+                animDelay = !this.isFastForwardActive ? 0.80 : 0.40;
+        }
+
         return {
-            duration: 6,
-            revolutions: 4,
+            duration: duration + animDelay,
+            revolutions: revolution,
             ease: 'power2.inOut',
             onComplete: () => {
                 $globals.assets.audio['SlotTickSfx'].play();
