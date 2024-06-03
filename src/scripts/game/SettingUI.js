@@ -1,5 +1,5 @@
 import { Button } from "./Button.js";
-import { isMobile, $globals } from "../system/utils.js";
+import { isMobile, $globals, enterFullscreen, exitFullscreen } from "../system/utils.js";
 import { $style } from "../system/SETUP.js";
 import { $configs } from "../system/SETUP.js";
 import { Howler } from 'howler';
@@ -72,17 +72,17 @@ export class SettingUI {
             
             <div style="font-size: 40px; margin-bottom: 25px;">configs</div>
             <div style="margin-bottom: 50px;">
-                <i-heroicons icon-name="home"></i-heroicons>
+                <i-heroicons id="home-btn" icon-name="home"></i-heroicons>
                 
                 <i-heroicons id="sound-on-btn" icon-name="sound-on"></i-heroicons>
                 <i-heroicons id="sound-off-btn" icon-name="sound-off"></i-heroicons>
                 
-                <i-heroicons icon-name="maximize"></i-heroicons>
-                <i-heroicons icon-name="minimize"></i-heroicons>
+                <i-heroicons id="maximize-btn" icon-name="maximize"></i-heroicons>
+                <i-heroicons id="minimize-btn" icon-name="minimize"></i-heroicons>
             </div>
 
             <div style="font-size: 40px; margin-bottom: 25px;">pay table</div>
-            <img style="width: 50%; margin-bottom: 50px;" src="${$globals.assets.other['PaytableImage']}" />
+            <img style="width: ${isMobile ? '75%' : '50%'}; margin-bottom: 50px;" src="${$globals.assets.other['PaytableImage']}" />
             
             <div style="font-size: 40px; margin-bottom: 25px;">symbols = bet x 2</div>
             <div style="width: 100%; display: flex; flex-wrap: wrap; justify-content: space-between; margin-bottom: 50px;">
@@ -112,6 +112,8 @@ export class SettingUI {
         document.getElementById('close-btn').addEventListener('click', this.menuHandler.bind(this));
 
         this.betHandler();
+        this.homeHandler();
+        this.fullscreenHandler();
         this.audioHandler();
     }
 
@@ -142,6 +144,52 @@ export class SettingUI {
         })
     }
 
+    homeHandler() {
+        const homeBtn = document.getElementById('home-btn');
+
+        const isIframe = window.self !== window.top;
+
+        homeBtn.addEventListener('click', () => {
+            if (isIframe) {
+                // message to frame
+            } else {
+                const url = 'https://0xbrax.dev';
+                window.open(url, '_blank');
+            }
+        });
+    }
+
+    fullscreenHandler() {
+        const maximizeBtn = document.getElementById('maximize-btn');
+        const minimizeBtn = document.getElementById('minimize-btn');
+
+
+        if (!isMobile) {
+            maximizeBtn.style.display = 'none';
+            minimizeBtn.style.display = 'none';
+
+            return;
+        }
+
+        minimizeBtn.style.display = 'none';
+
+        maximizeBtn.addEventListener('click', () => {
+            enterFullscreen();
+            $globals.isFullscreenActive = true;
+
+            maximizeBtn.style.display = 'none';
+            minimizeBtn.style.display = 'inline-block';
+        });
+
+        minimizeBtn.addEventListener('click', () => {
+            exitFullscreen();
+            $globals.isFullscreenActive = false;
+
+            minimizeBtn.style.display = 'none';
+            maximizeBtn.style.display = 'inline-block';
+        });
+    }
+
     audioHandler() {
         const soundOnBtn = document.getElementById('sound-on-btn');
         const soundOffBtn = document.getElementById('sound-off-btn');
@@ -154,7 +202,7 @@ export class SettingUI {
 
             soundOnBtn.style.display = 'none';
             soundOffBtn.style.display = 'inline-block';
-        })
+        });
 
         soundOffBtn.addEventListener('click', () => {
             Howler.mute(true);
@@ -162,6 +210,6 @@ export class SettingUI {
 
             soundOffBtn.style.display = 'none';
             soundOnBtn.style.display = 'inline-block';
-        })
+        });
     }
 }

@@ -1,13 +1,9 @@
-import { $globals, isMobile } from "../system/utils.js";
+import { $globals } from "../system/utils.js";
 import { $style } from "../system/SETUP.js";
 
 export class Background {
     constructor() {
         this.createBackground();
-
-        document.body.addEventListener('click', () => {
-            if (isMobile) document.documentElement.requestFullscreen();
-        })
     }
 
     createBackground() {

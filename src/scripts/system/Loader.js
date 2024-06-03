@@ -3,10 +3,9 @@ import { Howl } from 'howler';
 import { $globals } from "./utils.js";
 import { assets } from "./Assets.js";
 
-export class Loader extends PIXI.utils.EventEmitter {
+export class Loader {
     constructor() {
-        super();
-
+        this.EE = new PIXI.utils.EventEmitter();
         this.assets = assets;
 
         for (const key in this.assets) {
@@ -35,7 +34,7 @@ export class Loader extends PIXI.utils.EventEmitter {
             let loadedAssetsCount = 0;
             const updateProgress = () => {
                 const progress = parseInt((loadedAssetsCount / totalAssetsCount) * 100);
-                this.emit('progress', progress);
+                this.EE.emit('progress', progress);
             };
             updateProgress();
 
@@ -92,6 +91,7 @@ export class Loader extends PIXI.utils.EventEmitter {
 
             loadedAssetsCount = totalAssetsCount;
             updateProgress();
+            //this.mixerAudio();
 
             resolve();
         });
@@ -106,5 +106,10 @@ export class Loader extends PIXI.utils.EventEmitter {
                 },
             });
         });
+    }
+
+    mixerAudio() {
+        $globals.assets.audio['SlotMegaWinSfx'].volume(0.6);
+        $globals.assets.audio['SlotMegaWinSfx'].loop(true);
     }
 }

@@ -3,12 +3,11 @@ import { gsap } from 'gsap';
 import { Emitter } from "@pixi/particle-emitter";
 import { $globals } from "../system/utils.js";
 import { $style } from "../system/SETUP.js";
-import { $configs } from "../system/SETUP.js";
 import { isMobile } from "../system/utils.js";
 
-export class Drink extends PIXI.utils.EventEmitter {
+export class Drink {
     constructor(scaleFactor, isFullScreen) {
-        super();
+        this.EE = new PIXI.utils.EventEmitter();
         this.scaleFactor = scaleFactor;
         this.isFullScreen = isFullScreen;
         this.container = new PIXI.Container();
@@ -131,8 +130,6 @@ export class Drink extends PIXI.utils.EventEmitter {
         tempContainer.addChild(mask);
         this.emitterContainer.mask = tempContainer;
         this.emitterContainer.addChild(tempContainer);
-
-        this.emitterContainer.y = this.emitterContainer.y;
 
         this.container.addChild(this.emitterContainer);
     }
@@ -280,7 +277,7 @@ export class Drink extends PIXI.utils.EventEmitter {
             onComplete: () => {
                 bubbleContainerAnim.kill();
 
-                this.emit('animationComplete');
+                this.EE.emit('animationComplete');
             }
         });
     }

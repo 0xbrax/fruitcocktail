@@ -12,9 +12,9 @@ import { $configs } from "../system/SETUP.js";
 import { $globals } from "../system/utils.js";
 import { gsap } from 'gsap';
 
-export class Slot extends PIXI.utils.EventEmitter {
+export class Slot {
     constructor() {
-        super();
+        this.EE = new PIXI.utils.EventEmitter();
         this.container = new PIXI.Container();
         this.isReady = false;
         this.bonusCounter = 1;
@@ -48,12 +48,12 @@ export class Slot extends PIXI.utils.EventEmitter {
 
         this.reelsFadeIn();
 
-        this.reels.on('animationComplete', () => {
+        this.reels.EE.on('animationComplete', () => {
             this.bonusCounter++;
             this.drink.setLevel(this.bonusCounter);
         });
 
-        this.drink.once('animationComplete', () => {
+        this.drink.EE.once('animationComplete', () => {
             const [, , RandomTextureBehavior] = this.drink.emitter.initBehaviors;
 
             this.drink.emitter.emit = false;
@@ -95,8 +95,13 @@ export class Slot extends PIXI.utils.EventEmitter {
         setTimeout(() => {
             this.drink.bubbleSpeed = 0.001;
             this.drink.setLevel(this.bonusCounter);
-            this.emit('preReady');
+            this.EE.emit('preReady');
         }, 5_000);
+    }
+
+    resize() {
+        this.container.y = (window.innerHeight / 2) - (this.container.height / 2) + this.characterMain.yGap;
+        this.container.x = (window.innerWidth / 2) - (this.container.width / 2) + (this.splashLeft.container.width - (8 * this.splashLeft.scaleFactor));
     }
 
     update(dt) {

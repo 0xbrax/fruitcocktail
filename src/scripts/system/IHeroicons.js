@@ -20,6 +20,7 @@ export default class IHeroicons extends HTMLElement {
     render() {
         const name = this.getAttribute('icon-name');
         const style = this.getAttribute('style-name') || '';
+
         const iconContent = getIcon(name);
 
         this.shadowRoot.innerHTML = `

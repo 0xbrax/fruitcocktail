@@ -4,11 +4,10 @@ import { Reel } from "./Reel.js";
 import {getCryptoRandomNumber, getPseudoRandomNumber} from "../system/utils.js";
 import { getFakeWin, getLose, getRandomWinMap} from "../system/math.js";
 import { $globals } from "../system/utils.js";
-import SlotClickSfx from "../../assets/audio/slot_click_COMPRESSED.mp3";
 
-export class Reels extends PIXI.utils.EventEmitter {
+export class Reels {
     constructor(scaleFactor) {
-        super();
+        this.EE = new PIXI.utils.EventEmitter();
         this.scaleFactor = scaleFactor;
         this.isPlaying = false;
 
@@ -127,7 +126,7 @@ export class Reels extends PIXI.utils.EventEmitter {
 
     onComplete() {
         this.isPlaying = false;
-        this.emit('animationComplete');
+        this.EE.emit('animationComplete');
 
         if ($configs.SELECTED_CONDITION === 'win' || $configs.SELECTED_CONDITION === 'mega-win') {
             for (let i = 0; i < $configs.REELS; i++) {

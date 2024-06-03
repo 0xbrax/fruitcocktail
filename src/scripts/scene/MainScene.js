@@ -3,7 +3,6 @@ import { Background } from "../game/Background.js";
 import { Slot } from "../game/Slot.js";
 import { PlayUI } from "../game/PlayUI.js";
 import { SettingUI } from "../game/SettingUI.js";
-import { isMobile} from "../system/utils.js";
 import { $configs, $style } from "../system/SETUP.js";
 import { $globals } from "../system/utils.js";
 import { Howler } from 'howler';
@@ -14,8 +13,6 @@ import { Bonus } from "../game/Bonus.js";
 export class MainScene {
     constructor() {
         this.container = new PIXI.Container();
-        this.subContainer = new PIXI.Container();
-        this.container.addChild(this.subContainer);
 
         this.scaleFactor = null;
         this.background = null;
@@ -37,7 +34,7 @@ export class MainScene {
         $globals.assets.audio['BackgroundMusicTrack'].loop = true;
         $globals.assets.audio['BackgroundMusicTrack'].play();
 
-        this.slot.on('preReady', () => {
+        this.slot.EE.on('preReady', () => {
             this.playUI.play.element.style.filter = 'grayscale(0)';
         });
 
@@ -83,7 +80,7 @@ export class MainScene {
             console.log('- - - - - LOG ......', $configs.SELECTED_CONDITION, $configs.SELECTED_SYMBOL)
         });
 
-        this.slot.reels.on('animationComplete', () => {
+        this.slot.reels.EE.on('animationComplete', () => {
             let winAmount = 0;
             switch ($configs.SELECTED_CONDITION) {
                 case 'lose':
@@ -135,7 +132,7 @@ export class MainScene {
     }
     createSlot() {
         this.slot = new Slot();
-        this.subContainer.addChild(this.slot.container);
+        this.container.addChild(this.slot.container);
     }
     createPlayUI() {
         this.playUI = new PlayUI();
@@ -194,46 +191,52 @@ export class MainScene {
         const scaleFactorHeight = window.innerHeight / originalRect.h;
         const scaleFactorWidth = window.innerWidth / originalRect.w;
 
-        if (isMobile) {
-            this.scaleFactor = Math.min(scaleFactorHeight, scaleFactorWidth);
-        }
-        if (!isMobile) {
-            this.scaleFactor = Math.max(scaleFactorHeight, scaleFactorWidth);
-        }
+        this.scaleFactor = Math.min(scaleFactorHeight, scaleFactorWidth);
 
         this.container.scale.set(this.scaleFactor);
-        this.subContainer.scale.set(this.scaleFactor);
 
-        this.subContainer.y = (window.innerHeight / 2) - (this.subContainer.height / 2) + this.slot.canopy.yGap + (this.slot.characterMain.yGap / 2);
-        this.subContainer.x = (window.innerWidth / 2) - (this.subContainer.width / 2) + this.slot.canopy.xGap + (this.slot.splashLeft.container.width - ((176 - 8) * this.slot.splashLeft.scaleFactor)) + (this.slot.splashRight.container.width + ((8 + 8) * this.slot.splashRight.scaleFactor));
-
-
-
-        //this.subContainer.y = (window.innerHeight / 2) - (this.subContainer.height / 2);
-        //this.subContainer.x = 0;
+        if (this.slot) {
+            this.slot.resize();
+        }
+        if (this.drink) {
+            const scaleFactor = Math.max(scaleFactorHeight, scaleFactorWidth);
+            this.drink.container.scale.set(scaleFactor);
+        }
+        if (this.bonus) {
+            this.bonus.container.scale.set(this.scaleFactor);
+            this.bonus.container.y = (window.innerHeight / 2);
+            this.bonus.container.x = (window.innerWidth / 2);
+        }
     }
 
     createDrinkAndBonus() {
         this.drink = new Drink(this.scaleFactor, true);
         this.drink.resetLevel();
+
         setTimeout(() => {
             this.drink.bubbleSpeed = 0.001;
             this.drink.setLevel(10);
 
-            this.drink.on('animationComplete', () => {
-                this.bonus = new Bonus(this.scaleFactor);
+            this.drink.EE.on('animationComplete', () => {
+                this.bonus = new Bonus(this.slot.body.scaleFactor);
                 this.container.addChild(this.bonus.container);
 
-                this.bonus.on('animationComplete', () => {
+                this.bonus.EE.on('animationComplete', () => {
                     if (this.bonus.bonusTracker.counter === 2) {
                         let winAmount = 0;
                         switch (this.bonus.bonusTracker.condition) {
                             case 'win':
                                 winAmount = $configs.USER.MIN_BET * 2;
+                                $configs.USER.BALANCE += winAmount;
+
+                                // $globals.assets.audio['SlotMegaWinSfx'].play();
                                 this.createWinScreen(winAmount);
                                 break;
                             case 'mega-win':
                                 winAmount = $configs.USER.MIN_BET * 5;
+                                $configs.USER.BALANCE += winAmount;
+
+                                //$globals.assets.audio['SlotMegaWinSfx'].play();
                                 this.createWinScreen(winAmount);
                         }
 
@@ -254,7 +257,7 @@ export class MainScene {
 
                         return;
                     }
-                    if (this.bonus.bonusTracker.counter === 1 && (this.bonus.bonusTracker.condition === 'win' || this.bonus.bonusTracker.condition === 'mega-win')) {
+                    if (this.bonus.bonusTracker.counter === 1) {
                         const [, , RandomTextureBehavior] = this.drink.emitter.initBehaviors;
 
                         this.drink.emitter.emit = false;

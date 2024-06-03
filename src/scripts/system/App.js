@@ -29,7 +29,7 @@ class Application {
             backgroundAlpha: 0,
             resolution: window.devicePixelRatio || 1,
             autoDensity: true,
-            //antialias: true
+            antialias: true
         });
         document.body.appendChild(this.app.view);
         window.addEventListener('resize', this.resize.bind(this, this.originalRect));
@@ -59,7 +59,7 @@ class Application {
                 return ((value - a) / (b - a)) * (d - c) + c;
             }
 
-            this.loader.on('progress', (progress) => {
+            this.loader.EE.on('progress', (progress) => {
                 console.log(`Progress: ${progress}%`);
 
                 $globals.scene.scene.updateProgress(convertedProgress(progress));

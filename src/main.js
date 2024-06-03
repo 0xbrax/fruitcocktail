@@ -4,6 +4,8 @@ import './style.css';
 import WebFont from 'webfontloader';
 import { App } from "./scripts/system/App.js";
 import IHeroicons from "./scripts/system/IHeroicons.js";
+import { $globals, exitFullscreen } from "./scripts/system/utils.js";
+import { Howler } from "howler";
 
 customElements.define('i-heroicons', IHeroicons);
 
@@ -20,5 +22,39 @@ WebFont.load({
     },
     active: () => {
         App.run();
+    }
+});
+
+let wakelock;
+window.addEventListener('load', async () => {
+    try {
+        wakelock = await navigator.wakeLock.request('screen');
+
+        $globals.isWakelockActive = true;
+    } catch (error) {
+        //
+    }
+});
+window.addEventListener('unload', () => {
+    if ($globals.isFullscreenActive) exitFullscreen();
+    if (wakelock) wakelock.release();
+    Howler.mute(true);
+});
+
+document.addEventListener('visibilitychange', async () => {
+    if (document.visibilityState === 'visible') {
+        if ($globals.isAudioActive === true) Howler.mute(false);
+
+        if (wakelock) {
+            wakelock = await navigator.wakeLock.request('screen');
+            $globals.isWakelockActive = true;
+        }
+    } else {
+        if ($globals.isAudioActive === true) Howler.mute(true);
+
+        if (wakelock) {
+            wakelock.release();
+            $globals.isWakelockActive = false;
+        }
     }
 });

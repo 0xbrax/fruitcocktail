@@ -1,17 +1,18 @@
 import * as PIXI from "pixi.js";
-import { $globals, getCryptoRandomNumber } from "../system/utils.js";
+import { $globals, getCryptoRandomNumber, isMobile } from "../system/utils.js";
 import { $configs } from "../system/SETUP.js";
 import { gsap } from "gsap";
 
-export class Bonus extends PIXI.utils.EventEmitter {
+export class Bonus {
     constructor(scaleFactor) {
-        super();
+        this.EE = new PIXI.utils.EventEmitter();
         this.container = new PIXI.Container();
         this.container.sortableChildren = true;
         this.scaleFactor = scaleFactor;
 
         this.degIncrease = 45;
         this.degMap = {}
+        this.skeletonHeight = null;
         this.sprites = [];
         this.createSprites();
 
@@ -31,14 +32,14 @@ export class Bonus extends PIXI.utils.EventEmitter {
 
         sprite.symbolName = symbol;
 
-        sprite.height = ($configs.SYMBOL_SIZE / 3) * this.scaleFactor;
-        sprite.width = ($configs.SYMBOL_SIZE / 3) * this.scaleFactor;
+        sprite.height = ($configs.SYMBOL_SIZE / 1.25) * this.scaleFactor;
+        sprite.width = ($configs.SYMBOL_SIZE / 1.25) * this.scaleFactor;
 
         const maskContainer = new PIXI.Container();
         const mask = new PIXI.Graphics();
-        const height = window.innerHeight - sprite.height - (100 * this.scaleFactor);
+        this.skeletonHeight = (isMobile ? window.innerWidth : window.innerHeight) - (sprite.height * 2);
         mask.beginFill(0xffffff);
-        mask.drawRect(0, 0, 10, height);
+        mask.drawRect(0, 0, 0, this.skeletonHeight);
         mask.endFill();
 
         sprite.anchor.set(0.5);
@@ -47,7 +48,7 @@ export class Bonus extends PIXI.utils.EventEmitter {
         sprite.rotation = -deg;
 
         maskContainer.pivot.x = 0;
-        maskContainer.pivot.y = height / 2;
+        maskContainer.pivot.y = this.skeletonHeight / 2;
         maskContainer.rotation = deg;
 
         maskContainer.x = window.innerWidth / 2;
@@ -134,7 +135,7 @@ export class Bonus extends PIXI.utils.EventEmitter {
                 },
                 keyframes: [
                     { y: 0 },
-                    { y: (sprite.parent.y / 2) + ((100 / 4) * this.scaleFactor) },
+                    { y: (this.skeletonHeight / 2) },
                 ],
                 duration: 2.5,
                 repeat: 0,
@@ -150,7 +151,7 @@ export class Bonus extends PIXI.utils.EventEmitter {
                     if (index === $configs.REEL_LENGTH - 1) {
                         this.bonusTracker.counter++;
                         this.isPlaying = false;
-                        this.emit('animationComplete');
+                        this.EE.emit('animationComplete');
                     }
                 }
             });
