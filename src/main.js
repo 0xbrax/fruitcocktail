@@ -21,9 +21,11 @@ WebFont.load({
         families: ['Rimbo-Regular']
     },
     active: () => {
-        App.run();
+        //App.run(); // TODO
     }
 });
+
+App.run();
 
 let wakelock;
 window.addEventListener('load', async () => {
