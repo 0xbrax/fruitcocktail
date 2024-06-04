@@ -14,8 +14,6 @@ export class Reel {
         this.container = new PIXI.Container();
         this.maskContainer = new PIXI.Container();
         this.symbols = [];
-        //blur: new PIXI.BlurFilter(),
-        //this.container.filters = [reel.blur];
 
         this.createReel();
         this.setPosition();

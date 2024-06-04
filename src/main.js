@@ -21,11 +21,9 @@ WebFont.load({
         families: ['Rimbo-Regular']
     },
     active: () => {
-        //App.run(); // TODO
+        App.run();
     }
 });
-
-App.run();
 
 let wakelock;
 window.addEventListener('load', async () => {
@@ -36,11 +34,6 @@ window.addEventListener('load', async () => {
     } catch (error) {
         //
     }
-});
-window.addEventListener('unload', () => {
-    if ($globals.isFullscreenActive) exitFullscreen();
-    if (wakelock) wakelock.release();
-    Howler.mute(true);
 });
 
 document.addEventListener('visibilitychange', async () => {
@@ -53,6 +46,8 @@ document.addEventListener('visibilitychange', async () => {
         }
     } else {
         if ($globals.isAudioActive === true) Howler.mute(true);
+
+        if ($globals.isFullscreenActive) exitFullscreen();
 
         if (wakelock) {
             wakelock.release();

@@ -20,17 +20,17 @@ import SlotSplashRightImage from '../../assets/image/splash_right_COMPRESSED.png
 import BalanceImage from '../../assets/image/ui_balance_COMPRESSED.png';
 
 // symbols
-import AppleSprite from '../../assets/sprite/apple_spritesheet.json';
-import CherrySprite from '../../assets/sprite/cherry_spritesheet.json';
-import CoconutSprite from '../../assets/sprite/coconut_spritesheet.json';
-import FruitcocktailSprite from '../../assets/sprite/fruitcocktail_spritesheet.json';
-import GrapefruitSprite from '../../assets/sprite/grapefruit_spritesheet.json';
-import LemonSprite from '../../assets/sprite/lemon_spritesheet.json';
-import SplashSprite from '../../assets/sprite/splash_spritesheet.json';
-import WatermelonSprite from '../../assets/sprite/watermelon_spritesheet.json';
+const AppleSprite= new URL(`/src/assets/sprite/apple_spritesheet.json`, import.meta.url).href;
+const CherrySprite = new URL(`/src/assets/sprite/cherry_spritesheet.json`, import.meta.url).href;
+const CoconutSprite = new URL(`/src/assets/sprite/coconut_spritesheet.json`, import.meta.url).href;
+const FruitcocktailSprite = new URL(`/src/assets/sprite/fruitcocktail_spritesheet.json`, import.meta.url).href;
+const GrapefruitSprite = new URL(`/src/assets/sprite/grapefruit_spritesheet.json`, import.meta.url).href;
+const LemonSprite = new URL(`/src/assets/sprite/lemon_spritesheet.json`, import.meta.url).href;
+const SplashSprite = new URL(`/src/assets/sprite/splash_spritesheet.json`, import.meta.url).href;
+const WatermelonSprite = new URL(`/src/assets/sprite/watermelon_spritesheet.json`, import.meta.url).href;
 
-import CharacterMainSprite from '../../assets/sprite/character-main_spritesheet.json';
-import CharacterDrinkSprite from '../../assets/sprite/character-drink_spritesheet.json';
+const CharacterMainSprite = new URL(`/src/assets/sprite/character-main_spritesheet.json`, import.meta.url).href;
+const CharacterDrinkSprite = new URL(`/src/assets/sprite/character-drink_spritesheet.json`, import.meta.url).href;
 
 // menu
 import AppleIcon from '../../assets/icon/apple_COMPRESSED.png';

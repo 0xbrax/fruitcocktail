@@ -58,12 +58,10 @@ export class Loader {
 
                 if (key === 'symbols' || key === 'character') {
                     for (const subKey in this.assets[key]) {
-                        const spritesheet = new PIXI.Spritesheet(
-                            PIXI.BaseTexture.from('/src/assets/sprite/' + this.assets[key][subKey].meta.image),
-                            this.assets[key][subKey]
-                        );
-                        await spritesheet.parse();
-                        $globals.assets[key][subKey] = spritesheet;
+                        console.log('EOOO', this.assets[key][subKey], subKey)
+
+                        PIXI.Assets.add({ alias: subKey, src: this.assets[key][subKey] });
+                        $globals.assets[key][subKey] = await PIXI.Assets.load(subKey);
 
                         loadedAssetsCount++;
                         updateProgress();
