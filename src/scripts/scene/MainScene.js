@@ -20,7 +20,6 @@ export class MainScene {
         this.settingUI = null;
         this.userBet = null;
         this.bonus = null;
-        this.drink = null;
         this.isAutoPlayActive = false;
 
         this.createBackground();
@@ -75,7 +74,7 @@ export class MainScene {
 
     play() {
         console.log('LOG Bonus counter', this.slot.bonusCounter)
-        if (!this.slot.isReady || this.slot.reels.isPlaying) return;
+        if (!this.slot.isReady || this.slot.reels.isPlaying || this.bonus?.isPlaying) return;
 
         this.playUI.play.element.style.filter = 'grayscale(100%)';
         this.slot.reels.reset();
@@ -165,8 +164,9 @@ export class MainScene {
         this.playUI.play.element.style.filter = 'grayscale(0)';
 
         if (this.slot.bonusCounter === 10) {
-            this.createDrinkAndBonus();
+            this.createBonusGame();
             this.slot.characterSwitch('drink');
+            this.slot.drink.bubbleSpeed = 0.004;
         }
 
         const timeout = setTimeout(() => {
@@ -175,6 +175,97 @@ export class MainScene {
             }
             clearTimeout(timeout);
         }, 1_000);
+    }
+
+    createBonusGame() {
+        this.slot.drink.EE.once('animationComplete', () => {
+            this.slot.reels.container.alpha = 0;
+
+            this.bonus = new Bonus(this.slot.body.scaleFactor, this.slot.reels.container);
+            this.slot.container.addChild(this.bonus.container);
+            this.playUI.play.element.style.filter = 'grayscale(0)';
+
+            const timeout = setTimeout(() => {
+                if (this.isAutoPlayActive) {
+                    this.play();
+                }
+                clearTimeout(timeout);
+            }, 1_000);
+
+            this.bonus.EE.on('animationComplete', () => {
+                if (this.bonus.bonusTracker.counter === 2) {
+                    let winAmount = 0;
+                    switch (this.bonus.bonusTracker.condition) {
+                        case 'lose':
+                        case 'fake-win':
+                            break;
+                        case 'win':
+                            winAmount = $configs.USER.MIN_BET * 2;
+                            $configs.USER.BALANCE += winAmount;
+
+                            // $globals.assets.audio['SlotMegaWinSfx'].play();
+                            this.createWinScreen(winAmount);
+                            break;
+                        case 'mega-win':
+                            winAmount = $configs.USER.MIN_BET * 5;
+                            $configs.USER.BALANCE += winAmount;
+
+                            //$globals.assets.audio['SlotMegaWinSfx'].play();
+                            this.createWinScreen(winAmount);
+                    }
+
+                    this.slot.balance.text.text = $configs.USER.BALANCE;
+
+                    const bonusTimeout = setTimeout(() => {
+                        this.slot.bonusCounter = 1;
+                        this.slot.drink.setLevel(this.slot.bonusCounter);
+                        this.slot.characterSwitch('main');
+                        this.slot.drink.bubbleSpeed = 0.001;
+
+                        this.bonus.container.destroy();
+                        this.bonus = null;
+                        this.slot.reels.container.alpha = 1;
+                        this.playUI.play.element.style.filter = 'grayscale(0)';
+
+                        this.slot.drink.EE.once('animationComplete', () => {
+                            const [, , RandomTextureBehavior] = this.slot.drink.emitter.initBehaviors;
+
+                            this.slot.drink.emitter.emit = false;
+                            RandomTextureBehavior.textures = [$globals.assets.main['BubbleImage']];
+                            this.slot.drink.emitter.emit = true;
+                        });
+
+                        const timeout = setTimeout(() => {
+                            if (this.isAutoPlayActive) {
+                                this.play();
+                            }
+                            clearTimeout(timeout);
+                        }, 1_000);
+
+                        clearTimeout(bonusTimeout);
+                    }, 1_000);
+
+                    return;
+                }
+                if (this.bonus.bonusTracker.counter === 1) {
+                    const [, , RandomTextureBehavior] = this.slot.drink.emitter.initBehaviors;
+
+                    this.slot.drink.emitter.emit = false;
+                    const assetName = this.bonus.bonusTracker.lastSymbol.replace(/\b\w/g, l => l.toUpperCase()) + 'Icon';
+                    RandomTextureBehavior.textures = [...Array(5).fill($globals.assets.main['BubbleImage']), $globals.assets.menu[assetName]];
+                    this.slot.drink.emitter.emit = true;
+
+                    this.playUI.play.element.style.filter = 'grayscale(0)';
+
+                    const timeout = setTimeout(() => {
+                        if (this.isAutoPlayActive) {
+                            this.play();
+                        }
+                        clearTimeout(timeout);
+                    }, 1_000);
+                }
+            });
+        });
     }
 
     createWinScreen(winAmount) {
@@ -229,92 +320,6 @@ export class MainScene {
         document.body.appendChild(winScreen);
     }
 
-    createDrinkAndBonus() {
-        this.drink = new Drink(this.scaleFactor, true);
-        this.drink.resetLevel();
-
-        setTimeout(() => {
-            this.drink.bubbleSpeed = 0.001;
-            this.drink.setLevel(10);
-
-            this.drink.EE.on('animationComplete', () => {
-                this.bonus = new Bonus(this.slot.body.scaleFactor);
-                this.container.addChild(this.bonus.container);
-
-                const timeout = setTimeout(() => {
-                    if (this.isAutoPlayActive) {
-                        this.play();
-                    }
-                    clearTimeout(timeout);
-                }, 1_000);
-
-                this.bonus.EE.on('animationComplete', () => {
-                    if (this.bonus.bonusTracker.counter === 2) {
-                        let winAmount = 0;
-                        switch (this.bonus.bonusTracker.condition) {
-                            case 'lose':
-                            case 'fake-win':
-                                break;
-                            case 'win':
-                                winAmount = $configs.USER.MIN_BET * 2;
-                                $configs.USER.BALANCE += winAmount;
-
-                                // $globals.assets.audio['SlotMegaWinSfx'].play();
-                                this.createWinScreen(winAmount);
-                                break;
-                            case 'mega-win':
-                                winAmount = $configs.USER.MIN_BET * 5;
-                                $configs.USER.BALANCE += winAmount;
-
-                                //$globals.assets.audio['SlotMegaWinSfx'].play();
-                                this.createWinScreen(winAmount);
-                        }
-
-                        const bonusTimeout = setTimeout(() => {
-                            this.slot.bonusCounter = 1;
-                            this.slot.drink.setLevel(this.slot.bonusCounter);
-                            this.slot.characterSwitch('main');
-
-                            this.drink.container.destroy();
-                            this.drink = null;
-                            this.bonus.container.destroy();
-                            this.bonus = null;
-
-                            const timeout = setTimeout(() => {
-                                if (this.isAutoPlayActive) {
-                                    this.play();
-                                }
-                                clearTimeout(timeout);
-                            }, 1_000);
-
-                            clearTimeout(bonusTimeout);
-                        }, 1_000);
-
-                        return;
-                    }
-                    if (this.bonus.bonusTracker.counter === 1) {
-                        const [, , RandomTextureBehavior] = this.drink.emitter.initBehaviors;
-
-                        this.drink.emitter.emit = false;
-                        const assetName = this.bonus.bonusTracker.lastSymbol.replace(/\b\w/g, l => l.toUpperCase()) + 'Icon';
-                        RandomTextureBehavior.textures = [...Array(5).fill($globals.assets.main['BubbleImage']), $globals.assets.menu[assetName]];
-                        this.drink.emitter.emit = true;
-                        this.drink.bubbleSpeed = 0.004;
-
-                        const timeout = setTimeout(() => {
-                            if (this.isAutoPlayActive) {
-                                this.play();
-                            }
-                            clearTimeout(timeout);
-                        }, 1_000);
-                    }
-                });
-            });
-        }, 2_500);
-
-        this.container.addChild(this.drink.container);
-    }
-
     resize(originalRect) {
         const scaleFactorHeight = window.innerHeight / originalRect.h;
         const scaleFactorWidth = window.innerWidth / originalRect.w;
@@ -325,15 +330,6 @@ export class MainScene {
 
         if (this.slot) {
             this.slot.resize();
-        }
-        if (this.drink) {
-            const scaleFactor = Math.max(scaleFactorHeight, scaleFactorWidth);
-            this.drink.container.scale.set(scaleFactor);
-        }
-        if (this.bonus) {
-            this.bonus.container.scale.set(this.scaleFactor);
-            this.bonus.container.y = (window.innerHeight / 2);
-            this.bonus.container.x = (window.innerWidth / 2);
         }
     }
 
@@ -346,9 +342,5 @@ export class MainScene {
 
     update(dt) {
         this.slot.update(dt);
-
-        if (this.drink) {
-            this.drink.update(dt);
-        }
     }
 }

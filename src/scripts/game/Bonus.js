@@ -1,29 +1,30 @@
 import * as PIXI from "pixi.js";
-import {$globals, getCryptoRandomNumber, getPseudoRandomNumber, isMobile} from "../system/utils.js";
+import { $globals, getCryptoRandomNumber, getPseudoRandomNumber } from "../system/utils.js";
 import { $configs } from "../system/SETUP.js";
 import { gsap } from "gsap";
 
 export class Bonus {
-    constructor(scaleFactor) {
+    constructor(scaleFactor, reelsContainer) {
         this.EE = new PIXI.utils.EventEmitter();
         this.container = new PIXI.Container();
         this.container.sortableChildren = true;
         this.scaleFactor = scaleFactor;
+        this.reelsContainer = reelsContainer;
 
         this.degIncrease = 45;
         this.degMap = {}
         this.skeletonHeight = null;
         this.sprites = [];
-        this.createSprites();
 
         this.bonusTracker = {
             counter: 0,
             condition: null,
             winSymbol: null,
             lastSymbol: null,
-        }
-
+        };
         this.isPlaying = false;
+
+        this.createSprites();
     }
 
     createSprite(symbol, deg) {
@@ -32,12 +33,12 @@ export class Bonus {
 
         sprite.symbolName = symbol;
 
-        sprite.height = ($configs.SYMBOL_SIZE / 1.25) * this.scaleFactor;
-        sprite.width = ($configs.SYMBOL_SIZE / 1.25) * this.scaleFactor;
+        sprite.height = ($configs.SYMBOL_SIZE / 1.5) * this.scaleFactor;
+        sprite.width = ($configs.SYMBOL_SIZE / 1.5) * this.scaleFactor;
 
         const maskContainer = new PIXI.Container();
         const mask = new PIXI.Graphics();
-        this.skeletonHeight = (isMobile ? window.innerWidth : window.innerHeight) - (sprite.height * 2);
+        this.skeletonHeight = this.reelsContainer.height - sprite.height;
         mask.beginFill(0xffffff);
         mask.drawRect(0, 0, 0, this.skeletonHeight);
         mask.endFill();
@@ -72,8 +73,11 @@ export class Bonus {
         this.container.pivot.x = window.innerWidth / 2;
         this.container.pivot.y = window.innerHeight / 2;
 
-        this.container.x = window.innerWidth / 2;
-        this.container.y = window.innerHeight / 2;
+        const xGap = 23;
+        const yGap = 92 + 4;
+
+        this.container.x = (this.reelsContainer.width / 2) + (xGap * 1.5 * this.scaleFactor);
+        this.container.y = (this.reelsContainer.height / 2) + (yGap * this.scaleFactor);
     }
 
     play(config, isFastForwardActive) {
@@ -102,8 +106,6 @@ export class Bonus {
 
             this.bonusTracker.lastSymbol = selectedSymbol;
         }
-
-        console.log('LOG BONUS', condition, symbol, this.bonusTracker)
 
         const containerDeg = (this.container.rotation * 180) / Math.PI;
 

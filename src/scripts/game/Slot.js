@@ -104,7 +104,7 @@ export class Slot {
             this.drink.bubbleSpeed = 0.001;
             this.drink.setLevel(this.bonusCounter);
             this.characterSwitch('drink');
-        }, 5_000);
+        }, 2_500);
     }
 
     characterSwitch(mode) {
@@ -123,8 +123,9 @@ export class Slot {
     }
 
     resize() {
+        const xGapSplash = 8;
         this.container.y = (window.innerHeight / 2) - (this.container.height / 2) + this.characterMain.yGap;
-        this.container.x = (window.innerWidth / 2) - (this.container.width / 2) + (this.splashLeft.container.width - (8 * this.splashLeft.scaleFactor));
+        this.container.x = (window.innerWidth / 2) - (this.container.width / 2) + (this.splashLeft.container.width - (xGapSplash * this.splashLeft.scaleFactor));
     }
 
     update(dt) {

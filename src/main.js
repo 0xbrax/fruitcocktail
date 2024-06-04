@@ -35,7 +35,6 @@ window.addEventListener('load', async () => {
         //
     }
 });
-
 document.addEventListener('visibilitychange', async () => {
     if (document.visibilityState === 'visible') {
         if ($globals.isAudioActive === true) Howler.mute(false);

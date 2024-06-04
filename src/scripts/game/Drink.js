@@ -29,7 +29,8 @@ export class Drink {
 
         this.createDrink();
         this.createMasks();
-        this.createBubbleEmitter();
+
+        if (!this.isFullScreen) this.createBubbleEmitter();
     }
 
     createDrink() {
@@ -73,7 +74,7 @@ export class Drink {
             onUpdate: updateWave
         });
 
-        this.drink.alpha = this.isFullScreen ? 0.8 : 0.5;
+        this.drink.alpha = this.isFullScreen ? 1 : 0.5;
         this.drink.x = this.xPos * this.scaleFactor;
 
         this.drink.y = (this.yPos * this.scaleFactor) + this.rectHeight;
@@ -138,22 +139,17 @@ export class Drink {
         this.createBubbleContainer();
 
         const textures = [];
-        if (this.isFullScreen) {
-            textures.push($globals.assets.main['BubbleImage']);
-        }
-        if (!this.isFullScreen) {
-            textures.push(...Array(10).fill($globals.assets.main['BubbleImage']));
-            for (const key in $globals.assets.menu) {
-                textures.push($globals.assets.menu[key]);
-            }
+        textures.push(...Array(10).fill($globals.assets.main['BubbleImage']));
+        for (const key in $globals.assets.menu) {
+            textures.push($globals.assets.menu[key]);
         }
 
         this.emitter = new Emitter(
             this.emitterContainer,
         {
             "lifetime": {
-                "min": this.isFullScreen && isMobile ? 0.2 : 0.3,
-                "max": this.isFullScreen && isMobile ? 0.33 : 0.5
+                "min": isMobile ? 0.2 : 0.3,
+                "max": isMobile ? 0.33 : 0.5
             },
             "frequency": 0.005,
             "emitterLifetime": 0,
@@ -177,7 +173,7 @@ export class Drink {
                             "list": [
                                 {
                                     "time": 0,
-                                    "value": this.isFullScreen ? 1 : 0.5
+                                    "value": 0.5
                                 },
                                 {
                                     "time": 1,
@@ -201,11 +197,11 @@ export class Drink {
                             "list": [
                                 {
                                     "time": 0,
-                                    "value": this.isFullScreen && isMobile ? 0.4 * this.scaleFactor : 0.6 * this.scaleFactor
+                                    "value": isMobile ? 0.4 * this.scaleFactor : 0.6 * this.scaleFactor
                                 },
                                 {
                                     "time": 1,
-                                    "value": this.isFullScreen && isMobile ? 0.6 * this.scaleFactor : 0.8 * this.scaleFactor
+                                    "value": isMobile ? 0.6 * this.scaleFactor : 0.8 * this.scaleFactor
                                 }
                             ]
                         },

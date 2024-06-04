@@ -58,8 +58,6 @@ export class Loader {
 
                 if (key === 'symbols' || key === 'character') {
                     for (const subKey in this.assets[key]) {
-                        console.log('EOOO', this.assets[key][subKey], subKey)
-
                         PIXI.Assets.add({ alias: subKey, src: this.assets[key][subKey] });
                         $globals.assets[key][subKey] = await PIXI.Assets.load(subKey);
 
