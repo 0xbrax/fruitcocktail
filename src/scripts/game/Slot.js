@@ -7,6 +7,7 @@ import { Logo } from "./Logo.js";
 import { SplashLeft } from "./SplashLeft.js";
 import { SplashRight } from "./SplashRight.js";
 import { CharacterMain } from "./CharacterMain.js";
+import { CharacterDrink } from "./CharacterDrink.js";
 import { Balance } from "./Balance.js";
 import { $configs } from "../system/SETUP.js";
 import { $globals } from "../system/utils.js";
@@ -41,7 +42,12 @@ export class Slot {
         this.container.addChild(this.splashRight.container);
 
         this.characterMain = new CharacterMain(this.body.scaleFactor);
+        this.characterMain.sprite.play();
         this.container.addChild(this.characterMain.container);
+
+        this.characterDrink = new CharacterDrink(this.body.scaleFactor);
+        this.characterDrink.sprite.alpha = 0;
+        this.container.addChild(this.characterDrink.container);
 
         this.balance = new Balance(this.body.scaleFactor, this.body.container);
         this.container.addChild(this.balance.container);
@@ -88,6 +94,7 @@ export class Slot {
                         fadeAnim.kill();
                         this.isReady = true;
                         this.EE.emit('ready');
+                        this.characterSwitch('main');
                     }
                 });
             }
@@ -96,7 +103,23 @@ export class Slot {
         setTimeout(() => {
             this.drink.bubbleSpeed = 0.001;
             this.drink.setLevel(this.bonusCounter);
+            this.characterSwitch('drink');
         }, 5_000);
+    }
+
+    characterSwitch(mode) {
+        if (mode === 'main') {
+            this.characterDrink.sprite.stop();
+            this.characterDrink.sprite.alpha = 0;
+            this.characterMain.sprite.play();
+            this.characterMain.sprite.alpha = 1;
+        }
+        if (mode === 'drink') {
+            this.characterMain.sprite.stop();
+            this.characterMain.sprite.alpha = 0;
+            this.characterDrink.sprite.play();
+            this.characterDrink.sprite.alpha = 1;
+        }
     }
 
     resize() {

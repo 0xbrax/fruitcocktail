@@ -1,8 +1,8 @@
 import { CharacterSprite } from "./CharacterSprite.js";
 
-export class CharacterMain extends CharacterSprite {
+export class CharacterDrink extends CharacterSprite {
     constructor(scaleFactor) {
-        super(scaleFactor, 'CharacterMainSprite', 1175, 550);
+        super(scaleFactor, 'CharacterDrinkSprite', 1207, 596)
 
         this.createSprite();
     }

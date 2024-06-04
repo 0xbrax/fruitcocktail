@@ -166,6 +166,7 @@ export class MainScene {
 
         if (this.slot.bonusCounter === 10) {
             this.createDrinkAndBonus();
+            this.slot.characterSwitch('drink');
         }
 
         const timeout = setTimeout(() => {
@@ -228,28 +229,6 @@ export class MainScene {
         document.body.appendChild(winScreen);
     }
 
-    resize(originalRect) {
-        const scaleFactorHeight = window.innerHeight / originalRect.h;
-        const scaleFactorWidth = window.innerWidth / originalRect.w;
-
-        this.scaleFactor = Math.min(scaleFactorHeight, scaleFactorWidth);
-
-        this.container.scale.set(this.scaleFactor);
-
-        if (this.slot) {
-            this.slot.resize();
-        }
-        if (this.drink) {
-            const scaleFactor = Math.max(scaleFactorHeight, scaleFactorWidth);
-            this.drink.container.scale.set(scaleFactor);
-        }
-        if (this.bonus) {
-            this.bonus.container.scale.set(this.scaleFactor);
-            this.bonus.container.y = (window.innerHeight / 2);
-            this.bonus.container.x = (window.innerWidth / 2);
-        }
-    }
-
     createDrinkAndBonus() {
         this.drink = new Drink(this.scaleFactor, true);
         this.drink.resetLevel();
@@ -294,6 +273,7 @@ export class MainScene {
                         const bonusTimeout = setTimeout(() => {
                             this.slot.bonusCounter = 1;
                             this.slot.drink.setLevel(this.slot.bonusCounter);
+                            this.slot.characterSwitch('main');
 
                             this.drink.container.destroy();
                             this.drink = null;
@@ -333,6 +313,28 @@ export class MainScene {
         }, 2_500);
 
         this.container.addChild(this.drink.container);
+    }
+
+    resize(originalRect) {
+        const scaleFactorHeight = window.innerHeight / originalRect.h;
+        const scaleFactorWidth = window.innerWidth / originalRect.w;
+
+        this.scaleFactor = Math.min(scaleFactorHeight, scaleFactorWidth);
+
+        this.container.scale.set(this.scaleFactor);
+
+        if (this.slot) {
+            this.slot.resize();
+        }
+        if (this.drink) {
+            const scaleFactor = Math.max(scaleFactorHeight, scaleFactorWidth);
+            this.drink.container.scale.set(scaleFactor);
+        }
+        if (this.bonus) {
+            this.bonus.container.scale.set(this.scaleFactor);
+            this.bonus.container.y = (window.innerHeight / 2);
+            this.bonus.container.x = (window.innerWidth / 2);
+        }
     }
 
     remove() {
