@@ -8,7 +8,7 @@ import SlotWinJollySfx from '../../assets/audio/slot_win-jolly_COMPRESSED.mp3';
 import SlotFreeSpinSfx from '../../assets/audio/slot_free-spin_COMPRESSED.mp3';
 
 // main
-import BackgroundImage from "../../assets/image/back_COMPRESSED.gif";
+import BackgroundVideo from "../../assets/image/back_COMPRESSED.mp4";
 import BubbleImage from '../../assets/image/bubble_COMPRESSED.png';
 
 // body
@@ -58,7 +58,7 @@ export const assets = {
         SlotFreeSpinSfx
     },
     main: {
-        BackgroundImage,
+        BackgroundVideo,
         BubbleImage
     },
     body: {

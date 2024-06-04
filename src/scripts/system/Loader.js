@@ -50,7 +50,7 @@ export class Loader {
                 }
 
                 if (key === 'main') {
-                    $globals.assets[key]['BackgroundImage'] = this.assets[key]['BackgroundImage'];
+                    $globals.assets[key]['BackgroundVideo'] = this.assets[key]['BackgroundVideo'];
                     loadedAssetsCount++;
                     updateProgress();
                     continue;
