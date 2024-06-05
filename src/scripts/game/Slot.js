@@ -54,7 +54,7 @@ export class Slot {
 
         this.reels.EE.on('animationComplete', () => {
             this.bonusCounter++;
-            this.drink.setLevel(this.bonusCounter);
+            //this.drink.setLevel(this.bonusCounter);
         });
 
         /*this.drink.EE.once('animationComplete', () => {

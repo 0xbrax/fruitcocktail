@@ -27,9 +27,9 @@ class Application {
             width: this.originalRect.w,
             resizeTo: window,
             backgroundAlpha: 0,
-            resolution: window.devicePixelRatio || 1,
-            autoDensity: true,
-            antialias: true
+            resolution: 1//window.devicePixelRatio || 1,
+            //autoDensity: true,
+            //antialias: true
         });
         document.body.appendChild(this.app.view);
         window.addEventListener('resize', this.resize.bind(this, this.originalRect));
