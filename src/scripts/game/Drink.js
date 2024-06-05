@@ -30,7 +30,7 @@ export class Drink {
         this.createDrink();
         this.createMasks();
 
-        if (!this.isFullScreen) this.createBubbleEmitter();
+        //if (!this.isFullScreen) this.createBubbleEmitter();
     }
 
     createDrink() {
@@ -279,8 +279,8 @@ export class Drink {
     }
 
     update(dt) {
-        if (this.emitter) {
+        /*if (this.emitter) {
             this.emitter.update(dt * this.bubbleSpeed);
-        }
+        }*/
     }
 }

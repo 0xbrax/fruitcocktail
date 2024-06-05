@@ -228,11 +228,11 @@ export class MainScene {
                         this.playUI.play.element.style.filter = 'grayscale(0)';
 
                         this.slot.drink.EE.once('animationComplete', () => {
-                            const [, , RandomTextureBehavior] = this.slot.drink.emitter.initBehaviors;
+                            /*const [, , RandomTextureBehavior] = this.slot.drink.emitter.initBehaviors;
 
                             this.slot.drink.emitter.emit = false;
                             RandomTextureBehavior.textures = [$globals.assets.main['BubbleImage']];
-                            this.slot.drink.emitter.emit = true;
+                            this.slot.drink.emitter.emit = true;*/
                         });
 
                         const timeout = setTimeout(() => {
@@ -248,12 +248,12 @@ export class MainScene {
                     return;
                 }
                 if (this.bonus.bonusTracker.counter === 1) {
-                    const [, , RandomTextureBehavior] = this.slot.drink.emitter.initBehaviors;
+                   /* const [, , RandomTextureBehavior] = this.slot.drink.emitter.initBehaviors;
 
                     this.slot.drink.emitter.emit = false;
                     const assetName = this.bonus.bonusTracker.lastSymbol.replace(/\b\w/g, l => l.toUpperCase()) + 'Icon';
                     RandomTextureBehavior.textures = [...Array(5).fill($globals.assets.main['BubbleImage']), $globals.assets.menu[assetName]];
-                    this.slot.drink.emitter.emit = true;
+                    this.slot.drink.emitter.emit = true;*/
 
                     this.playUI.play.element.style.filter = 'grayscale(0)';
 
