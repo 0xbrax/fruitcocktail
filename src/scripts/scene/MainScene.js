@@ -166,7 +166,7 @@ export class MainScene {
             this.playUI.play.element.style.filter = 'grayscale(100%)';
             this.createBonusGame();
             this.slot.characterSwitch('drink');
-            this.slot.drink.bubbleSpeed = 0.004;
+            this.slot.drink.bubbleSpeed = 0.002;
         }
 
         const timeout = setTimeout(() => {

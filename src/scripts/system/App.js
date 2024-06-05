@@ -29,7 +29,7 @@ class Application {
             backgroundAlpha: 0,
             resolution: window.devicePixelRatio || 1,
             autoDensity: true,
-            //antialias: true
+            //antialias: true --> default false for performance
         });
         document.body.appendChild(this.app.view);
         window.addEventListener('resize', this.resize.bind(this, this.originalRect));

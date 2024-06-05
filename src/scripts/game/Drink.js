@@ -7,6 +7,13 @@ import { isMobile } from "../system/utils.js";
 
 export class Drink {
     constructor(scaleFactor) {
+        /*this.targetFPS = 100;
+        this.frameInterval = 1 / this.targetFPS;
+        this.accumulatedTime = 0;*/
+        //this.tickCounter = 0;
+
+
+
         this.EE = new PIXI.utils.EventEmitter();
         this.scaleFactor = scaleFactor;
         this.container = new PIXI.Container();
@@ -15,7 +22,7 @@ export class Drink {
         this.drink = null;
         this.emitter = null;
         this.rectHeight = 1017 * this.scaleFactor;
-        this.bubbleSpeed = 0.004;
+        this.bubbleSpeed = 0.002;
 
         this.yPos = 97;
         this.xPos = 34;
@@ -254,6 +261,31 @@ export class Drink {
     }
 
     update(dt) {
+        /*this.accumulatedTime += dt / PIXI.Ticker.shared.FPS;
+
+        if (this.accumulatedTime >= this.frameInterval) {
+            if (this.emitter) {
+                this.emitter.update(this.accumulatedTime * this.bubbleSpeed);
+            }
+            this.accumulatedTime -= this.frameInterval;
+        }*/
+
+        /*this.tickCounter++;
+
+        // Dimezza la frequenza di aggiornamento
+        if (this.tickCounter % 2 === 0) {
+            // Aggiorna l'emitter ogni due chiamate del ticker
+            if (this.emitter) {
+                this.emitter.update(dt * this.bubbleSpeed);
+            }
+        }
+
+        // Resetta il contatore ogni milione di tick
+        if (this.tickCounter >= 1_000_000) {
+            this.tickCounter = 0;
+        }*/
+
+
         if (this.emitter) {
             this.emitter.update(dt * this.bubbleSpeed);
         }
