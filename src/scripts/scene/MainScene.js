@@ -204,7 +204,7 @@ export class MainScene {
                     const texture = $globals.assets.menu[assetName]
                     const rotatedTexture = new PIXI.Texture(texture.baseTexture, texture.frame, texture.orig, texture.trim, 2);
 
-                    RandomTextureBehavior.textures = [...Array(5).fill($globals.assets.body['BubbleImage']), rotatedTexture];
+                    RandomTextureBehavior.textures = [$globals.assets.body['BubbleImage'], rotatedTexture];
                     this.slot.drink.emitter.emit = true;
 
                     this.playUI.play.element.style.filter = 'grayscale(0)';

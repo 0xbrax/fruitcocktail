@@ -56,14 +56,6 @@ export class Slot {
             this.bonusCounter++;
             this.drink.setLevel(this.bonusCounter);
         });
-
-        this.drink.EE.once('animationComplete', () => {
-            /*const [, , RandomTextureBehavior] = this.drink.emitter.initBehaviors;
-
-            this.drink.emitter.emit = false;
-            RandomTextureBehavior.textures = [$globals.assets.body['BubbleImage']];
-            this.drink.emitter.emit = true;*/
-        });
     }
 
     reelsFadeIn() {

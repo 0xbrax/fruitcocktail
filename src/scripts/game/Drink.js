@@ -118,12 +118,6 @@ export class Drink {
         this.createBubbleContainer();
 
         const textures = [$globals.assets.body['BubbleImage']];
-        /*textures.push(...Array(10).fill($globals.assets.body['BubbleImage']));
-        for (const key in $globals.assets.menu) {
-            const texture = $globals.assets.menu[key];
-            const rotatedTexture = new PIXI.Texture(texture.baseTexture, texture.frame, texture.orig, texture.trim, 2);
-            textures.push(rotatedTexture);
-        }*/
 
         this.emitter = new Emitter(
             this.emitterContainer,
@@ -134,7 +128,7 @@ export class Drink {
             },
             "frequency": 0.005,
             "emitterLifetime": 0,
-            "maxParticles": 500,
+            "maxParticles": 50,
             "addAtBack": false,
             "pos": {
                 "x": 0,
@@ -215,10 +209,10 @@ export class Drink {
         );
     }
 
-    resetLevel() {
+    /*resetLevel() {
         this.drink.y = (this.yPos * this.scaleFactor) + this.rectHeight + (this.rectHeight * 0.8);
         this.emitterContainer.y = this.rectHeight * 0.8;
-    }
+    }*/
 
     setLevel(level) {
         let lv;
