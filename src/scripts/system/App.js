@@ -44,8 +44,6 @@ class Application {
             this.loadingScene = new LoadingScene();
 
             this.loader.EE.on('progress', (progress) => {
-                console.log(`Progress: ${progress}%`);
-
                 this.loadingScene.setText(progress);
             });
 

@@ -68,7 +68,6 @@ export class MainScene {
     }
 
     play() {
-        console.log('LOG Bonus counter', this.slot.bonusCounter)
         if (!this.slot.isReady || this.slot.reels.isPlaying || this.bonus?.isPlaying) return;
 
         this.playUI.play.element.style.filter = 'grayscale(100%)';
@@ -85,8 +84,6 @@ export class MainScene {
 
                 this.playUI.play.element.style.filter = 'grayscale(100%)';
                 this.bonus.play(config, this.slot.reels.isFastForwardActive);
-
-                console.log(this.bonus.bonusTracker)
             }
 
             return;
@@ -101,8 +98,6 @@ export class MainScene {
         this.slot.balance.text.text = $configs.USER.BALANCE;
         this.slot.reels.getConditionAndSymbol();
         this.slot.reels.play();
-
-        console.log('- - - - - LOG ......', $configs.SELECTED_CONDITION, $configs.SELECTED_SYMBOL)
     }
 
     autoPlayHandler() {

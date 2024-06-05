@@ -10,7 +10,7 @@ export class LoadingScene {
 
     createBackground() {
         this.background = document.createElement('div');
-        this.background.style.height = '100%';
+        this.background.style.height = '100svh';
         this.background.style.width = '100%';
         this.background.style.position = 'absolute';
         this.background.style.zIndex = '100';

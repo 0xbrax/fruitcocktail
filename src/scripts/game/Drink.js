@@ -3,7 +3,6 @@ import { gsap } from 'gsap';
 import { Emitter } from "@pixi/particle-emitter";
 import { $globals } from "../system/utils.js";
 import { $style } from "../system/SETUP.js";
-import { isMobile } from "../system/utils.js";
 
 export class Drink {
     constructor(scaleFactor) {
@@ -123,8 +122,8 @@ export class Drink {
             this.emitterContainer,
         {
             "lifetime": {
-                "min": isMobile ? 0.2 : 0.3,
-                "max": isMobile ? 0.3 : 0.4
+                "min": 0.2,
+                "max": 0.4
             },
             "frequency": 0.01,
             "emitterLifetime": 0,
@@ -172,11 +171,11 @@ export class Drink {
                             "list": [
                                 {
                                     "time": 0,
-                                    "value": isMobile ? 0.5 * this.scaleFactor : 0.6 * this.scaleFactor
+                                    "value": 0.6 * this.scaleFactor
                                 },
                                 {
                                     "time": 1,
-                                    "value": isMobile ? 0.7 * this.scaleFactor : 0.8 * this.scaleFactor
+                                    "value": 0.8 * this.scaleFactor
                                 }
                             ]
                         },
