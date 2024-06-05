@@ -38,7 +38,7 @@ export class SettingUI {
         this.menu = document.createElement('div');
         this.menu.id = 'menu';
         const style = {
-            height: '100svh',
+            height: '100%',
             width: '100%',
             position: 'absolute',
             zIndex: '5',

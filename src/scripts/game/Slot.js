@@ -10,7 +10,6 @@ import { CharacterMain } from "./CharacterMain.js";
 import { CharacterDrink } from "./CharacterDrink.js";
 import { Balance } from "./Balance.js";
 import { $configs } from "../system/SETUP.js";
-import { $globals } from "../system/utils.js";
 import { gsap } from 'gsap';
 
 export class Slot {
