@@ -165,8 +165,8 @@ export class MainScene {
             $globals.assets.audio['SlotFreeSpinSfx'].play();
             this.playUI.play.element.style.filter = 'grayscale(100%)';
             this.createBonusGame();
+            this.slot.drink.emitter.emit = true;
             this.slot.characterSwitch('drink');
-            this.slot.drink.bubbleSpeed = 0.002;
         }
 
         const timeout = setTimeout(() => {
@@ -244,9 +244,9 @@ export class MainScene {
 
                     const bonusTimeout = setTimeout(() => {
                         this.slot.bonusCounter = 1;
+                        this.slot.drink.emitter.emit = false;
                         this.slot.drink.setLevel(this.slot.bonusCounter);
                         this.slot.characterSwitch('main');
-                        this.slot.drink.bubbleSpeed = 0.001;
 
                         this.bonus.container.destroy();
                         this.bonus = null;

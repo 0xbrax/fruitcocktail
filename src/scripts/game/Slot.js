@@ -91,7 +91,7 @@ export class Slot {
         });
 
         setTimeout(() => {
-            this.drink.bubbleSpeed = 0.001;
+            this.drink.emitter.emit = false;
             this.drink.setLevel(this.bonusCounter);
             this.characterSwitch('drink');
         }, 2_500);
