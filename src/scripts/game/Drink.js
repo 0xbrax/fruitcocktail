@@ -22,7 +22,7 @@ export class Drink {
 
         this.createDrink();
         this.createMasks();
-        this.createBubbleEmitter();
+        //this.createBubbleEmitter();
     }
 
     createDrink() {

@@ -23,8 +23,8 @@ export class Slot {
         this.body = new Body();
         this.container.addChild(this.body.container);
 
-        //this.drink = new Drink(this.body.scaleFactor);
-        //this.container.addChild(this.drink.container);
+        this.drink = new Drink(this.body.scaleFactor);
+        this.container.addChild(this.drink.container);
 
         this.reels = new Reels(this.body.scaleFactor);
         this.container.addChild(this.reels.container);
@@ -54,7 +54,7 @@ export class Slot {
 
         this.reels.EE.on('animationComplete', () => {
             this.bonusCounter++;
-            //this.drink.setLevel(this.bonusCounter);
+            this.drink.setLevel(this.bonusCounter);
         });
 
         /*this.drink.EE.once('animationComplete', () => {
@@ -98,11 +98,11 @@ export class Slot {
             }
         });
 
-        /*setTimeout(() => {
+        setTimeout(() => {
             this.drink.bubbleSpeed = 0.001;
             this.drink.setLevel(this.bonusCounter);
             this.characterSwitch('drink');
-        }, 2_500);*/
+        }, 2_500);
     }
 
     characterSwitch(mode) {
