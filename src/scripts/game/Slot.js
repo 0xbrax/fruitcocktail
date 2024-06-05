@@ -23,8 +23,8 @@ export class Slot {
         this.body = new Body();
         this.container.addChild(this.body.container);
 
-        this.drink = new Drink(this.body.scaleFactor);
-        this.container.addChild(this.drink.container);
+        //this.drink = new Drink(this.body.scaleFactor);
+        //this.container.addChild(this.drink.container);
 
         this.reels = new Reels(this.body.scaleFactor);
         this.container.addChild(this.reels.container);
@@ -57,13 +57,13 @@ export class Slot {
             this.drink.setLevel(this.bonusCounter);
         });
 
-        this.drink.EE.once('animationComplete', () => {
+        /*this.drink.EE.once('animationComplete', () => {
             const [, , RandomTextureBehavior] = this.drink.emitter.initBehaviors;
 
             this.drink.emitter.emit = false;
             RandomTextureBehavior.textures = [$globals.assets.body['BubbleImage']];
             this.drink.emitter.emit = true;
-        });
+        });*/
     }
 
     reelsFadeIn() {
@@ -98,11 +98,11 @@ export class Slot {
             }
         });
 
-        setTimeout(() => {
+        /*setTimeout(() => {
             this.drink.bubbleSpeed = 0.001;
             this.drink.setLevel(this.bonusCounter);
             this.characterSwitch('drink');
-        }, 2_500);
+        }, 2_500);*/
     }
 
     characterSwitch(mode) {
@@ -121,6 +121,6 @@ export class Slot {
     }
 
     update(dt) {
-        this.drink.update(dt);
+        //this.drink.update(dt);
     }
 }
