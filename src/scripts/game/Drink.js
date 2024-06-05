@@ -6,10 +6,9 @@ import { $style } from "../system/SETUP.js";
 import { isMobile } from "../system/utils.js";
 
 export class Drink {
-    constructor(scaleFactor, isFullScreen) {
+    constructor(scaleFactor) {
         this.EE = new PIXI.utils.EventEmitter();
         this.scaleFactor = scaleFactor;
-        this.isFullScreen = isFullScreen;
         this.container = new PIXI.Container();
         this.maskContainer = new PIXI.Container();
         this.emitterContainer = new PIXI.Container();
@@ -17,20 +16,13 @@ export class Drink {
         this.emitter = null;
         this.rectHeight = 1017 * this.scaleFactor;
         this.bubbleSpeed = 0.004;
-        
-        if (this.isFullScreen) {
-            this.yPos = 0;
-            this.xPos = 0;
-        }
-        if (!this.isFullScreen) {
-            this.yPos = 97;
-            this.xPos = 34;
-        }
+
+        this.yPos = 97;
+        this.xPos = 34;
 
         this.createDrink();
         this.createMasks();
-
-        //if (!this.isFullScreen) this.createBubbleEmitter();
+        this.createBubbleEmitter();
     }
 
     createDrink() {
@@ -74,7 +66,7 @@ export class Drink {
             onUpdate: updateWave
         });
 
-        this.drink.alpha = this.isFullScreen ? 1 : 0.5;
+        this.drink.alpha = 0.5;
         this.drink.x = this.xPos * this.scaleFactor;
 
         this.drink.y = (this.yPos * this.scaleFactor) + this.rectHeight;
@@ -83,28 +75,15 @@ export class Drink {
     }
 
     createMasks() {
-        if (this.isFullScreen) {
-            this.setLoadingMask();
-        }
-        if (!this.isFullScreen) {
-            let xGap = this.xPos;
+        let xGap = this.xPos;
 
-            for (let i = 0; i < 5; i++) {
-                this.setMask(xGap);
-                xGap += 320 + 22;
-            }
+        for (let i = 0; i < 5; i++) {
+            this.setMask(xGap);
+            xGap += 320 + 22;
         }
 
         this.container.mask = this.maskContainer;
         this.container.addChild(this.maskContainer);
-    }
-
-    setLoadingMask() {
-        const mask = new PIXI.Graphics();
-        mask.beginFill(0xffffff);
-        mask.drawRect(0, 0, window.innerWidth, window.innerHeight);
-        mask.endFill();
-        this.maskContainer.addChild(mask);
     }
 
     setMask(xGap) {
@@ -139,9 +118,11 @@ export class Drink {
         this.createBubbleContainer();
 
         const textures = [];
-        textures.push(...Array(10).fill($globals.assets.main['BubbleImage']));
+        textures.push(...Array(10).fill($globals.assets.body['BubbleImage']));
         for (const key in $globals.assets.menu) {
-            textures.push($globals.assets.menu[key]);
+            const texture = $globals.assets.menu[key];
+            const rotatedTexture = new PIXI.Texture(texture.baseTexture, texture.frame, texture.orig, texture.trim, 2);
+            textures.push(rotatedTexture);
         }
 
         this.emitter = new Emitter(
@@ -186,8 +167,8 @@ export class Drink {
                 {
                     "type": "moveSpeedStatic",
                     "config": {
-                        "min": 1500 * this.scaleFactor,
-                        "max": 2000 * this.scaleFactor
+                        "min": -1500 * this.scaleFactor,
+                        "max": -2000 * this.scaleFactor
                     }
                 },
                 {
@@ -214,8 +195,8 @@ export class Drink {
                         "accel": 0,
                         "minSpeed": 0,
                         "maxSpeed": 50,
-                        "minStart": 260,
-                        "maxStart": 280
+                        "minStart": 80,
+                        "maxStart": 100
                     }
                 },
                 {
@@ -279,8 +260,8 @@ export class Drink {
     }
 
     update(dt) {
-        /*if (this.emitter) {
+        if (this.emitter) {
             this.emitter.update(dt * this.bubbleSpeed);
-        }*/
+        }
     }
 }

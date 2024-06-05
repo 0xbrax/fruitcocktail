@@ -34,60 +34,43 @@ class Application {
         document.body.appendChild(this.app.view);
         window.addEventListener('resize', this.resize.bind(this, this.originalRect));
 
-        $globals.scene = new SceneManager();
-        this.app.stage.addChild($globals.scene.container);
-        this.app.ticker.add(dt => $globals.scene.update(dt)); // delta time
-
-        $globals.scene.start(new LoadingScene());
-        this.resize(this.originalRect);
+        $globals.sceneManager = new SceneManager();
+        this.app.stage.addChild($globals.sceneManager.container);
+        this.app.ticker.add(dt => $globals.sceneManager.update(dt)); // delta time
+        
         this.loader = new Loader();
 
-
         this.loader.preloadAssets().then(() => {
-            $globals.scene.scene.createDrink();
-            $globals.scene.scene.createLogo();
-            $globals.scene.scene.setText('loading')
-            $globals.scene.scene.setSubContainerPosition();
-            $globals.scene.scene.container.addChild($globals.scene.scene.subContainer);
-
-            const convertedProgress = (value) => {
-                const a = 0;
-                const b = 100;
-                const c = 3; // min value
-                const d = 10; // max value
-
-                return ((value - a) / (b - a)) * (d - c) + c;
-            }
+            this.loadingScene = new LoadingScene();
 
             this.loader.EE.on('progress', (progress) => {
                 console.log(`Progress: ${progress}%`);
 
-                $globals.scene.scene.updateProgress(convertedProgress(progress));
+                this.loadingScene.setText(progress);
             });
 
             this.loader.loadAssets().then(() => {
-                setTimeout(() => {
-                    $globals.scene.scene.createDisclaimer();
-
-                    $globals.scene.scene.text.text = 'enter';
-                    $globals.scene.scene.createTextBackground();
-                    $globals.scene.scene.textBakcground.eventMode = 'static';
-                    $globals.scene.scene.textBakcground.cursor = 'pointer';
-                    $globals.scene.scene.textBakcground.once('pointerdown', () => {
-                        this.start();
-                    });
-                }, 2_500) // animation end on progress 100%
+                this.start();
+                
+                this.loadingScene.createDisclaimer();
+                this.loadingScene.setText('enter');
+                this.loadingScene.content.style.cursor = 'pointer';
+                this.loadingScene.content.addEventListener('click', () => {
+                    this.loadingScene.remove();
+                    $globals.assets.audio['BackgroundMusicTrack'].play();
+                    $globals.sceneManager.scene.slot.reelsFadeIn();
+                }, { once: true });
             });
         });
     }
 
     start() {
-        $globals.scene.start(new MainScene());
+        $globals.sceneManager.start(new MainScene());
         this.resize(this.originalRect);
     }
 
     resize(originalRect) {
-        $globals.scene.resize(originalRect);
+        $globals.sceneManager.resize(originalRect);
         this.app.resize(window.innerWidth, window.innerHeight);
     }
 }

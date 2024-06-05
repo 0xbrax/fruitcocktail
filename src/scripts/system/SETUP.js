@@ -40,6 +40,7 @@ export const $style = {
     black: '000000',
     white: 'ffffff',
     main: 'f36300',
+    mainRGB: '243, 99, 0',
     secondary: 'be0100',
     special: 'fecd00'
 }

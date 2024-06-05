@@ -52,19 +52,17 @@ export class Slot {
         this.balance = new Balance(this.body.scaleFactor, this.body.container);
         this.container.addChild(this.balance.container);
 
-        this.reelsFadeIn();
-
         this.reels.EE.on('animationComplete', () => {
             this.bonusCounter++;
             this.drink.setLevel(this.bonusCounter);
         });
 
         this.drink.EE.once('animationComplete', () => {
-            /*const [, , RandomTextureBehavior] = this.drink.emitter.initBehaviors;
+            const [, , RandomTextureBehavior] = this.drink.emitter.initBehaviors;
 
             this.drink.emitter.emit = false;
-            RandomTextureBehavior.textures = [$globals.assets.main['BubbleImage']];
-            this.drink.emitter.emit = true;*/
+            RandomTextureBehavior.textures = [$globals.assets.body['BubbleImage']];
+            this.drink.emitter.emit = true;
         });
     }
 
@@ -87,7 +85,7 @@ export class Slot {
                         alpha: 1
                     },
                     duration: 2.5,
-                    delay: 5,
+                    delay: 2.5,
                     repeat: 0,
                     ease: "power1.inOut",
                     onComplete: () => {
@@ -120,12 +118,6 @@ export class Slot {
             this.characterDrink.sprite.play();
             this.characterDrink.sprite.alpha = 1;
         }
-    }
-
-    resize() {
-        const xGapSplash = 8;
-        this.container.y = (window.innerHeight / 2) - (this.container.height / 2) + this.characterMain.yGap;
-        this.container.x = (window.innerWidth / 2) - (this.container.width / 2) + (this.splashLeft.container.width - (xGapSplash * this.splashLeft.scaleFactor));
     }
 
     update(dt) {

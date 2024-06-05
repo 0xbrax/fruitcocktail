@@ -8,7 +8,7 @@ export class PlayUI {
 
         const style = {
             position: 'absolute',
-            zIndex: '2',
+            zIndex: '3',
 
             display: 'flex',
             alignItems: 'flex-end',

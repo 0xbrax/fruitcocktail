@@ -15,11 +15,7 @@ export class Loader {
 
     preloadAssets() {
         return new Promise(async resolve => {
-            PIXI.Assets.add({ alias: 'BubbleImage', src: this.assets.main['BubbleImage'] });
-            $globals.assets.main['BubbleImage'] = await PIXI.Assets.load('BubbleImage');
-
-            PIXI.Assets.add({ alias: 'LogoFullImage', src: this.assets.other['LogoFullImage'] });
-            $globals.assets.other['LogoFullImage'] = await PIXI.Assets.load('LogoFullImage');
+            $globals.assets.preload['LogoFullImage'] = this.assets.preload['LogoFullImage'];
 
             resolve();
         });
@@ -28,6 +24,7 @@ export class Loader {
     loadAssets() {
         return new Promise(async resolve => {
             const totalAssetsCount = Object.keys(this.assets).reduce((acc, key) => {
+                if (key === 'preload') return acc;
                 return acc + Object.keys(this.assets[key]).length;
             }, 0);
 
@@ -39,6 +36,8 @@ export class Loader {
             updateProgress();
 
             for (const key in this.assets) {
+                if (key === 'preload') continue;
+
                 if (key === 'audio') {
                     for (const subKey in this.assets[key]) {
                         $globals.assets[key][subKey] = await this.loadSound(this.assets[key][subKey]);
@@ -46,13 +45,6 @@ export class Loader {
                         loadedAssetsCount++;
                         updateProgress();
                     }
-                    continue;
-                }
-
-                if (key === 'main') {
-                    $globals.assets[key]['BackgroundVideo'] = this.assets[key]['BackgroundVideo'];
-                    loadedAssetsCount++;
-                    updateProgress();
                     continue;
                 }
 
@@ -64,19 +56,21 @@ export class Loader {
                         loadedAssetsCount++;
                         updateProgress();
                     }
+
+                    continue;
+                }
+
+                if (key === 'other') {
+                    for (const subKey in this.assets[key]) {
+                        $globals.assets[key][subKey] = this.assets[key][subKey];
+                        loadedAssetsCount++;
+                        updateProgress();
+                    }
+
                     continue;
                 }
 
                 for (const subKey in this.assets[key]) {
-                    if (subKey === 'BubbleImage') continue;
-                    if (subKey === 'LogoFullImage') continue;
-                    if (subKey === 'PaytableImage') {
-                        $globals.assets[key][subKey] = this.assets[key][subKey];
-                        loadedAssetsCount++;
-                        updateProgress();
-                        continue;
-                    }
-
                     PIXI.Assets.add({ alias: subKey, src: this.assets[key][subKey] });
                     $globals.assets[key][subKey] = await PIXI.Assets.load(subKey);
 
@@ -87,7 +81,7 @@ export class Loader {
 
             loadedAssetsCount = totalAssetsCount;
             updateProgress();
-            //this.mixerAudio();
+            this.audioMixer();
 
             resolve();
         });
@@ -104,8 +98,11 @@ export class Loader {
         });
     }
 
-    mixerAudio() {
-        $globals.assets.audio['SlotMegaWinSfx'].volume(0.6);
-        $globals.assets.audio['SlotMegaWinSfx'].loop(true);
+    audioMixer() {
+        $globals.assets.audio['BackgroundMusicTrack'].volume(0.3);
+        $globals.assets.audio['BackgroundMusicTrack'].loop(true);
+
+        $globals.assets.audio['SlotClickSfx'].volume(0.5);
+        $globals.assets.audio['SlotTickSfx'].volume(0.8);
     }
 }

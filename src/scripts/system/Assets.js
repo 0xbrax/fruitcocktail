@@ -1,3 +1,6 @@
+// preload
+import LogoFullImage from '../../assets/image/logo-full_COMPRESSED.png';
+
 // audio
 import BackgroundMusicTrack from '../../assets/audio/sunny-fruit_strawberry_COMPRESSED.mp3';
 import SlotClickSfx from '../../assets/audio/slot_click_COMPRESSED.mp3';
@@ -7,10 +10,6 @@ import SlotMegaWinSfx from '../../assets/audio/slot_mega-win_COMPRESSED.mp3';
 import SlotWinJollySfx from '../../assets/audio/slot_win-jolly_COMPRESSED.mp3';
 import SlotFreeSpinSfx from '../../assets/audio/slot_free-spin_COMPRESSED.mp3';
 
-// main
-import BackgroundVideo from "../../assets/image/back_COMPRESSED.mp4";
-import BubbleImage from '../../assets/image/bubble_COMPRESSED.png';
-
 // body
 import SlotBodyImage from '../../assets/image/reel_COMPRESSED.png';
 import SlotCanopyImage from '../../assets/image/canopy_COMPRESSED.png';
@@ -18,6 +17,8 @@ import SlotLogoImage from '../../assets/image/logo_COMPRESSED.png';
 import SlotSplashLeftImage from '../../assets/image/splash_left_COMPRESSED.png';
 import SlotSplashRightImage from '../../assets/image/splash_right_COMPRESSED.png';
 import BalanceImage from '../../assets/image/ui_balance_COMPRESSED.png';
+
+import BubbleImage from '../../assets/image/bubble_COMPRESSED.png';
 
 // symbols
 const AppleSprite= new URL(`/src/assets/sprite/apple_spritesheet.json`, import.meta.url).href;
@@ -42,12 +43,14 @@ import LemonIcon from '../../assets/icon/lemon_COMPRESSED.png';
 import SplashIcon from '../../assets/icon/splash_COMPRESSED.png';
 import WatermelonIcon from '../../assets/icon/watermelon_COMPRESSED.png';
 
+// other
+import BackgroundVideo from "../../assets/video/back_COMPRESSED.mp4";
 import PaytableImage from '../../assets/image/paytable_COMPRESSED.png';
 
-// other
-import LogoFullImage from '../../assets/image/logo-full_COMPRESSED.png';
-
 export const assets = {
+    preload: {
+        LogoFullImage,
+    },
     audio: {
         BackgroundMusicTrack,
         SlotClickSfx,
@@ -57,17 +60,14 @@ export const assets = {
         SlotWinJollySfx,
         SlotFreeSpinSfx
     },
-    main: {
-        BackgroundVideo,
-        BubbleImage
-    },
     body: {
         SlotBodyImage,
         SlotCanopyImage,
         SlotLogoImage,
         SlotSplashLeftImage,
         SlotSplashRightImage,
-        BalanceImage
+        BalanceImage,
+        BubbleImage
     },
     symbols: {
         AppleSprite,
@@ -94,7 +94,7 @@ export const assets = {
         WatermelonIcon
     },
     other: {
-        LogoFullImage,
+        BackgroundVideo,
         PaytableImage
     }
 };

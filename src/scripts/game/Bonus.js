@@ -82,6 +82,8 @@ export class Bonus {
 
     play(config, isFastForwardActive) {
         this.isPlaying = true;
+        $globals.assets.audio['SlotClickSfx'].play();
+
         const { condition, symbol } = config;
 
         let selectedSymbolIndex;

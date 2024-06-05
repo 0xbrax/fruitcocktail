@@ -2,7 +2,7 @@ import { gsap } from 'gsap';
 
 export const $globals = {
     assets: {},
-    scene: null,
+    sceneManager: null,
     isAudioActive: true,
     isFullscreenActive: false,
     isWakelockActive: false,

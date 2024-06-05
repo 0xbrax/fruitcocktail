@@ -6,7 +6,6 @@ import { SettingUI } from "../game/SettingUI.js";
 import { $configs, $style } from "../system/SETUP.js";
 import { $globals } from "../system/utils.js";
 import { gsap } from 'gsap';
-import { Drink } from "../game/Drink.js";
 import { Bonus } from "../game/Bonus.js";
 
 export class MainScene {
@@ -26,10 +25,6 @@ export class MainScene {
         this.createSlot();
         this.createPlayUI();
         this.createSettingUI();
-
-        $globals.assets.audio['BackgroundMusicTrack'].volume = 0.5;
-        $globals.assets.audio['BackgroundMusicTrack'].loop = true;
-        $globals.assets.audio['BackgroundMusicTrack'].play();
 
         this.slot.EE.on('ready', () => {
             this.playUI.play.element.style.filter = 'grayscale(0)';
@@ -88,7 +83,10 @@ export class MainScene {
                     symbol: $configs.SELECTED_SYMBOL
                 };
 
+                this.playUI.play.element.style.filter = 'grayscale(100%)';
                 this.bonus.play(config, this.slot.reels.isFastForwardActive);
+
+                console.log(this.bonus.bonusTracker)
             }
 
             return;
@@ -164,6 +162,8 @@ export class MainScene {
         this.playUI.play.element.style.filter = 'grayscale(0)';
 
         if (this.slot.bonusCounter === 10) {
+            $globals.assets.audio['SlotFreeSpinSfx'].play();
+            this.playUI.play.element.style.filter = 'grayscale(100%)';
             this.createBonusGame();
             this.slot.characterSwitch('drink');
             this.slot.drink.bubbleSpeed = 0.004;
@@ -193,6 +193,32 @@ export class MainScene {
             }, 1_000);
 
             this.bonus.EE.on('animationComplete', () => {
+                $globals.assets.audio['SlotTickSfx'].play();
+
+                if (this.bonus.bonusTracker.counter === 1) {
+                    const [, , RandomTextureBehavior] = this.slot.drink.emitter.initBehaviors;
+
+                    this.slot.drink.emitter.emit = false;
+                    const assetName = this.bonus.bonusTracker.lastSymbol.replace(/\b\w/g, l => l.toUpperCase()) + 'Icon';
+
+                    const texture = $globals.assets.menu[assetName]
+                    const rotatedTexture = new PIXI.Texture(texture.baseTexture, texture.frame, texture.orig, texture.trim, 2);
+
+                    RandomTextureBehavior.textures = [...Array(5).fill($globals.assets.body['BubbleImage']), rotatedTexture];
+                    this.slot.drink.emitter.emit = true;
+
+                    this.playUI.play.element.style.filter = 'grayscale(0)';
+
+                    const timeout = setTimeout(() => {
+                        if (this.isAutoPlayActive) {
+                            this.play();
+                        }
+                        clearTimeout(timeout);
+                    }, 1_000);
+
+                    return;
+                }
+
                 if (this.bonus.bonusTracker.counter === 2) {
                     let winAmount = 0;
                     switch (this.bonus.bonusTracker.condition) {
@@ -203,14 +229,14 @@ export class MainScene {
                             winAmount = $configs.USER.MIN_BET * 2;
                             $configs.USER.BALANCE += winAmount;
 
-                            // $globals.assets.audio['SlotMegaWinSfx'].play();
+                            $globals.assets.audio['SlotWinSfx'].play();
                             this.createWinScreen(winAmount);
                             break;
                         case 'mega-win':
                             winAmount = $configs.USER.MIN_BET * 5;
                             $configs.USER.BALANCE += winAmount;
 
-                            //$globals.assets.audio['SlotMegaWinSfx'].play();
+                            $globals.assets.audio['SlotMegaWinSfx'].play();
                             this.createWinScreen(winAmount);
                     }
 
@@ -228,11 +254,11 @@ export class MainScene {
                         this.playUI.play.element.style.filter = 'grayscale(0)';
 
                         this.slot.drink.EE.once('animationComplete', () => {
-                            /*const [, , RandomTextureBehavior] = this.slot.drink.emitter.initBehaviors;
+                            const [, , RandomTextureBehavior] = this.slot.drink.emitter.initBehaviors;
 
                             this.slot.drink.emitter.emit = false;
-                            RandomTextureBehavior.textures = [$globals.assets.main['BubbleImage']];
-                            this.slot.drink.emitter.emit = true;*/
+                            RandomTextureBehavior.textures = [$globals.assets.body['BubbleImage']];
+                            this.slot.drink.emitter.emit = true;
                         });
 
                         const timeout = setTimeout(() => {
@@ -243,25 +269,6 @@ export class MainScene {
                         }, 1_000);
 
                         clearTimeout(bonusTimeout);
-                    }, 1_000);
-
-                    return;
-                }
-                if (this.bonus.bonusTracker.counter === 1) {
-                   /* const [, , RandomTextureBehavior] = this.slot.drink.emitter.initBehaviors;
-
-                    this.slot.drink.emitter.emit = false;
-                    const assetName = this.bonus.bonusTracker.lastSymbol.replace(/\b\w/g, l => l.toUpperCase()) + 'Icon';
-                    RandomTextureBehavior.textures = [...Array(5).fill($globals.assets.main['BubbleImage']), $globals.assets.menu[assetName]];
-                    this.slot.drink.emitter.emit = true;*/
-
-                    this.playUI.play.element.style.filter = 'grayscale(0)';
-
-                    const timeout = setTimeout(() => {
-                        if (this.isAutoPlayActive) {
-                            this.play();
-                        }
-                        clearTimeout(timeout);
                     }, 1_000);
                 }
             });
@@ -324,13 +331,13 @@ export class MainScene {
         const scaleFactorHeight = window.innerHeight / originalRect.h;
         const scaleFactorWidth = window.innerWidth / originalRect.w;
 
-        this.scaleFactor = Math.min(scaleFactorHeight, scaleFactorWidth);
+        this.scaleFactor = Math.max(scaleFactorHeight, scaleFactorWidth);
 
         this.container.scale.set(this.scaleFactor);
 
-        if (this.slot) {
-            this.slot.resize();
-        }
+        const xGapSplash = 8;
+        this.container.y = (window.innerHeight / 2) - (this.container.height / 2) + this.slot.characterMain.yGap;
+        this.container.x = (window.innerWidth / 2) - (this.container.width / 2) + (this.slot.splashLeft.container.width - (xGapSplash * this.slot.splashLeft.scaleFactor));
     }
 
     remove() {

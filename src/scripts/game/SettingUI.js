@@ -17,7 +17,7 @@ export class SettingUI {
     createButton() {
         const style = {
             position: 'absolute',
-            zIndex: '2',
+            zIndex: '4',
         };
         if (isMobile) {
             style.top = '25px';
@@ -41,7 +41,7 @@ export class SettingUI {
             height: '100%',
             width: '100%',
             position: 'absolute',
-            zIndex: '99',
+            zIndex: '5',
             top: '0',
             left: '0',
             padding: isMobile ? '25px' : '50px 200px',
@@ -82,7 +82,7 @@ export class SettingUI {
             </div>
 
             <div style="font-size: 40px; margin-bottom: 25px;">pay table</div>
-            <img style="width: ${isMobile ? '75%' : '50%'}; margin-bottom: 50px;" src="${$globals.assets.other['PaytableImage']}" />
+            <img style="width: ${isMobile ? '75%' : '50%'}; margin-bottom: 50px;" src="${$globals.assets.other['PaytableImage']}" alt="" />
             
             <div style="font-size: 40px; margin-bottom: 25px;">symbols = bet x 2</div>
             <div style="width: 100%; display: flex; flex-wrap: wrap; justify-content: space-between; margin-bottom: 50px;">
