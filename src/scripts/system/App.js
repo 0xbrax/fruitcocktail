@@ -27,8 +27,8 @@ class Application {
             width: this.originalRect.w,
             resizeTo: window,
             backgroundAlpha: 0,
-            resolution: 1//window.devicePixelRatio || 1,
-            //autoDensity: true,
+            resolution: window.devicePixelRatio || 1,
+            autoDensity: true,
             //antialias: true
         });
         document.body.appendChild(this.app.view);
