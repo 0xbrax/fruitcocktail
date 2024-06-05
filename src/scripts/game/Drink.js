@@ -22,7 +22,7 @@ export class Drink {
 
         this.createDrink();
         this.createMasks();
-        //this.createBubbleEmitter();
+        this.createBubbleEmitter();
     }
 
     createDrink() {
@@ -117,13 +117,13 @@ export class Drink {
     createBubbleEmitter() {
         this.createBubbleContainer();
 
-        const textures = [];
-        textures.push(...Array(10).fill($globals.assets.body['BubbleImage']));
+        const textures = [$globals.assets.body['BubbleImage']];
+        /*textures.push(...Array(10).fill($globals.assets.body['BubbleImage']));
         for (const key in $globals.assets.menu) {
             const texture = $globals.assets.menu[key];
             const rotatedTexture = new PIXI.Texture(texture.baseTexture, texture.frame, texture.orig, texture.trim, 2);
             textures.push(rotatedTexture);
-        }
+        }*/
 
         this.emitter = new Emitter(
             this.emitterContainer,
