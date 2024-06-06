@@ -285,11 +285,11 @@ export class MainScene {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-
             fontSize: `${100 * this.scaleFactor}px`,
             backgroundColor: 'rgba(0, 0, 0, 0.2)',
             color: `#${$style.white}`,
-            fontFamily: 'Rimbo-Regular'
+            fontFamily: 'Rimbo-Regular',
+            textShadow: `0 0 10px #${$style.black}`
         };
         Object.assign(winScreen.style, style);
 

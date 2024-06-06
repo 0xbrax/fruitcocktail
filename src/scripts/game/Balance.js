@@ -8,7 +8,7 @@ export class Balance extends SimpleSprite {
     constructor(scaleFactor, bodyContainer) {
         const xGap = 105 * scaleFactor;
 
-        super("BalanceImage", scaleFactor + (0.15 * scaleFactor), bodyContainer, isMobile ? 67 : 72, xGap);
+        super("BalanceImage", scaleFactor + (0.15 * scaleFactor), bodyContainer, isMobile ? 67 : 71, xGap);
 
         this.sprite.rotation = -0.07;
         this.setText();

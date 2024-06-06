@@ -46,7 +46,7 @@ export class LoadingScene {
             width: '250px',
             height: '100px',
             textAlign: 'center',
-            lineHeight: '100px'
+            lineHeight: '90px' // this is not 100px because font has default margin
         };
         Object.assign(this.content.style, contentStyle);
         this.text.appendChild(this.content);
