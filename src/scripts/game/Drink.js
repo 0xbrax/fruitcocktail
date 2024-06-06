@@ -21,7 +21,7 @@ export class Drink {
 
         this.createDrink();
         this.createMasks();
-        //this.createBubbleEmitter();
+        this.createBubbleEmitter();
     }
 
     createDrink() {
@@ -50,7 +50,7 @@ export class Drink {
             this.drink.closePath();
             this.drink.endFill();
         };
-        const updateWave = () => {
+        this.updateWave = () => {
             waveOffset += 0.03;
             waveAmplitude = waveAmplitudeBase + (Math.sin(waveOffset) * 5 * this.scaleFactor);
             waveFrequency = waveFrequencyBase + (Math.sin(waveOffset / 2) * 0.002 * this.scaleFactor);
@@ -58,12 +58,6 @@ export class Drink {
         };
 
         drawWave();
-        gsap.to({}, {
-            duration: 5,
-            repeat: -1,
-            ease: "none",
-            onUpdate: updateWave
-        });
 
         this.drink.alpha = 0.5;
         this.drink.x = this.xPos * this.scaleFactor;
@@ -253,7 +247,8 @@ export class Drink {
     }
 
     update(dt) {
-        if (this.emitter) {
+        this.updateWave();
+        if (this.emitter.emit === true) {
             this.emitter.update(dt * this.bubbleSpeed);
         }
     }
