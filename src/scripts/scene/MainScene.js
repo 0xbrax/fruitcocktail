@@ -7,6 +7,7 @@ import { $configs, $style } from "../system/SETUP.js";
 import { $globals } from "../system/utils.js";
 import { gsap } from 'gsap';
 import { Bonus } from "../game/Bonus.js";
+import { isMobile } from "../system/utils.js";
 
 export class MainScene {
     constructor() {
@@ -326,7 +327,11 @@ export class MainScene {
         const scaleFactorHeight = window.innerHeight / originalRect.h;
         const scaleFactorWidth = window.innerWidth / originalRect.w;
 
-        this.scaleFactor = Math.max(scaleFactorHeight, scaleFactorWidth);
+        if (isMobile) {
+            this.scaleFactor = Math.min(scaleFactorHeight, scaleFactorWidth);
+        } else {
+            this.scaleFactor = Math.max(scaleFactorHeight, scaleFactorWidth);
+        }
 
         this.container.scale.set(this.scaleFactor);
 

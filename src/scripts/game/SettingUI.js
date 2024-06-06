@@ -46,61 +46,61 @@ export class SettingUI {
             left: '0',
             padding: isMobile ? '25px' : '50px 200px',
             textAlign: 'center',
-            overflow: 'auto',
-            scrollBehavior: 'smooth',
             backgroundColor: 'rgba(0, 0, 0, 0.8)',
             color: `#${$style.white}`,
             fontFamily: 'Rimbo-Regular'
         };
 
         this.menu.innerHTML = `
-            <i-heroicons id="close-btn" icon-name="x-mark" style-name="position: fixed; ${isMobile ? 'top: 25px; right: 25px' : 'bottom: 50px; left: 50px'};"></i-heroicons>
+            <i-heroicons id="close-btn" icon-name="x-mark" style-name="position: fixed; ${isMobile ? 'top: 25px; right: 25px;' : 'bottom: 50px; left: 50px;'}"></i-heroicons>
         
-            <div style="font-size: 50px; margin-bottom: 50px;">settings</div>
+            <div style="${isMobile ? 'font-size: 35px;' : 'font-size: 50px;' } margin-bottom: 50px;">settings</div>
             
-            <div style="font-size: 40px; margin-bottom: 25px;">bet</div>
-            <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 25px;">
-                <i-heroicons id="bet-decrease-btn" icon-name="minus"></i-heroicons>
-                <span id="bet-value" style="font-size: 40px; line-height: 40px; margin: 0 20px;">${$configs.USER.BET}</span>
-                <i-heroicons id="bet-increase-btn" icon-name="plus"></i-heroicons>
-            </div>
-            <div style="font-size: 30px; margin-bottom: 50px;">
-                <div>free spin = min bet</div>
-                <div>min bet = 100</div>
-                <div>max bet = 1000</div>
-            </div>
-            
-            <div style="font-size: 40px; margin-bottom: 25px;">configs</div>
-            <div style="margin-bottom: 50px;">
-                <i-heroicons id="home-btn" icon-name="home"></i-heroicons>
+            <div style="height: calc(100% - 50px - 50px); overflow: auto; scroll-behavior: smooth">
+                <div style="${isMobile ? 'font-size: 25px;' : 'font-size: 40px;'} margin-bottom: 25px;">bet</div>
+                <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 25px;">
+                    <i-heroicons id="bet-decrease-btn" icon-name="minus"></i-heroicons>
+                    <span id="bet-value" style="${isMobile ? 'font-size: 25px; line-height: 25px;' : 'font-size: 40px; line-height: 40px;'} margin: 0 20px;">${$configs.USER.BET}</span>
+                    <i-heroicons id="bet-increase-btn" icon-name="plus"></i-heroicons>
+                </div>
+                <div style="${isMobile ? 'font-size: 20px;' : 'font-size: 30px;'} margin-bottom: 50px;">
+                    <div>free spin = min bet</div>
+                    <div>min bet = 100</div>
+                    <div>max bet = 1000</div>
+                </div>
                 
-                <i-heroicons id="sound-on-btn" icon-name="sound-on"></i-heroicons>
-                <i-heroicons id="sound-off-btn" icon-name="sound-off"></i-heroicons>
+                <div style="${isMobile ? 'font-size: 30px;' : 'font-size: 40px;'} margin-bottom: 25px;">configs</div>
+                <div style="margin-bottom: 50px;">
+                    <i-heroicons id="home-btn" icon-name="home" style-name="margin: 0 10px;"></i-heroicons>
+                    
+                    <i-heroicons id="sound-on-btn" icon-name="sound-on" style-name="margin: 0 10px;"></i-heroicons>
+                    <i-heroicons id="sound-off-btn" icon-name="sound-off" style-name="margin: 0 10px;"></i-heroicons>
+                    
+                    <i-heroicons id="maximize-btn" icon-name="maximize" style-name="margin: 0 10px;"></i-heroicons>
+                    <i-heroicons id="minimize-btn" icon-name="minimize" style-name="margin: 0 10px;"></i-heroicons>
+                </div>
+    
+                <div style="${isMobile ? 'font-size: 30px;' : 'font-size: 40px;'} margin-bottom: 25px;">pay table</div>
+                <img style="width: ${isMobile ? '75%' : '50%'}; margin-bottom: 50px;" src="${$globals.assets.other['PaytableImage']}" alt="" />
                 
-                <i-heroicons id="maximize-btn" icon-name="maximize"></i-heroicons>
-                <i-heroicons id="minimize-btn" icon-name="minimize"></i-heroicons>
-            </div>
-
-            <div style="font-size: 40px; margin-bottom: 25px;">pay table</div>
-            <img style="width: ${isMobile ? '75%' : '50%'}; margin-bottom: 50px;" src="${$globals.assets.other['PaytableImage']}" alt="" />
-            
-            <div style="font-size: 40px; margin-bottom: 25px;">symbols = bet x 2</div>
-            <div style="width: 100%; display: flex; flex-wrap: wrap; justify-content: space-between; margin-bottom: 50px;">
-                ${$configs.SYMBOLS.map(symbol => {
-                    const symbolName = symbol.replace(/\b\w/g, l => l.toUpperCase());
-                    const imageUrl = $globals.assets.menu[`${symbolName}Icon`].textureCacheIds[0];
-                    return `<img style="width: calc((100% / 6))" src="${imageUrl}" alt="" />`;
-                }).join('')}
-            </div>
-            
-            <div style="font-size: 40px; margin-bottom: 25px;">jolly = bet x 3</div>
-            <div style="margin-bottom: 50px;">
-                <img style="width: calc((100% / 6))" src="${$globals.assets.menu['SplashIcon'].textureCacheIds[0]}" alt="" />
-            </div>
-
-            <div style="font-size: 40px; margin-bottom: 25px;">mega win = bet x 5</div>
-            <div>
-                <img style="width: calc((100% / 6))" src="${$globals.assets.menu['FruitcocktailIcon'].textureCacheIds[0]}" alt="" />
+                <div style="${isMobile ? 'font-size: 25px;' : 'font-size: 40px;'} margin-bottom: 25px;">symbols = bet x 2</div>
+                <div style="width: 100%; display: flex; flex-wrap: wrap; justify-content: space-between; margin-bottom: 50px;">
+                    ${$configs.SYMBOLS.map(symbol => {
+                        const symbolName = symbol.replace(/\b\w/g, l => l.toUpperCase());
+                        const imageUrl = $globals.assets.menu[`${symbolName}Icon`].textureCacheIds[0];
+                        return `<img style="width: calc((100% / 6))" src="${imageUrl}" alt="" />`;
+                    }).join('')}
+                </div>
+                
+                <div style="${isMobile ? 'font-size: 25px;' : 'font-size: 40px;'} margin-bottom: 25px;">jolly = bet x 3</div>
+                <div style="margin-bottom: 50px;">
+                    <img style="width: calc((100% / 6))" src="${$globals.assets.menu['SplashIcon'].textureCacheIds[0]}" alt="" />
+                </div>
+    
+                <div style="${isMobile ? 'font-size: 25px;' : 'font-size: 40px;'} margin-bottom: 25px;">mega win = bet x 5</div>
+                <div>
+                    <img style="width: calc((100% / 6))" src="${$globals.assets.menu['FruitcocktailIcon'].textureCacheIds[0]}" alt="" />
+                </div>
             </div>
         `;
 

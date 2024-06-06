@@ -14,7 +14,7 @@
 body {
   width: 100%;
   height: 100vh;
-  /*height: 100svh; /* override when available */
+  height: 100svh; /* override when available */
   overflow: hidden;
   position: relative;
   background-color: #000000;

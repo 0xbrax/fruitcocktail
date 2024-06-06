@@ -18,11 +18,14 @@ export class LoadingScene {
         this.background.style.left = '0';
         this.background.style.overflow = 'hidden';
         this.background.style.backgroundColor = `#${$style.black}`;
-        this.background.style.textAlign = 'center';
+        this.background.style.display = 'flex';
+        this.background.style.flexWrap = 'wrap';
+        this.background.style.flexDirection = 'column';
+        this.background.style.justifyContent = 'center';
         this.background.style.alignContent = 'center';
 
         this.background.innerHTML = `
-            <img style="width: ${isMobile ? '75%' : '25%'}; margin-bottom: 50px;" src="${$globals.assets.preload['LogoFullImage']}" alt="" />
+            <img style="width: ${isMobile ? '75%' : '25%'}; margin-bottom: 50px;" src="${$globals.assets.preload['LogoFullImage']}" alt="" /> 
         `;
 
         document.body.appendChild(this.background);
@@ -30,6 +33,7 @@ export class LoadingScene {
 
     createText() {
         this.text = document.createElement('div');
+        this.text.style.textAlign = 'center';
 
         this.content = document.createElement('span');
         const contentStyle = {
@@ -41,7 +45,8 @@ export class LoadingScene {
             borderRadius: '10px',
             width: '250px',
             height: '100px',
-            alignContent: 'center'
+            textAlign: 'center',
+            lineHeight: '100px'
         };
         Object.assign(this.content.style, contentStyle);
         this.text.appendChild(this.content);
@@ -69,9 +74,6 @@ export class LoadingScene {
             left: '0',
             padding: isMobile ? '25px' : '100px',
             textAlign: 'center',
-            alignContent: 'center',
-            overflow: 'auto',
-            scrollBehavior: 'smooth',
             backgroundColor: 'rgba(0, 0, 0, 0.8)',
             color: `#${$style.white}`,
         };
@@ -82,17 +84,20 @@ export class LoadingScene {
             'line-height': '25px',
             'text-align': 'justify',
             'margin-top': '30px',
+            'height': 'calc(100% - 70px - 30px)',
+            'overflow': 'auto',
+            'scroll-behavior': 'smooth',
         };
         const textStyleString = Object.entries(textStyle)
             .map(([key, value]) => `${key}: ${value};`)
             .join(' ');
-        const newText = DISCLAIMER_TEXT.replaceAll(/\n/g, '<br>');
+        const disclaimerTextParsed = DISCLAIMER_TEXT.replaceAll(/\n/g, '<br>');
 
         this.disclaimer.innerHTML = `
             <i-heroicons icon-name="check"></i-heroicons>
         
             <div style="${textStyleString}">
-                ${newText}
+                ${disclaimerTextParsed}
             </div>
         `;
 

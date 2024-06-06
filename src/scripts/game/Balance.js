@@ -2,12 +2,13 @@ import * as PIXI from "pixi.js";
 import { SimpleSprite } from "./SimpleSprite.js";
 import { $style } from "../system/SETUP.js";
 import { $configs } from "../system/SETUP.js";
+import { isMobile } from "../system/utils.js";
 
 export class Balance extends SimpleSprite {
     constructor(scaleFactor, bodyContainer) {
         const xGap = 105 * scaleFactor;
 
-        super("BalanceImage", scaleFactor + (0.15 * scaleFactor), bodyContainer, 71, xGap);
+        super("BalanceImage", scaleFactor + (0.15 * scaleFactor), bodyContainer, isMobile ? 67 : 72, xGap);
 
         this.sprite.rotation = -0.07;
         this.setText();
