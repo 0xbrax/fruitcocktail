@@ -202,6 +202,7 @@ export class MainScene {
 
                     RandomTextureBehavior.textures = [$globals.assets.body['BubbleImage'], rotatedTexture];
                     this.slot.drink.emitter.emit = true;
+                    this.slot.drink.emitter.emitNow();
 
                     this.playUI.play.element.style.filter = 'grayscale(0)';
 
@@ -241,6 +242,11 @@ export class MainScene {
                     const bonusTimeout = setTimeout(() => {
                         this.slot.bonusCounter = 1;
                         this.slot.drink.emitter.emit = false;
+                        this.slot.drink.emitter.cleanup();
+
+                        const [, , RandomTextureBehavior] = this.slot.drink.emitter.initBehaviors;
+                        RandomTextureBehavior.textures = [$globals.assets.body['BubbleImage']];
+
                         this.slot.drink.setLevel(this.slot.bonusCounter);
                         this.slot.characterSwitch('main');
 
@@ -248,14 +254,6 @@ export class MainScene {
                         this.bonus = null;
                         this.slot.reels.container.alpha = 1;
                         this.playUI.play.element.style.filter = 'grayscale(0)';
-
-                        this.slot.drink.EE.once('animationComplete', () => {
-                            const [, , RandomTextureBehavior] = this.slot.drink.emitter.initBehaviors;
-
-                            this.slot.drink.emitter.emit = false;
-                            RandomTextureBehavior.textures = [$globals.assets.body['BubbleImage']];
-                            this.slot.drink.emitter.emit = true;
-                        });
 
                         const timeout = setTimeout(() => {
                             if (this.isAutoPlayActive) {
