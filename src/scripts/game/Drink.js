@@ -21,7 +21,7 @@ export class Drink {
 
         this.createDrink();
         this.createMasks();
-        this.createBubbleEmitter();
+        //this.createBubbleEmitter();
     }
 
     createDrink() {
@@ -248,7 +248,7 @@ export class Drink {
 
     update(dt) {
         this.updateWave();
-        if (this.emitter.emit === true) {
+        if (this.emitter?.emit === true) {
             this.emitter.update(dt * this.bubbleSpeed);
         }
     }

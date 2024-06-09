@@ -285,7 +285,7 @@ export class MainScene {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            fontSize: `${100 * this.scaleFactor}px`,
+            fontSize: `${isMobile ? 75 * this.scaleFactor : 100 * this.scaleFactor}px`,
             backgroundColor: 'rgba(0, 0, 0, 0.2)',
             color: `#${$style.white}`,
             fontFamily: 'Rimbo-Regular',

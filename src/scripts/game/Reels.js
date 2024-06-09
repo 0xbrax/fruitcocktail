@@ -6,6 +6,7 @@ import { getFakeWin, getLose, getRandomWinMap} from "../system/math.js";
 import { $globals } from "../system/utils.js";
 
 export class Reels {
+
     constructor(scaleFactor) {
         this.EE = new PIXI.utils.EventEmitter();
         this.scaleFactor = scaleFactor;
