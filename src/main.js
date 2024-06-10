@@ -3,11 +3,11 @@ import './style.css';
 
 import WebFont from 'webfontloader';
 import { App } from "./scripts/system/App.js";
+import { $configs } from "./scripts/system/SETUP.js";
+import { getPseudoRandomNumber } from "./scripts/system/utils.js";
 import IHeroicons from "./scripts/system/IHeroicons.js";
 import { $globals, exitFullscreen } from "./scripts/system/utils.js";
 import { Howler } from "howler";
-
-customElements.define('i-heroicons', IHeroicons);
 
 console.log(
     `%c\u26A0 %cDISCLAIMER: %c${DISCLAIMER_TEXT + '\n'}`,
@@ -15,6 +15,19 @@ console.log(
     'color: red; font-weight: bold;',
     'font-style: italic;'
 );
+
+
+
+const randomIndexMapStart = getPseudoRandomNumber(0, $configs.REEL_LENGTH);
+$configs.MAP.REEL_1 = [...$configs.MAP.REEL_1.slice(randomIndexMapStart), ...$configs.MAP.REEL_1.slice(0, randomIndexMapStart)];
+$configs.MAP.REEL_2 = [...$configs.MAP.REEL_2.slice(randomIndexMapStart), ...$configs.MAP.REEL_2.slice(0, randomIndexMapStart)];
+$configs.MAP.REEL_3 = [...$configs.MAP.REEL_3.slice(randomIndexMapStart), ...$configs.MAP.REEL_3.slice(0, randomIndexMapStart)];
+$configs.MAP.REEL_4 = [...$configs.MAP.REEL_4.slice(randomIndexMapStart), ...$configs.MAP.REEL_4.slice(0, randomIndexMapStart)];
+$configs.MAP.REEL_5 = [...$configs.MAP.REEL_5.slice(randomIndexMapStart), ...$configs.MAP.REEL_5.slice(0, randomIndexMapStart)];
+
+
+
+customElements.define('i-heroicons', IHeroicons);
 
 WebFont.load({
     custom: {

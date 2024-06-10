@@ -91,9 +91,11 @@ export class Slot {
 
         setTimeout(() => {
             this.drink.emitter.emit = false;
-            this.drink.emitter.cleanup();
             this.drink.setLevel(this.bonusCounter);
-            this.characterSwitch('drink');
+            this.drink.EE.once('animationComplete', () => {
+                this.characterSwitch('drink');
+                this.drink.emitter.cleanup();
+            });
         }, 2_500);
     }
 

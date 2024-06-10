@@ -5,6 +5,11 @@ import { gsap } from "gsap";
 
 export class Bonus {
     constructor(scaleFactor, reelsContainer) {
+        const randomIndexMapStart = getPseudoRandomNumber(0, $configs.REEL_LENGTH);
+        $configs.ALL_SYMBOLS = [...$configs.ALL_SYMBOLS.slice(randomIndexMapStart), ...$configs.ALL_SYMBOLS.slice(0, randomIndexMapStart)];
+
+
+
         this.EE = new PIXI.utils.EventEmitter();
         this.container = new PIXI.Container();
         this.container.sortableChildren = true;
@@ -23,8 +28,10 @@ export class Bonus {
             lastSymbol: null,
         };
         this.isPlaying = false;
+        this.blurAnimation = null;
 
         this.createSprites();
+        this.createBlurAnimation();
     }
 
     createSprite(symbol, deg) {
@@ -78,6 +85,23 @@ export class Bonus {
 
         this.container.x = (this.reelsContainer.width / 2) + (xGap * 1.5 * this.scaleFactor);
         this.container.y = (this.reelsContainer.height / 2) + (yGap * this.scaleFactor);
+    }
+
+    createBlurAnimation() {
+        const blurFilter = new PIXI.BlurFilter();
+        blurFilter.quality = 1;
+        blurFilter.blur = 0;
+        blurFilter.padding = 0;
+        blurFilter.repeatEdgePixels = true;
+        this.container.filters = [blurFilter];
+
+        this.blurAnimation = gsap.to(blurFilter, {
+            blur: 4,
+            yoyo: true,
+            repeat: 1,
+            ease: 'power2.inOut',
+            paused: true
+        });
     }
 
     play(config, isFastForwardActive) {
@@ -170,6 +194,9 @@ export class Bonus {
                     }
                 }
             });
-        })
+        });
+
+        this.blurAnimation.duration(newAnimDuration / 2);
+        this.blurAnimation.restart();
     }
 }

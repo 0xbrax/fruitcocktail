@@ -242,13 +242,14 @@ export class MainScene {
                     const bonusTimeout = setTimeout(() => {
                         this.slot.bonusCounter = 1;
                         this.slot.drink.emitter.emit = false;
-                        this.slot.drink.emitter.cleanup();
-
-                        const [, , RandomTextureBehavior] = this.slot.drink.emitter.initBehaviors;
-                        RandomTextureBehavior.textures = [$globals.assets.body['BubbleImage']];
 
                         this.slot.drink.setLevel(this.slot.bonusCounter);
-                        this.slot.characterSwitch('main');
+                        this.slot.drink.EE.once('animationComplete', () => {
+                            this.slot.characterSwitch('main');
+                            this.slot.drink.emitter.cleanup();
+                            const [, , RandomTextureBehavior] = this.slot.drink.emitter.initBehaviors;
+                            RandomTextureBehavior.textures = [$globals.assets.body['BubbleImage']];
+                        });
 
                         this.bonus.container.destroy();
                         this.bonus = null;
@@ -283,7 +284,7 @@ export class MainScene {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            fontSize: `${isMobile ? 75 * this.scaleFactor : 100 * this.scaleFactor}px`,
+            fontSize: `${isMobile ? 50 * this.scaleFactor : 100 * this.scaleFactor}px`,
             backgroundColor: 'rgba(0, 0, 0, 0.2)',
             color: `#${$style.white}`,
             fontFamily: 'Rimbo-Regular',
