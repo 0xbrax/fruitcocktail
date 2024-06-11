@@ -30,6 +30,7 @@ class Application {
             //antialias: true --> default false for performance
         });
 
+        document.body.appendChild(this.app.view);
         $globals.sceneManager = new SceneManager();
         this.app.stage.addChild($globals.sceneManager.container);
         this.app.ticker.add(dt => $globals.sceneManager.update(dt)); // delta time
@@ -38,7 +39,6 @@ class Application {
 
         this.loader.preloadAssets().then(() => {
             this.loadingScene = new LoadingScene();
-            document.body.appendChild(this.app.view);
 
             this.loader.EE.on('progress', (progress) => {
                 this.loadingScene.setText(progress);

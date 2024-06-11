@@ -4,7 +4,6 @@ import { Reel } from "./Reel.js";
 import { getCryptoRandomNumber, getPseudoRandomNumber } from "../system/utils.js";
 import { getFakeWin, getLose, getRandomWinMap} from "../system/math.js";
 import { $globals } from "../system/utils.js";
-import { gsap } from "gsap";
 
 export class Reels {
 

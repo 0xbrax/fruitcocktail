@@ -66,7 +66,12 @@ export class SettingUI {
                 <div style="${isMobile ? 'font-size: 20px;' : 'font-size: 30px;'} margin-bottom: 50px;">
                     <div>min bet = 100</div>
                     <div>max bet = 1000</div>
-                    <div>bonus (symbol x2) = min bet</div>
+                    </br>
+                    <div>
+                        bonus --> symbol x 2
+                        </br>
+                        (min bet x multiplier)
+                    </div>
                 </div>
                 
                 <div style="${isMobile ? 'font-size: 30px;' : 'font-size: 40px;'} margin-bottom: 25px;">configs</div>
@@ -151,7 +156,8 @@ export class SettingUI {
 
         homeBtn.addEventListener('click', () => {
             if (isIframe) {
-                // message to frame
+                const message = { type: 'homeBtnClickEvent', content: null };
+                window.parent.postMessage(message, '*');
             } else {
                 const url = 'https://0xbrax.dev';
                 window.open(url, '_blank');

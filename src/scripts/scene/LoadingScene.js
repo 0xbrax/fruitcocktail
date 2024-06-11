@@ -18,7 +18,6 @@ export class LoadingScene {
         this.background.style.left = '0';
         this.background.style.overflow = 'hidden';
         this.background.style.backgroundColor = `#${$style.black}`;
-        this.background.style.color = 'white'
 
         this.background.innerHTML = `
             <div style="width: 100%; text-align: center; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">

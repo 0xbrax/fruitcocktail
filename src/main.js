@@ -39,6 +39,8 @@ WebFont.load({
     }
 });
 
+
+
 let wakelock;
 window.addEventListener('load', async () => {
     try {
