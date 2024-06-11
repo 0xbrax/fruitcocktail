@@ -13,7 +13,6 @@ export class Reels {
         this.scaleFactor = scaleFactor;
         this.isPlaying = false;
         this.isFastForwardActive = false;
-        this.blurAnimation = null;
 
         this.xPos = 0;
         this.xPosIncrement = $configs.SYMBOL_SIZE - 99;
@@ -29,7 +28,6 @@ export class Reels {
         this.lastSymbol = null;
 
         this.createReels();
-        this.createBlurAnimation();
     }
 
     createReels() {
@@ -40,23 +38,6 @@ export class Reels {
 
             this.xPos += this.xPosIncrement;
         }
-    }
-
-    createBlurAnimation() {
-        const blurFilter = new PIXI.BlurFilter();
-        blurFilter.quality = 1;
-        blurFilter.blur = 0;
-        blurFilter.padding = 0;
-        blurFilter.repeatEdgePixels = true;
-        this.container.filters = [blurFilter];
-
-        this.blurAnimation = gsap.to(blurFilter, {
-            blur: 4,
-            yoyo: true,
-            repeat: 1,
-            ease: 'power2.inOut',
-            paused: true
-        });
     }
 
     getConditionAndSymbol() {
@@ -139,9 +120,6 @@ export class Reels {
 
             this.reels[i].animation.toIndex(this.indexes[`REEL_${reelNumber}`], this.animConfig(reelNumber, newAnimDuration, animRevolution));
         }
-
-        this.blurAnimation.duration(newAnimDuration / 2);
-        this.blurAnimation.restart();
     }
 
     animConfig(reelNumber, duration, revolution) {

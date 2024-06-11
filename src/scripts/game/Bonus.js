@@ -28,10 +28,8 @@ export class Bonus {
             lastSymbol: null,
         };
         this.isPlaying = false;
-        this.blurAnimation = null;
 
         this.createSprites();
-        this.createBlurAnimation();
     }
 
     createSprite(symbol, deg) {
@@ -40,8 +38,8 @@ export class Bonus {
 
         sprite.symbolName = symbol;
 
-        sprite.height = ($configs.SYMBOL_SIZE / 1.5) * this.scaleFactor;
-        sprite.width = ($configs.SYMBOL_SIZE / 1.5) * this.scaleFactor;
+        sprite.height = ($configs.SYMBOL_SIZE / 1.66) * this.scaleFactor;
+        sprite.width = ($configs.SYMBOL_SIZE / 1.66) * this.scaleFactor;
 
         const maskContainer = new PIXI.Container();
         const mask = new PIXI.Graphics();
@@ -87,23 +85,6 @@ export class Bonus {
         this.container.y = (this.reelsContainer.height / 2) + (yGap * this.scaleFactor);
     }
 
-    createBlurAnimation() {
-        const blurFilter = new PIXI.BlurFilter();
-        blurFilter.quality = 1;
-        blurFilter.blur = 0;
-        blurFilter.padding = 0;
-        blurFilter.repeatEdgePixels = true;
-        this.container.filters = [blurFilter];
-
-        this.blurAnimation = gsap.to(blurFilter, {
-            blur: 4,
-            yoyo: true,
-            repeat: 1,
-            ease: 'power2.inOut',
-            paused: true
-        });
-    }
-
     play(config, isFastForwardActive) {
         this.isPlaying = true;
         $globals.assets.audio['SlotClickSfx'].play();
@@ -135,13 +116,13 @@ export class Bonus {
 
         const containerDeg = (this.container.rotation * 180) / Math.PI;
 
-        const animDuration = getPseudoRandomNumber(32, 48) / 10;
+        const animDuration = getPseudoRandomNumber(30, 50) / 10;
         const newAnimDuration = !isFastForwardActive ? animDuration : (animDuration / 2); // play speed x2
 
-        let animRevolution = getPseudoRandomNumber(57, 63);
+        let animRevolution = getPseudoRandomNumber(19, 21);
         animRevolution = Math.floor((animRevolution / animDuration) * newAnimDuration); // revolutions sync with animation duration
 
-        const degToGo = this.degIncrease * animRevolution;
+        const degToGo = this.degIncrease + (360 * animRevolution);
 
         const anim0 = gsap.to(this.container, {
             pixi: {
@@ -149,7 +130,7 @@ export class Bonus {
             },
             duration: newAnimDuration,
             repeat: 0,
-            ease: "power1.inOut",
+            ease: "power2.inOut",
             onComplete: () => {
                 anim0.kill();
             }
@@ -162,7 +143,7 @@ export class Bonus {
                 },
                 duration: newAnimDuration,
                 repeat: 0,
-                ease: "power1.inOut",
+                ease: "power2.inOut",
                 onComplete: () => {
                     anim1.kill();
                 }
@@ -178,7 +159,7 @@ export class Bonus {
                 ],
                 duration: newAnimDuration,
                 repeat: 0,
-                ease: "power1.inOut",
+                ease: "power2.inOut",
                 onComplete: () => {
                     anim2.kill();
 
@@ -195,8 +176,5 @@ export class Bonus {
                 }
             });
         });
-
-        this.blurAnimation.duration(newAnimDuration / 2);
-        this.blurAnimation.restart();
     }
 }

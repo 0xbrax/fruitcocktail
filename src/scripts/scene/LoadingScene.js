@@ -18,14 +18,12 @@ export class LoadingScene {
         this.background.style.left = '0';
         this.background.style.overflow = 'hidden';
         this.background.style.backgroundColor = `#${$style.black}`;
-        this.background.style.display = 'flex';
-        this.background.style.flexWrap = 'wrap';
-        this.background.style.flexDirection = 'column';
-        this.background.style.justifyContent = 'center';
-        this.background.style.alignContent = 'center';
+        this.background.style.color = 'white'
 
         this.background.innerHTML = `
-            <img style="width: ${isMobile ? '75%' : '25%'}; margin-bottom: 50px;" src="${$globals.assets.preload['LogoFullImage']}" alt="" /> 
+            <div style="width: 100%; text-align: center; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+                <img style="width: ${isMobile ? '75%' : '25%'}; margin-bottom: 50px;" src="${$globals.assets.preload['LogoFullImage']}" alt="" />
+            </div>
         `;
 
         document.body.appendChild(this.background);
@@ -51,7 +49,7 @@ export class LoadingScene {
         Object.assign(this.content.style, contentStyle);
         this.text.appendChild(this.content);
 
-        this.background.appendChild(this.text);
+        this.background.children[0].appendChild(this.text);
     }
 
     setText(text) {

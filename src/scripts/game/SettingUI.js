@@ -64,9 +64,9 @@ export class SettingUI {
                     <i-heroicons id="bet-increase-btn" icon-name="plus"></i-heroicons>
                 </div>
                 <div style="${isMobile ? 'font-size: 20px;' : 'font-size: 30px;'} margin-bottom: 50px;">
-                    <div>free spin = min bet</div>
                     <div>min bet = 100</div>
                     <div>max bet = 1000</div>
+                    <div>bonus (symbol x2) = min bet</div>
                 </div>
                 
                 <div style="${isMobile ? 'font-size: 30px;' : 'font-size: 40px;'} margin-bottom: 25px;">configs</div>

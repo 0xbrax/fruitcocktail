@@ -18,7 +18,7 @@ class Application {
         this.originalRect = {
             h: window.innerHeight,
             w: window.innerWidth
-        }
+        };
 
         this.app = new PIXI.Application({
             height: this.originalRect.h,
@@ -29,8 +29,6 @@ class Application {
             autoDensity: true,
             //antialias: true --> default false for performance
         });
-        document.body.appendChild(this.app.view);
-        window.addEventListener('resize', this.resize.bind(this, this.originalRect));
 
         $globals.sceneManager = new SceneManager();
         this.app.stage.addChild($globals.sceneManager.container);
@@ -40,6 +38,7 @@ class Application {
 
         this.loader.preloadAssets().then(() => {
             this.loadingScene = new LoadingScene();
+            document.body.appendChild(this.app.view);
 
             this.loader.EE.on('progress', (progress) => {
                 this.loadingScene.setText(progress);
@@ -63,6 +62,9 @@ class Application {
     start() {
         $globals.sceneManager.start(new MainScene());
         this.resize(this.originalRect);
+        window.addEventListener('resize', () => {
+            this.resize(this.originalRect);
+        });
     }
 
     resize(originalRect) {

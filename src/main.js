@@ -1,5 +1,6 @@
-import { DISCLAIMER_TEXT } from "./scripts/system/SETUP.js";
 import './style.css';
+
+import { DISCLAIMER_TEXT } from "./scripts/system/SETUP.js";
 
 import WebFont from 'webfontloader';
 import { App } from "./scripts/system/App.js";

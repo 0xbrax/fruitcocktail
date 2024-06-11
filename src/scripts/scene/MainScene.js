@@ -36,6 +36,11 @@ export class MainScene {
 
             this.play();
         });
+        document.addEventListener('keydown', (event) => {
+            if (event.code === 'Space') {
+                this.play();
+            }
+        });
 
         this.playUI.autoPlay.element.addEventListener('click', () => {
             this.autoPlayHandler();
