@@ -26,8 +26,7 @@ class Application {
             resizeTo: window,
             backgroundAlpha: 0,
             resolution: window.devicePixelRatio || 1,
-            autoDensity: true,
-            //antialias: true --> default false for performance
+            autoDensity: true
         });
 
         document.body.appendChild(this.app.view);

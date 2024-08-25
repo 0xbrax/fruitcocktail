@@ -6,7 +6,8 @@ import { gsap } from "gsap";
 export class Bonus {
     constructor(scaleFactor, reelsContainer) {
         const randomIndexMapStart = getPseudoRandomNumber(0, $configs.REEL_LENGTH);
-        $configs.ALL_SYMBOLS = [...$configs.ALL_SYMBOLS.slice(randomIndexMapStart), ...$configs.ALL_SYMBOLS.slice(0, randomIndexMapStart)];
+        this.allSymbols = $configs.ALL_SYMBOLS;
+        this.allSymbols = [...this.allSymbols.slice(randomIndexMapStart), ...this.allSymbols.slice(0, randomIndexMapStart)];
 
 
 
@@ -68,7 +69,7 @@ export class Bonus {
 
     createSprites() {
         let deg = 0;
-        $configs.ALL_SYMBOLS.forEach((symbol, index) => {
+        this.allSymbols.forEach((symbol, index) => {
             const rotation = deg * (Math.PI / 180);
             this.createSprite(symbol, rotation);
             this.degMap[index] = deg;
@@ -141,7 +142,8 @@ export class Bonus {
                 pixi: {
                     zIndex: selectedSymbolIndex === index ? 2 : 1
                 },
-                duration: newAnimDuration,
+                delay: newAnimDuration / 2,
+                duration: 0,
                 repeat: 0,
                 ease: "power2.inOut",
                 onComplete: () => {
@@ -149,7 +151,7 @@ export class Bonus {
                 }
             });
 
-            const anim2 = gsap.to(sprite, {
+            const anim3 = gsap.to(sprite, {
                 pixi: {
                     rotation: -this.degMap[index] - degToGo,
                 },
@@ -161,7 +163,7 @@ export class Bonus {
                 repeat: 0,
                 ease: "power2.inOut",
                 onComplete: () => {
-                    anim2.kill();
+                    anim3.kill();
 
                     this.sprites.forEach((sprite, index) => {
                         const deg = (sprite.rotation * 180) / Math.PI;

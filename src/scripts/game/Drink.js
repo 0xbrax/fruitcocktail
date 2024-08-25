@@ -4,6 +4,9 @@ import { Emitter } from "@pixi/particle-emitter";
 import { $globals } from "../system/utils.js";
 import { $style } from "../system/SETUP.js";
 
+import bubbleVertexShader from '../../shaders/bubble/vertex.glsl'
+import bubbleFragmentShader from '../../shaders/bubble/fragment.glsl'
+
 export class Drink {
     constructor(scaleFactor) {
         this.EE = new PIXI.utils.EventEmitter();
@@ -21,7 +24,56 @@ export class Drink {
 
         this.createDrink();
         this.createMasks();
-        this.createBubbleEmitter();
+        //this.createBubbleEmitter();
+
+
+
+
+
+
+        this.elapsedTime = 0;
+        const texture = PIXI.Texture.from('./bubble_64x64.png'); // TODO move assets to public ??
+
+        const particleCount = 100;
+        const particlePositions = new Float32Array(particleCount * 2);
+        const yPositions = [];
+        const sizesArray = new Float32Array(particleCount);
+        const particleSpeed = new Float32Array(particleCount);
+
+        for (let i = 0; i < particleCount; i++) {
+            const i2 = i * 2;
+            particlePositions[i2] = (Math.random() * this.maskContainer.width) + (this.xPos * this.scaleFactor);
+            particlePositions[i2 + 1] = (Math.random() * this.maskContainer.height) + (this.yPos * this.scaleFactor);
+            yPositions[i] = particlePositions[i2 + 1];
+
+            sizesArray[i] = Math.random() * 0.5 + 0.5;
+            particleSpeed[i] = Math.random() * 0.5 + 0.5;
+        }
+
+        const maxY = Math.max(...yPositions);
+
+        const particleGeometry = new PIXI.Geometry()
+            .addAttribute('aVertexPosition', particlePositions, 2)
+            .addAttribute('aSize', sizesArray, 1)
+            .addAttribute('aSpeed', particleSpeed, 1)
+
+        this.shader = PIXI.Shader.from(
+            bubbleVertexShader,
+            bubbleFragmentShader,
+            {
+                uTime: 0,
+                uScale: this.scaleFactor,
+                uTexture: texture,
+                uMaxY: maxY
+            }
+        );
+
+        const particleMesh = new PIXI.Mesh(particleGeometry, this.shader);
+        particleMesh.drawMode = PIXI.DRAW_MODES.POINTS;
+
+        particleMesh.y = 40 * 5 * this.scaleFactor;
+        this.emitterContainer.addChild(particleMesh);
+        this.container.addChild(this.emitterContainer);
     }
 
     createDrink() {
@@ -38,6 +90,7 @@ export class Drink {
         const drawWave = () => {
             this.drink.clear();
             this.drink.beginFill(`0x${$style.main}`);
+            //this.drink.beginFill('#ff0000'); // TODO # instead 0x
 
             this.drink.moveTo(0, 0);
             for (let x = 0; x <= rectWidth; x++) {
@@ -108,7 +161,7 @@ export class Drink {
     }
 
     createBubbleEmitter() {
-        this.createBubbleContainer();
+        //this.createBubbleContainer();
 
         const textures = [$globals.assets.body['BubbleImage']];
 
@@ -246,10 +299,19 @@ export class Drink {
         });
     }
 
+    resize(scaleFactor) {
+        this.shader.uniforms.uScale = scaleFactor;
+    }
+
     update(dt) {
         this.updateWave();
-        if (this.emitter.emit === true) {
+        /*if (this.emitter.emit === true) {
             this.emitter.update(dt * this.bubbleSpeed);
-        }
+        }*/
+
+
+
+        this.elapsedTime += dt;
+        this.shader.uniforms.uTime = this.elapsedTime;
     }
 }

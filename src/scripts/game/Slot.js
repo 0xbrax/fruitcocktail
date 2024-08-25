@@ -76,7 +76,7 @@ export class Slot {
                         alpha: 1
                     },
                     duration: 2.5,
-                    delay: 2.5,
+                    delay: 1,
                     repeat: 0,
                     ease: "power1.inOut",
                     onComplete: () => {
@@ -90,13 +90,13 @@ export class Slot {
         });
 
         setTimeout(() => {
-            this.drink.emitter.emit = false;
+            //this.drink.emitter.emit = false;
             this.drink.setLevel(this.bonusCounter);
+            this.characterSwitch('drink');
             this.drink.EE.once('animationComplete', () => {
-                this.characterSwitch('drink');
-                this.drink.emitter.cleanup();
+                //this.drink.emitter.cleanup();
             });
-        }, 2_500);
+        }, 1_000);
     }
 
     characterSwitch(mode) {
