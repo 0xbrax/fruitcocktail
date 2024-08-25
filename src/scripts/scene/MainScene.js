@@ -166,7 +166,6 @@ export class MainScene {
             $globals.assets.audio['SlotFreeSpinSfx'].play();
             this.playUI.play.element.style.filter = 'grayscale(100%)';
             this.createBonusGame();
-            //this.slot.drink.emitter.emit = true;
             this.slot.characterSwitch('drink');
         }
 
@@ -197,18 +196,6 @@ export class MainScene {
                 $globals.assets.audio['SlotTickSfx'].play();
 
                 if (this.bonus.bonusTracker.counter === 1) {
-                    /*const [, , RandomTextureBehavior] = this.slot.drink.emitter.initBehaviors;
-
-                    this.slot.drink.emitter.emit = false;*/
-                    //const assetName = this.bonus.bonusTracker.lastSymbol.replace(/\b\w/g, l => l.toUpperCase()) + 'Icon';
-
-                    //const texture = $globals.assets.menu[assetName]
-                    //const rotatedTexture = new PIXI.Texture(texture.baseTexture, texture.frame, texture.orig, texture.trim, 2);
-
-                    /*RandomTextureBehavior.textures = [$globals.assets.body['BubbleImage'], rotatedTexture];
-                    this.slot.drink.emitter.emit = true;
-                    this.slot.drink.emitter.emitNow();*/
-
                     this.playUI.play.element.style.filter = 'grayscale(0)';
 
                     const timeout = setTimeout(() => {
@@ -246,14 +233,10 @@ export class MainScene {
 
                     const bonusTimeout = setTimeout(() => {
                         this.slot.bonusCounter = 1;
-                        //this.slot.drink.emitter.emit = false;
 
                         this.slot.drink.setLevel(this.slot.bonusCounter);
                         this.slot.drink.EE.once('animationComplete', () => {
                             this.slot.characterSwitch('main');
-                            /*this.slot.drink.emitter.cleanup();
-                            const [, , RandomTextureBehavior] = this.slot.drink.emitter.initBehaviors;
-                            RandomTextureBehavior.textures = [$globals.assets.body['BubbleImage']];*/
                         });
 
                         this.bonus.container.destroy();

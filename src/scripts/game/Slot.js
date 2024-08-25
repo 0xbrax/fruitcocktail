@@ -90,12 +90,8 @@ export class Slot {
         });
 
         setTimeout(() => {
-            //this.drink.emitter.emit = false;
             this.drink.setLevel(this.bonusCounter);
             this.characterSwitch('drink');
-            this.drink.EE.once('animationComplete', () => {
-                //this.drink.emitter.cleanup();
-            });
         }, 1_000);
     }
 

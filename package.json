@@ -13,7 +13,6 @@
     "vite-plugin-glsl": "^1.3.0"
   },
   "dependencies": {
-    "@pixi/particle-emitter": "^5.0.8",
     "gsap": "^3.12.5",
     "howler": "^2.2.4",
     "pixi.js": "^7.4.0",

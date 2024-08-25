@@ -1,4 +1,4 @@
-attribute vec2 aVertexPosition;
+attribute vec2 aPosition;
 attribute float aSize;
 attribute float aSpeed;
 
@@ -18,10 +18,12 @@ float remap(float value, float originMin, float originMax, float destinationMin,
 
 
 void main() {
-    vec2 newPosition = aVertexPosition;
+    vec2 newPosition = aPosition;
 
     newPosition.y = newPosition.y - (uTime * 1.5 * aSpeed);
     newPosition.y = mod(newPosition.y, uMaxY);
+
+    // TODO use perlin and move on x and add easing at the end
 
 
 
