@@ -1,13 +1,18 @@
+precision mediump float;
+
 attribute vec2 aPosition;
 attribute float aSize;
 attribute float aSpeed;
 
 uniform mat3 translationMatrix;
 uniform mat3 projectionMatrix;
+uniform float uPixelRatio;
 uniform float uTime;
 uniform float uScale;
-uniform sampler2D uPerlin;
+uniform float uMaxX;
 uniform float uMaxY;
+
+uniform sampler2D uPerlin;
 
 varying float vPositionY;
 
@@ -19,16 +24,23 @@ float remap(float value, float originMin, float originMax, float destinationMin,
 
 void main() {
     vec2 newPosition = aPosition;
+    float normalizedY = aPosition.y / uMaxY;
 
     newPosition.y = newPosition.y - (uTime * 1.5 * aSpeed);
-    newPosition.y = mod(newPosition.y, uMaxY);
 
-    // TODO use perlin and move on x and add easing at the end
+    float noiseX = texture2D(uPerlin, vec2(0.5, normalizedY)).r; // one channel only
+    float noiseStrength = 0.25;
+    noiseX = (noiseX - 0.5) * noiseStrength;
+    newPosition.x = newPosition.x + (uTime * noiseX);
+
+    // positions reset for infinite loop
+    newPosition.y = mod(newPosition.y, uMaxY);
+    newPosition.x = mod(newPosition.x, uMaxX);
 
 
 
     gl_Position = vec4((projectionMatrix * translationMatrix * vec3(newPosition, 1.0)).xy, 0.0, 1.0);
-    gl_PointSize = 30.0 * uScale * aSize;
+    gl_PointSize = 30.0 * uPixelRatio * uScale * aSize;
 
     vPositionY = remap(newPosition.y, 0.0, uMaxY, 0.0, 0.5);
 }

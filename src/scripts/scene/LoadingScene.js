@@ -17,7 +17,7 @@ export class LoadingScene {
         this.background.style.top = '0';
         this.background.style.left = '0';
         this.background.style.overflow = 'hidden';
-        this.background.style.backgroundColor = `#${$style.black}`;
+        this.background.style.backgroundColor = $style.black;
 
         this.background.innerHTML = `
             <div style="width: 100%; text-align: center; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
@@ -37,8 +37,8 @@ export class LoadingScene {
             display: 'inline-block',
             fontFamily: 'Rimbo-Regular',
             fontSize: '50px',
-            color: `#${$style.white}`,
-            border: `5px solid #${$style.white}`,
+            color: $style.white,
+            border: `5px solid ${$style.white}`,
             borderRadius: '10px',
             width: '250px',
             height: '100px',
@@ -72,7 +72,7 @@ export class LoadingScene {
             padding: isMobile ? '25px' : '100px',
             textAlign: 'center',
             backgroundColor: 'rgba(0, 0, 0, 0.8)',
-            color: `#${$style.white}`,
+            color: $style.white,
         };
 
         const textStyle = {

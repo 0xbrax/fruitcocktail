@@ -19,7 +19,7 @@ export class Balance extends SimpleSprite {
         this.text.style = {
             fontFamily: 'Rimbo-Regular',
             fontSize: 62 * this.scaleFactor,
-            fill: `#${$style.white}`
+            fill: $style.white
         };
         this.text.text = $configs.USER.BALANCE;
 

@@ -23,7 +23,7 @@ export class Background {
         `;
 
         this.background.style.filter = "blur(2px)";
-        this.background.style.boxShadow = `inset 0 0 20px 0 #${$style.black}`;
+        this.background.style.boxShadow = `inset 0 0 20px 0 ${$style.black}`;
 
         document.body.appendChild(this.background);
     }

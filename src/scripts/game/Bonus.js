@@ -45,7 +45,7 @@ export class Bonus {
         const maskContainer = new PIXI.Container();
         const mask = new PIXI.Graphics();
         this.skeletonHeight = this.reelsContainer.height - sprite.height;
-        mask.beginFill(0xffffff);
+        mask.beginFill('#ffffff');
         mask.drawRect(0, 0, 0, this.skeletonHeight);
         mask.endFill();
 

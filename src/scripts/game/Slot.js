@@ -70,7 +70,7 @@ export class Slot {
                 reel.symbols[i].y = reel.symbols[i].y + (1010 * this.body.scaleFactor);
                 reel.symbols[i].alpha = 0;
 
-                const fadeAnim = gsap.to(reel.symbols[i], {
+                /*const fadeAnim = gsap.to(reel.symbols[i], {
                     pixi: {
                         y: yPosFinal[i],
                         alpha: 1
@@ -85,14 +85,14 @@ export class Slot {
                         this.EE.emit('ready');
                         this.characterSwitch('main');
                     }
-                });
+                });*/
             }
         });
 
-        setTimeout(() => {
+        /*setTimeout(() => {
             this.drink.setLevel(this.bonusCounter);
             this.characterSwitch('drink');
-        }, 1_000);
+        }, 1_000);*/
     }
 
     characterSwitch(mode) {

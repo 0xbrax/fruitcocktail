@@ -274,9 +274,9 @@ export class MainScene {
             alignItems: 'center',
             fontSize: `${isMobile ? 50 * this.scaleFactor : 100 * this.scaleFactor}px`,
             backgroundColor: 'rgba(0, 0, 0, 0.2)',
-            color: `#${$style.white}`,
+            color: $style.white,
             fontFamily: 'Rimbo-Regular',
-            textShadow: `0 0 10px #${$style.black}`
+            textShadow: `0 0 10px ${$style.black}`
         };
         Object.assign(winScreen.style, style);
 

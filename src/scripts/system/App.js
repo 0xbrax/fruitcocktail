@@ -7,17 +7,26 @@ import { SceneManager } from "../scene/SceneManager.js";
 import { LoadingScene } from "../scene/LoadingScene.js";
 import { MainScene } from "../scene/MainScene.js";
 
+let instance = null; // one instance only about this class
+
 class Application {
     constructor() {
         this.app = null;
+
+        if (instance) {
+            return instance;
+        }
+        instance = this;
     }
+
     run() {
         gsap.registerPlugin(PixiPlugin);
         PixiPlugin.registerPIXI(PIXI);
 
         this.originalRect = {
             h: window.innerHeight,
-            w: window.innerWidth
+            w: window.innerWidth,
+            pixelRatio: Math.min(window.devicePixelRatio, 2)
         };
 
         this.app = new PIXI.Application({
@@ -25,7 +34,7 @@ class Application {
             width: this.originalRect.w,
             resizeTo: window,
             backgroundAlpha: 0,
-            resolution: window.devicePixelRatio || 1,
+            resolution: this.originalRect.pixelRatio,
             autoDensity: true
         });
 

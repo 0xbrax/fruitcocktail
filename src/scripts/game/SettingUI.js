@@ -47,7 +47,7 @@ export class SettingUI {
             padding: isMobile ? '25px' : '50px 200px',
             textAlign: 'center',
             backgroundColor: 'rgba(0, 0, 0, 0.8)',
-            color: `#${$style.white}`,
+            color: $style.white,
             fontFamily: 'Rimbo-Regular'
         };
 

@@ -32,9 +32,9 @@ export default class IHeroicons extends HTMLElement {
                 
                 padding: 10px;
                 border-radius: 50%;
-                background-color: #${$style.main};
-                color: #${$style.black};
-                box-shadow: 0 0 10px 0 #${$style.white};
+                background-color: ${$style.main};
+                color: ${$style.black};
+                box-shadow: 0 0 10px 0 ${$style.white};
                 
                 ${style}
             }

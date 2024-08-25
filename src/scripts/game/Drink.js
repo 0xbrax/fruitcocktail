@@ -1,6 +1,8 @@
 import * as PIXI from "pixi.js";
 import { gsap } from 'gsap';
 import { $style } from "../system/SETUP.js";
+import { App } from "../system/App.js";
+import {$globals, isMobile} from "../system/utils.js";
 
 import bubbleVertexShader from '../../shaders/bubble/vertex.glsl'
 import bubbleFragmentShader from '../../shaders/bubble/fragment.glsl'
@@ -8,6 +10,7 @@ import bubbleFragmentShader from '../../shaders/bubble/fragment.glsl'
 export class Drink {
     constructor(scaleFactor) {
         this.EE = new PIXI.utils.EventEmitter();
+        this.appInstance = App;
         this.scaleFactor = scaleFactor;
         this.container = new PIXI.Container();
         this.maskContainer = new PIXI.Container();
@@ -36,8 +39,7 @@ export class Drink {
 
         const drawWave = () => {
             this.drink.clear();
-            this.drink.beginFill(`0x${$style.main}`);
-            //this.drink.beginFill('#ff0000'); // TODO # instead 0x
+            this.drink.beginFill($style.main);
 
             this.drink.moveTo(0, 0);
             for (let x = 0; x <= rectWidth; x++) {
@@ -50,8 +52,8 @@ export class Drink {
             this.drink.closePath();
             this.drink.endFill();
         };
-        this.updateWave = () => {
-            waveOffset += 0.03;
+        this.updateWave = (dt) => {
+            waveOffset += (0.03 * dt);
             waveAmplitude = waveAmplitudeBase + (Math.sin(waveOffset) * 5 * this.scaleFactor);
             waveFrequency = waveFrequencyBase + (Math.sin(waveOffset / 2) * 0.002 * this.scaleFactor);
             drawWave();
@@ -81,7 +83,7 @@ export class Drink {
 
     setMask(xGap) {
         const mask = new PIXI.Graphics();
-        mask.beginFill(0xffffff);
+        mask.beginFill('#ffffff');
         mask.drawRect(xGap * this.scaleFactor, this.yPos * this.scaleFactor, 323 * this.scaleFactor, 1017 * this.scaleFactor);
         mask.endFill();
         this.maskContainer.addChild(mask);
@@ -89,10 +91,12 @@ export class Drink {
 
     createBubbleEmitter() {
         this.elapsedTime = 0;
-        const texture = PIXI.Texture.from('./bubble_64x64.png'); // TODO move assets to public ??
 
+        const texture = $globals.assets.body['BubbleImage'];
+        const perlin = $globals.assets.other['PerlinTexture'];
         const particlesCount = 50;
         const particlePositions = new Float32Array(particlesCount * 2);
+        const xPositions = [];
         const yPositions = [];
         const particleSizes = new Float32Array(particlesCount);
         const particleSpeeds = new Float32Array(particlesCount);
@@ -101,12 +105,14 @@ export class Drink {
             const i2 = i * 2;
             particlePositions[i2] = (Math.random() * this.maskContainer.width) + (this.xPos * this.scaleFactor);
             particlePositions[i2 + 1] = (Math.random() * this.maskContainer.height) + (this.yPos * this.scaleFactor);
+            xPositions[i] = particlePositions[i2];
             yPositions[i] = particlePositions[i2 + 1];
 
             particleSizes[i] = Math.random() * 0.5 + 0.5;
             particleSpeeds[i] = Math.random() * 0.5 + 0.5;
         }
 
+        const maxX = Math.max(...xPositions);
         const maxY = Math.max(...yPositions);
 
         const particleGeometry = new PIXI.Geometry()
@@ -118,10 +124,13 @@ export class Drink {
             bubbleVertexShader,
             bubbleFragmentShader,
             {
+                uPixelRatio: isMobile ? this.appInstance.originalRect.pixelRatio / 2 : this.appInstance.originalRect.pixelRatio,
                 uTime: 0,
                 uScale: this.scaleFactor,
                 uTexture: texture,
-                uMaxY: maxY
+                uMaxX: maxX,
+                uMaxY: maxY,
+                uPerlin: perlin
             }
         );
 
@@ -182,7 +191,7 @@ export class Drink {
     }
 
     update(dt) {
-        this.updateWave();
+        this.updateWave(dt);
         
         this.elapsedTime += dt;
         this.bubbleShader.uniforms.uTime = this.elapsedTime;

@@ -18,7 +18,7 @@ import SlotSplashLeftImage from '../../assets/image/splash_left_COMPRESSED.png';
 import SlotSplashRightImage from '../../assets/image/splash_right_COMPRESSED.png';
 import BalanceImage from '../../assets/image/ui_balance_COMPRESSED.png';
 
-import BubbleImage from '../../assets/image/bubble_COMPRESSED.png';
+import BubbleImage from '../../assets/image/bubble-64x64.png';
 
 // symbols
 const AppleSprite= new URL(`/src/assets/sprite/apple_spritesheet.json`, import.meta.url).href;
@@ -46,6 +46,7 @@ import WatermelonIcon from '../../assets/icon/watermelon_COMPRESSED.png';
 // other
 import BackgroundVideo from "../../assets/video/back_COMPRESSED.mp4";
 import PaytableImage from '../../assets/image/paytable_COMPRESSED.png';
+import PerlinTexture from '../../assets/image/perlin.png';
 
 export const assets = {
     preload: {
@@ -95,6 +96,7 @@ export const assets = {
     },
     other: {
         BackgroundVideo,
-        PaytableImage
+        PaytableImage,
+        PerlinTexture
     }
 };

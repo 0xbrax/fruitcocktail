@@ -54,7 +54,7 @@ export class Reel {
 
     setMask() {
         const mask = new PIXI.Graphics();
-        mask.beginFill(0xffffff);
+        mask.beginFill('#ffffff');
         mask.drawRect(34 * this.scaleFactor, 76 * this.scaleFactor, ($configs.SYMBOL_SIZE - 116) * this.scaleFactor, (($configs.SYMBOL_SIZE * 3) - 304) * this.scaleFactor);
         mask.endFill();
         this.maskContainer.addChild(mask);
