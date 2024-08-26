@@ -1,6 +1,6 @@
 @font-face {
   font-family: Rimbo-Regular;
-  src: url("./assets/font/Rimbo-Regular.ttf") format('truetype');
+  src: url("/assets/font/Rimbo-Regular.ttf") format('truetype');
 }
 
 * {

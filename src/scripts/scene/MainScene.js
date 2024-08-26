@@ -323,8 +323,13 @@ export class MainScene {
         this.container.scale.set(this.scaleFactor);
 
         const xGapSplash = 8;
+        const yGapMobile = 25;
         this.container.y = (window.innerHeight / 2) - (this.container.height / 2) + this.slot.characterMain.yGap;
         this.container.x = (window.innerWidth / 2) - (this.container.width / 2) + (this.slot.splashLeft.container.width - (xGapSplash * this.slot.splashLeft.scaleFactor));
+        if (isMobile) {
+            this.container.y = this.container.y - (yGapMobile * this.scaleFactor);
+        }
+
 
         this.slot.drink.resize(this.scaleFactor);
     }

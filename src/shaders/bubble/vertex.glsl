@@ -28,9 +28,9 @@ void main() {
 
     newPosition.y = newPosition.y - (uTime * 1.5 * aSpeed);
 
-    float noiseX = texture2D(uPerlin, vec2(0.5, normalizedY)).r; // one channel only
+    float noiseX = texture2D(uPerlin, vec2(0.53, normalizedY)).a - 0.4; // one channel only
     float noiseStrength = 0.25;
-    noiseX = (noiseX - 0.5) * noiseStrength;
+    noiseX *= noiseStrength;
     newPosition.x = newPosition.x + (uTime * noiseX);
 
     // positions reset for infinite loop

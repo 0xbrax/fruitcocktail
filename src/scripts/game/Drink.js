@@ -194,6 +194,6 @@ export class Drink {
         this.updateWave(dt);
         
         this.elapsedTime += dt;
-        this.bubbleShader.uniforms.uTime = this.elapsedTime;
+        this.bubbleShader.uniforms.uTime = isMobile ? this.elapsedTime / 2 : this.elapsedTime;
     }
 }
