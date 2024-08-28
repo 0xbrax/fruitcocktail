@@ -10,7 +10,10 @@ varying float vPositionY;
 
 void main() {
     vec4 color = texture2D(uTexture, gl_PointCoord);
-    color *= vPositionY;
 
+    // transparency
+    //color *= vPositionY;
+
+    // final color
     gl_FragColor = color;
 }

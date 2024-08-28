@@ -93,13 +93,13 @@ export class Drink {
         this.elapsedTime = 0;
 
         const texture = $globals.assets.body['BubbleImage'];
-        const perlin = $globals.assets.other['PerlinTexture'];
         const particlesCount = 50;
         const particlePositions = new Float32Array(particlesCount * 2);
         const xPositions = [];
         const yPositions = [];
         const particleSizes = new Float32Array(particlesCount);
         const particleSpeeds = new Float32Array(particlesCount);
+        const particleOffsets = new Float32Array(particlesCount);
 
         for (let i = 0; i < particlesCount; i++) {
             const i2 = i * 2;
@@ -110,6 +110,7 @@ export class Drink {
 
             particleSizes[i] = Math.random() * 0.5 + 0.5;
             particleSpeeds[i] = Math.random() * 0.5 + 0.5;
+            particleOffsets[i] = Math.random() * 0.5 - 0.25;
         }
 
         const maxX = Math.max(...xPositions);
@@ -119,6 +120,7 @@ export class Drink {
             .addAttribute('aPosition', particlePositions, 2)
             .addAttribute('aSize', particleSizes, 1)
             .addAttribute('aSpeed', particleSpeeds, 1)
+            .addAttribute('aOffset', particleOffsets)
 
         this.bubbleShader = PIXI.Shader.from(
             bubbleVertexShader,
@@ -129,8 +131,7 @@ export class Drink {
                 uScale: this.scaleFactor,
                 uTexture: texture,
                 uMaxX: maxX,
-                uMaxY: maxY,
-                uPerlin: perlin
+                uMaxY: maxY
             }
         );
 

@@ -3,16 +3,16 @@ precision mediump float;
 attribute vec2 aPosition;
 attribute float aSize;
 attribute float aSpeed;
+attribute float aOffset;
 
 uniform mat3 translationMatrix;
 uniform mat3 projectionMatrix;
+
 uniform float uPixelRatio;
 uniform float uTime;
 uniform float uScale;
 uniform float uMaxX;
 uniform float uMaxY;
-
-uniform sampler2D uPerlin;
 
 varying float vPositionY;
 
@@ -24,23 +24,19 @@ float remap(float value, float originMin, float originMax, float destinationMin,
 
 void main() {
     vec2 newPosition = aPosition;
-    float normalizedY = aPosition.y / uMaxY;
 
+    // animation
     newPosition.y = newPosition.y - (uTime * 1.5 * aSpeed);
+    newPosition.x = newPosition.x + (uTime * 0.75 * aOffset);
 
-    float noiseX = texture2D(uPerlin, vec2(0.53, normalizedY)).a - 0.4; // one channel only
-    float noiseStrength = 0.25;
-    noiseX *= noiseStrength;
-    newPosition.x = newPosition.x + (uTime * noiseX);
-
-    // positions reset for infinite loop
+    // infinite loop
     newPosition.y = mod(newPosition.y, uMaxY);
     newPosition.x = mod(newPosition.x, uMaxX);
 
-
-
+    // final position
     gl_Position = vec4((projectionMatrix * translationMatrix * vec3(newPosition, 1.0)).xy, 0.0, 1.0);
     gl_PointSize = 30.0 * uPixelRatio * uScale * aSize;
 
+    // data from vertex to fragment
     vPositionY = remap(newPosition.y, 0.0, uMaxY, 0.0, 0.5);
 }

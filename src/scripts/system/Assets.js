@@ -46,7 +46,6 @@ export const assets = {
     },
     other: {
         BackgroundVideo: '/assets/video/back_COMPRESSED.mp4',
-        PaytableImage: '/assets/image/paytable_COMPRESSED.png',
-        PerlinTexture: '/assets/image/perlin.png'
+        PaytableImage: '/assets/image/paytable_COMPRESSED.png'
     }
 };
