@@ -152,16 +152,9 @@ export class SettingUI {
     homeHandler() {
         const homeBtn = document.getElementById('home-btn');
 
-        const isIframe = window.self !== window.top;
-
         homeBtn.addEventListener('click', () => {
-            if (isIframe) {
-                const message = { type: 'homeBtnClickEvent', content: null };
-                window.parent.postMessage(message, '*');
-            } else {
-                const url = 'https://0xbrax.dev';
-                window.open(url, '_blank');
-            }
+            const url = 'https://0xbrax.dev';
+            window.open(url, '_blank');
         });
     }
 

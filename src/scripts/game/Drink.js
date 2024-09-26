@@ -127,7 +127,7 @@ export class Drink {
             bubbleFragmentShader,
             {
                 uPixelRatio: isMobile ? this.appInstance.originalRect.pixelRatio / 2 : this.appInstance.originalRect.pixelRatio,
-                uTime: 0,
+                uDeltaTime: 0,
                 uScale: this.scaleFactor,
                 uTexture: texture,
                 uMaxX: maxX,
@@ -195,6 +195,6 @@ export class Drink {
         this.updateWave(dt);
         
         this.elapsedTime += dt;
-        this.bubbleShader.uniforms.uTime = isMobile ? this.elapsedTime / 2 : this.elapsedTime;
+        this.bubbleShader.uniforms.uDeltaTime = isMobile ? this.elapsedTime / 2 : this.elapsedTime;
     }
 }

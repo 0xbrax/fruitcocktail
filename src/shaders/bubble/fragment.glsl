@@ -1,4 +1,4 @@
-precision mediump float;
+precision lowp float;
 
 uniform sampler2D uTexture;
 uniform float uMaxY;
@@ -12,7 +12,7 @@ void main() {
     vec4 color = texture2D(uTexture, gl_PointCoord);
 
     // transparency
-    //color *= vPositionY;
+    color *= vPositionY;
 
     // final color
     gl_FragColor = color;

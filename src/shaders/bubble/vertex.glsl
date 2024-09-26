@@ -1,4 +1,4 @@
-precision mediump float;
+precision lowp float;
 
 attribute vec2 aPosition;
 attribute float aSize;
@@ -9,7 +9,7 @@ uniform mat3 translationMatrix;
 uniform mat3 projectionMatrix;
 
 uniform float uPixelRatio;
-uniform float uTime;
+uniform float uDeltaTime;
 uniform float uScale;
 uniform float uMaxX;
 uniform float uMaxY;
@@ -26,8 +26,8 @@ void main() {
     vec2 newPosition = aPosition;
 
     // animation
-    newPosition.y = newPosition.y - (uTime * 1.5 * aSpeed);
-    newPosition.x = newPosition.x + (uTime * 0.75 * aOffset);
+    newPosition.y = newPosition.y - (uDeltaTime * 1.5 * aSpeed);
+    newPosition.x = newPosition.x + (uDeltaTime * 0.75 * aOffset);
 
     // infinite loop
     newPosition.y = mod(newPosition.y, uMaxY);
