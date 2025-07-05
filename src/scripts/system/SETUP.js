@@ -6,6 +6,24 @@ export const DISCLAIMER_TEXT = `This slot machine project is a purely demonstrat
     The developer assumes no responsibility for the misuse or misinterpretation of this project.
     Viewer discretion is advised.`;
 
+
+
+export const PROBABILITY_UNIT_DIVISOR = 0.5;
+export const PROBABILITY_MIN_MULTIPLIER = 1 / PROBABILITY_UNIT_DIVISOR; // ALERT !!! --> This is strictly correlated to probability
+
+const ITEMS_MAP = [
+    { id: 0, value: "lose", probability: 17.5 },
+    { id: 1, value: "fake-win", probability: 22.5 },
+    { id: 2, value: "win", probability: 52.5 },
+    { id: 3, value: "mega-win", probability: 7.5 },
+];
+
+const getNormalizedItems = (items) => {
+    return items.map((el) => {
+        return { ...el, probability: el.probability * PROBABILITY_MIN_MULTIPLIER };
+    });
+};
+
 export const $configs = {
     REELS: 5,
     REEL_LENGTH: 8,
@@ -22,7 +40,8 @@ export const $configs = {
         REEL_4: ['watermelon', 'splash', 'lemon', 'grapefruit', 'fruitcocktail', 'coconut', 'cherry', 'apple'],
         REEL_5: ['apple', 'grapefruit', 'splash', 'fruitcocktail', 'cherry', 'watermelon', 'coconut', 'lemon']
     },
-    CONDITIONS: [...Array(4).fill('lose'), ...Array(6).fill('fake-win'), ...Array(10).fill('win'), ...Array(1).fill('mega-win')],
+    CONDITIONS: ITEMS_MAP,
+    NORMALIZED_CONDITIONS: getNormalizedItems(ITEMS_MAP),
     SELECTED_CONDITION: null,
     SELECTED_SYMBOL: null,
     JOLLY_RATIO: [1, ...Array(4).fill(0)], // 1 => true, 0 => false

@@ -193,22 +193,22 @@ export class SettingUI {
         const soundOnBtn = document.getElementById('sound-on-btn');
         const soundOffBtn = document.getElementById('sound-off-btn');
 
-        soundOnBtn.style.display = 'none';
+        soundOffBtn.style.display = 'none';
 
-        soundOnBtn.addEventListener('click', () => {
+        soundOffBtn.addEventListener('click', () => {
             Howler.mute(false);
             $globals.isAudioActive = true;
 
-            soundOnBtn.style.display = 'none';
-            soundOffBtn.style.display = 'inline-block';
+            soundOffBtn.style.display = 'none';
+            soundOnBtn.style.display = 'inline-block';
         });
 
-        soundOffBtn.addEventListener('click', () => {
+        soundOnBtn.addEventListener('click', () => {
             Howler.mute(true);
             $globals.isAudioActive = false;
 
-            soundOffBtn.style.display = 'none';
-            soundOnBtn.style.display = 'inline-block';
+            soundOnBtn.style.display = 'none';
+            soundOffBtn.style.display = 'inline-block';
         });
     }
 }

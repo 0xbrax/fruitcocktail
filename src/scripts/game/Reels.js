@@ -1,7 +1,7 @@
 import * as PIXI from "pixi.js";
 import { $configs } from "../system/SETUP.js";
 import { Reel } from "./Reel.js";
-import { getCryptoRandomNumber, getPseudoRandomNumber } from "../system/utils.js";
+import {getCryptoRandomNumber, getPseudoRandomNumber, getWeightedRandomItem} from '../system/utils.js';
 import { getFakeWin, getLose, getRandomWinMap} from "../system/math.js";
 import { $globals } from "../system/utils.js";
 
@@ -40,7 +40,7 @@ export class Reels {
     }
 
     getConditionAndSymbol() {
-        $configs.SELECTED_CONDITION = $configs.CONDITIONS[getCryptoRandomNumber(0, $configs.CONDITIONS.length - 1)];
+        $configs.SELECTED_CONDITION = getWeightedRandomItem($configs.CONDITIONS, $configs.NORMALIZED_CONDITIONS).value;
 
         switch ($configs.SELECTED_CONDITION) {
             case 'lose':

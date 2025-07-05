@@ -1,4 +1,5 @@
 import { gsap } from 'gsap';
+import { PROBABILITY_MIN_MULTIPLIER, PROBABILITY_UNIT_DIVISOR } from '@/scripts/system/SETUP.js';
 
 export const $globals = {
     assets: {},
@@ -39,7 +40,7 @@ export const getCryptoRandomNumber = (min, max) => {
     const range = max - min + 1;
     const maxRange = 256;
     if (min < 0 || max >= maxRange || range > maxRange) {
-        throw new Error(`Il tuo intervallo deve essere tra 0 e ${maxRange - 1} con un massimo intervallo di ${maxRange}.`);
+        throw new Error(`Your range must be between 0 and ${maxRange - 1} with a maximum range of ${maxRange}.`);
     }
 
     const bytes = new Uint8Array(1);
@@ -51,6 +52,58 @@ export const getCryptoRandomNumber = (min, max) => {
 
     return min + (randomNumber % range);
 };
+
+export const getWeightedRandomItem = (items, normalizedItems) => {
+    if (items.map((item) => item.probability).reduce((partialSum, a) => partialSum + a, 0,) !== 100) {
+        throw new Error("ALERT !!! --> Probability sum is not 100");
+    }
+    items.map((item) => item.probability).forEach((item) => {
+        if (item % PROBABILITY_UNIT_DIVISOR !== 0) {
+            throw new Error("ALERT !!! --> Check divisor and multiplier");
+        }
+    });
+
+    let threshold = getCryptoRandomNumber(1, 100 * PROBABILITY_MIN_MULTIPLIER);
+
+    for (const item of normalizedItems) {
+        threshold -= item.probability;
+        if (threshold <= 0) {
+            return item;
+        }
+    }
+};
+
+export const probabilityDebug = (items, normalizedItems, requests = 10_000) => {
+    const test = {};
+
+    items.forEach((item) => {
+        test[item.id] = {
+            id: item.id,
+            value: item.value,
+            counter: 0,
+        };
+    });
+
+    for (let i = 0; i < requests; i++) {
+        const item = getWeightedRandomItem(normalizedItems);
+        test[item.id].counter++;
+    }
+    Object.keys(test).forEach((key) => {
+        test[key].probability = test[key].counter * 100 / requests;
+        test[key].expected = items.find((el) =>
+          el.id === parseInt(key)
+        ).probability;
+    });
+    console.log(
+      "---------------- PROBABILITY DEBUG - - - - > > > > Total request: ",
+      requests,
+      "\n",
+      test,
+      "\n ---------------- ---------------- ---------------- ----------------",
+    );
+};
+
+
 
 export const verticalLoop = (items, reelContainer, elementsHeightWrap, gap, config) => {
     items = gsap.utils.toArray(items);
